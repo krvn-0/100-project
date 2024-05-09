@@ -1,0 +1,304 @@
+/* font formatting */
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  
+  /* makes the font appearance smoother */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Courier New', monospace;
+}
+
+/* main container */
+.App {
+  display: flex;
+  flex-direction: column; /* elements are to be placed by row*/
+}
+
+.topnav {
+  display: flex;
+  flex-direction: row;  /* elements are to be placed in columns */
+  background-color: #eeba0b;
+  height: 100px; /* sets height to a fixed 100px value*/
+  justify-content: space-between;
+  z-index: 1;
+}
+
+/* title formatting */
+.Lazado {
+  display: flex;
+  align-items: center;
+  flex: 0.5; /* takes half the space allotted by the parent container*/
+
+  margin-left: 4vw;
+
+  text-align: left;
+  color: #3D3A4B;
+  font-size: 45px;
+}
+
+/* menu elements */
+.select {
+  flex: 0.5;
+  display: flex;
+  flex-direction: row;
+  margin-right: 20px;
+  
+  justify-content: flex-end; /* contents, as a whole, are aligned to the right */
+  color: #3D3A4B;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.select h3 {
+  display: flex;
+  padding-inline: 10px;
+  align-items: center;
+  text-decoration: none;
+  color: #3D3A4B;
+}
+
+.App_body {
+  display: flex;
+  flex-direction: row;
+}
+
+/* item container formatting*/ 
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0.8;
+  /* fills out the row before moving to the next line/space below, minimum width of 300px, and a maximum of one fraction share of free space */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  column-gap: 10px;
+  justify-content: center;
+  background-color: #E3DFFF;
+}
+
+/* item formatting */
+.item {
+  display: flex;
+  flex-direction: column; /* item elements occupy one row each*/
+  align-items: center; /* align elements to center*/
+  margin: 10px;
+  padding: 10px;
+  
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.258);
+
+  width: 200px;
+}
+
+/* detail formatting */
+.item_details {
+  display: flex; 
+  flex-direction: column-reverse; /* reverses the order in which the details are shown*/
+  width: 100%;
+}
+
+/* item image formatting */
+.item_img {
+  width: 180px;
+  height: 200px;
+  object-fit: contain;
+  color: #EEBA0B;
+  border-radius: 5px;
+  align-self: center;
+  position:sticky;
+
+  /* on hover */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+/* changing the image attributes when hovered on */
+.item_img:hover {
+  transform: scale(1.25);
+  opacity: 90%;
+  margin-bottom: 20px;
+}
+
+.addtocart:hover ~ .item_img {
+  transform: scale(1.15);
+  box-shadow: 0px 0px 10px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* button formatting */
+.addtocart, .removeItem {
+  margin: 5px;
+  height: 33px;
+  align-self: center;
+
+  border: none;
+  border-radius: 35px;
+  background-color: #FF6663;
+  color: white;
+  
+  text-decoration: none;
+  font-size: 14px;
+
+  /* on hover */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.addtocart {
+  width: 100px;
+}
+
+.removeItem {
+  width: 45px;
+}
+
+.addtocart:hover, .removeItem:hover {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #FF6663;
+}
+
+/* add to cart section formatting */
+.cart {
+  display: flex;
+  flex-direction: column;
+  flex: 0.25;
+  align-items: center;
+  box-shadow: 0px 0px 10px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cart_header {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  flex-direction: row;
+  align-items: center;
+  background-color: #3D3A4B;
+  color: #E3DFFF;
+  justify-content: space-between;
+}
+
+.cart_body {
+  width: 100%;
+}
+
+.cart_items {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.cart_item {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #3D3A4B;
+  
+  align-items: center;
+  text-align: left;
+
+  /* transition for hovered event */
+  transition: background-color 0.45s ease, color 0.45s ease;
+}
+
+.cart_item.hovered{
+  background-color: #FF6663;
+  color: white;
+}
+
+.cart_item_quantity {
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+  justify-content: center;
+  align-items: center;
+}
+
+.qty_input {
+  width: 50px;
+  font-size: 14px;
+}
+
+.totalPrice{
+  display: flex;
+  padding: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* stylizing the trash icon for remove */
+svg {
+  height: 25px;
+}
+
+/* name and price formatting */
+#item_name {
+  width: 40%;
+}
+
+#item_name, #item_price {
+  margin: 0;
+  padding: 5px;
+  text-align: center;
+}
+
+#item_name {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+#item_price {
+  font-size: 18px;
+  font-style: oblique;
+}
+
+/* shopping cart elements formatting */
+#cart_title {
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 15px;
+}
+
+#num_items {
+  font-size: 16.5px;
+  padding-right: 10px;
+}
+
+#cart_item_name {
+  flex: 1;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#emptyCart {
+  margin-top: 2vh;
+  font-size: 30px;
+}
+
+#cart_item_quantity, #cart_item_price {
+  font-style: italic;
+  font-size: 15px;
+}
+
+#totalPrice_title {
+  font-weight: bold;
+  font-size: 20px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+#totalPrice_val {
+  font-style: oblique;
+  font-size: 18px;
+}
+
+#cart_item_quantity, #cart_item_price {
+  flex: 0.6;
+}
