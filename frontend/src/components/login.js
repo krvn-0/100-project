@@ -4,6 +4,12 @@ export default function Login(props){
     const login = props.list;
 
     const [selectedLogOpt, setSelectedLogOpt] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleLogOptClick = (log_opt_id) => {
+      setSelectedLogOpt(log_opt_id);
+      setShowPassword(false);
+    }
 
     const renderFormFields = () => {
         switch(selectedLogOpt) {
@@ -32,8 +38,12 @@ export default function Login(props){
                         </label>
                         <label>
                             Password:
-                            <input type="password" name="password" className="common_input" required />
+                            <input type={showPassword ? "text" : "password"} name="password" className="common_input" required />
                         </label>
+                        <div className="showPass">
+                          <span>Show password</span>
+                          <input type="checkbox" onChange={() => setShowPassword(!showPassword)} />
+                        </div>
                         <div className="checkboxInput">
                           <span>Signing up as a seller?</span>
                           <input type="checkbox" name="isMerchant" />
@@ -50,8 +60,12 @@ export default function Login(props){
                         </label>
                         <label>
                             Password:
-                            <input type="password" name="password" className="common_input" required />
+                            <input type={showPassword ? "text" : "password"} name="password" className="common_input" required />
                         </label>
+                        <div className="showPass">
+                          <span>Show password</span>
+                          <input type="checkbox" onChange={() => setShowPassword(!showPassword)} />
+                        </div>
                         <input type="submit" value="Submit" className="submit"/>
                     </>
                 );
@@ -77,7 +91,7 @@ export default function Login(props){
             <div className="login_opt">
               {login.map(log_opt => (
                 <h3 key={log_opt.id} id={log_opt.name.toLowerCase()} 
-                onClick={() => setSelectedLogOpt(log_opt.id)}
+                onClick={() => handleLogOptClick(log_opt.id)}
                 className={selectedLogOpt === log_opt.id ? 'login_opt_selected' : ''
                 }> 
                   {log_opt.name}

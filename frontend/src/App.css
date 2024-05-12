@@ -66,9 +66,6 @@ code {
   font-weight:550;
   padding-left: 3vw;
   padding-right: 3vw;
-  background-color: rgba(144, 227, 154, 0.2);
-  border: none;
-  border-radius: 5px;
 }
 
 .right_login {
@@ -126,7 +123,12 @@ code {
   justify-content: space-between;
 }
 
-.checkboxInput input[type="checkbox"] {
+.showPass {
+  font-size: 15px;
+  font-style: italic;
+}
+
+input[type="checkbox"] {
   height: 20px;
   width: 20px;
 }
