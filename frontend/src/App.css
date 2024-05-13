@@ -43,11 +43,13 @@ code {
   background-size: cover;
 }
 
+/* work in progress might add viewport query later */
 .left_login {
   display: flex;
   flex-direction: column;
   flex: 0.75;
-  max-height: 100vw;
+  height: 100vh;
+  /* max-height: 100vh; */
 }
 
 .App_name_login p {

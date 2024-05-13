@@ -72,7 +72,7 @@ export default function Login(props){
             default:
                 return (
                   <>
-                    <p>
+                    <p className="initial_login_opt">
                       Choose a login option
                     </p>
                   </>

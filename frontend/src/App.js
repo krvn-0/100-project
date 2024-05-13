@@ -28,11 +28,11 @@ const sign_in = [
   { name: "Sign-In", url: "#signin", id: 2}
 ]
 
-// const menus = [
-//   { name: "Appliances", url: "#appliance", id: 1},
-//   { name: "Groceries", url: "#grocery", id: 2},
-//   { name: "Gadgets", url: "#gadget", id: 3}
-// ];
+const menus = [
+  { name: "Home", url: "#home", id: 1},
+  { name: "Products", url: "#products", id: 2},
+  { name: "Orders", url: "#orders", id: 3}
+];
 
 // const items = [
 //   {
