@@ -126,6 +126,7 @@ html {
 
 .common_input {
   height: 1.4vw;
+  font-size: 1.25vw;
 }
 
 .login_form div {
@@ -209,11 +210,21 @@ input[type="checkbox"] {
 
 /* home page formatting */
 .home_page {
-  display: flex;
   width: 100vw;
   height: 90.5vh;
   background: url("https://img.freepik.com/free-photo/rice-fields-bali_1385-1430.jpg?t=st=1715610010~exp=1715613610~hmac=6a361f91e36857a0f0a50621904076e0f164b4c5d588f4743aa75602bbc04e18&w=900") no-repeat center fixed;
   background-size: cover;
+}
+
+.home_contents {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  margin: 3vw;
+  padding: 2vw;
+  background-color: hsla(127, 60%, 73%, 0.75);
+  border: none;
+  border-radius: 3vw;
 }
 
 /* item container formatting*/ 
@@ -278,7 +289,7 @@ input[type="checkbox"] {
 }
 
 /* button formatting */
-.addtocart, .removeItem {
+.addtocart, .removeItem, .logout {
   display: flex;
   margin: 0.5vw;
   height: 2.25vw;   
@@ -299,6 +310,10 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
+.logout {
+  width: 6vw;
+}
+
 .addtocart {
   width: 8vw;
 }
@@ -306,6 +321,7 @@ input[type="checkbox"] {
 .removeItem {
   width: 4vw;
 }
+
 
 .submit {
   margin: 0.025vw;
