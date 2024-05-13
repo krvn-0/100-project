@@ -47,6 +47,10 @@ export default function Login(props){
                           <input type="email" name="email" className="common_input" required />
                         </label>
                         <label>
+                          Address:
+                          <input type="address" name="address" className="common_input" required />
+                        </label>
+                        <label>
                             Password:
                             <input type={showPassword ? "text" : "password"} name="password" className="common_input" required />
                         </label>
