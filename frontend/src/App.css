@@ -27,6 +27,10 @@ code {
             user-select: none; /* Non-prefixed version, currently */
 }
 
+html {
+  background-color: #E3DFFF;
+}
+
 /* main container */
 .App {
   display: flex;
@@ -142,15 +146,6 @@ input[type="checkbox"] {
   margin-bottom: 0.85vw;
 }
 
-.topnav {
-  display: flex;
-  flex-direction: row;  /* elements are to be placed in columns */
-  background-color: #90E39A;
-  height: 5vw; /* sets height to a fixed 100px value*/
-  justify-content: space-between;
-  z-index: 1;
-}
-
 /* title formatting */
 .App_name {
   display: flex;
@@ -165,6 +160,15 @@ input[type="checkbox"] {
 }
 
 /* menu elements */
+.topnav {
+  display: flex;
+  flex-direction: row;  /* elements are to be placed in columns */
+  background-color: #90E39A;
+  height: 5vw; /* sets height to a fixed 100px value*/
+  justify-content: space-between;
+  z-index: 1;
+}
+
 .select {
   flex: 0.35;
   display: flex;
@@ -203,16 +207,24 @@ input[type="checkbox"] {
   flex-direction: row;
 }
 
+/* home page formatting */
+.home_page {
+  display: flex;
+  width: 100vw;
+  height: 90.5vh;
+  background: url("https://img.freepik.com/free-photo/rice-fields-bali_1385-1430.jpg?t=st=1715610010~exp=1715613610~hmac=6a361f91e36857a0f0a50621904076e0f164b4c5d588f4743aa75602bbc04e18&w=900") no-repeat center fixed;
+  background-size: cover;
+}
+
 /* item container formatting*/ 
 .items {
   display: flex;
   flex-wrap: wrap;
-  flex: 0.8;
-  /* fills out the row before moving to the next line/space below, minimum width of 300px, and a maximum of one fraction share of free space */
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  column-gap: 10px;
+  flex: 1;
+  /* fills out the row before moving to the next line/space below, minimum width of 8% viewport width, and a maximum of one fraction share of free space */
+  grid-template-columns: repeat(auto-fill, minmax(8vw, 1fr));
+  column-gap: 1vw;
   justify-content: center;
-  background-color: #E3DFFF;
 }
 
 /* item formatting */
@@ -220,15 +232,15 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: column; /* item elements occupy one row each*/
   align-items: center; /* align elements to center*/
-  margin: 10px;
-  padding: 10px;
+  margin: 1vw;
+  padding: 1vw;
   
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 1vw;
   background-color: white;
-  box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.258);
+  box-shadow: 0px 0.6vw 1vw 0.4vw rgba(0, 0, 0, 0.258);
 
-  width: 200px;
+  width: 15vw;
 }
 
 /* detail formatting */
@@ -240,11 +252,11 @@ input[type="checkbox"] {
 
 /* item image formatting */
 .item_img {
-  width: 180px;
-  height: 200px;
+  width: 12vw;
+  height: 15vw;
   object-fit: contain;
   color: #90E39A;
-  border-radius: 5px;
+  border-radius: 0.5vw;
   align-self: center;
   position:sticky;
 
@@ -257,7 +269,7 @@ input[type="checkbox"] {
 .item_img:hover {
   transform: scale(1.25);
   opacity: 90%;
-  margin-bottom: 20px;
+  margin-bottom: 0.2vw;
 }
 
 .addtocart:hover ~ .item_img {
@@ -267,21 +279,32 @@ input[type="checkbox"] {
 
 /* button formatting */
 .addtocart, .removeItem {
-  margin: 5px;
-  height: 33px;
+  display: flex;
+  margin: 0.5vw;
+  height: 2.25vw;   
   align-self: center;
+  justify-content: center;
+  align-items: center;
 
   border: none;
-  border-radius: 35px;
+  border-radius: 3.5vw;
   background-color: #FF6663;
   color: white;
   
   text-decoration: none;
-  font-size: 14px;
+  font-size: 1vw;
 
   /* on hover */
   transition-duration: 0.4s;
   cursor: pointer;
+}
+
+.addtocart {
+  width: 8vw;
+}
+
+.removeItem {
+  width: 4vw;
 }
 
 .submit {
@@ -301,42 +324,35 @@ input[type="checkbox"] {
   font-weight: bold;
 }
 
-.addtocart {
-  width: 100px;
-}
-
-.removeItem {
-  width: 45px;
-}
-
 .addtocart:hover, .removeItem:hover {
   background-color: white; 
   color: black; 
-  border: 2px solid #FF6663;
+  border: 0.2vw solid #FF6663;
 }
 
 /* add to cart section formatting */
 .cart {
   display: flex;
   flex-direction: column;
-  flex: 0.25;
+  flex: 1;
   align-items: center;
-  box-shadow: 0px 0px 10px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 1vw 0.6vw rgba(0, 0, 0, 0.2);
 }
 
 .cart_header {
   display: flex;
   width: 100%;
-  height: 50px;
+  height: 4vw;
   flex-direction: row;
   align-items: center;
-  background-color: #3D3A4B;
+  background-color: hsla(335, 86%, 3%, 0.812);
   color: #E3DFFF;
   justify-content: space-between;
 }
 
 .cart_body {
   width: 100%;
+  background-color: white;
 }
 
 .cart_items {
@@ -351,8 +367,8 @@ input[type="checkbox"] {
   justify-content: flex-start;
   
   width: 100%;
-  padding: 10px;
-  border-bottom: 1px solid #3D3A4B;
+  padding: 1vw;
+  border-bottom: 0.1vw solid #3D3A4B;
   
   align-items: center;
   text-align: left;
@@ -375,81 +391,78 @@ input[type="checkbox"] {
 }
 
 .qty_input {
-  width: 50px;
-  font-size: 14px;
+  width: 3vw;
+  font-size: 1.2vw;
 }
 
 .totalPrice{
   display: flex;
-  padding: 10px;
+  padding: 1vw;
   justify-content: flex-start;
   align-items: center;
 }
 
 /* stylizing the trash icon for remove */
 svg {
-  height: 25px;
+  height: 2vw;
 }
 
 /* name and price formatting */
-#item_name {
-  width: 40%;
-}
 
 #item_name, #item_price {
   margin: 0;
-  padding: 5px;
+  padding: 0.5vw;
   text-align: center;
 }
 
 #item_name {
-  font-size: 25px;
+  font-size: 1.8vw;
   font-weight: bold;
 }
 
 #item_price {
-  font-size: 18px;
+  font-size: 1.5vw;
   font-style: oblique;
 }
 
 /* shopping cart elements formatting */
 #cart_title {
-  font-size: 20px;
+  font-size: 1.4vw;
   font-weight: bold;
   padding-left: 15px;
 }
 
 #num_items {
-  font-size: 16.5px;
-  padding-right: 10px;
+  font-size: 1.4vw;
+  padding-right: 1vw;
 }
 
 #cart_item_name {
   flex: 1;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.3vw;
 }
 
 #emptyCart {
   margin-top: 2vh;
-  font-size: 30px;
+  font-size: 1.8vw;
 }
 
 #cart_item_quantity, #cart_item_price {
   font-style: italic;
-  font-size: 15px;
+  font-size: 1.3vw;
 }
 
 #totalPrice_title {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.3vw;
   text-align: right;
   margin-right: 10px;
 }
 
 #totalPrice_val {
   font-style: oblique;
-  font-size: 18px;
+  font-size: 1.3vw;
 }
 
 #cart_item_quantity, #cart_item_price {
