@@ -5,10 +5,19 @@ export default function Login(props){
 
     const [selectedLogOpt, setSelectedLogOpt] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
+    const [username, setUsername] = useState("");
 
+    const handleUsernameChange = (event) => {
+      if(event.target) setUsername(event.target.value)
+    }
     const handleLogOptClick = (log_opt_id) => {
       setSelectedLogOpt(log_opt_id);
       setShowPassword(false);
+    }
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      props.onLogin(username);
     }
 
     const renderFormFields = () => {
@@ -26,7 +35,8 @@ export default function Login(props){
                         </label>
                         <label>
                             Last Name:
-                            <input type="text" name="lname" className="common_input" required />
+                            <input type="text" name="lname" className="common_input" required 
+                            onChange={handleUsernameChange}/>
                         </label>
                         <label>
                             Username:
@@ -44,10 +54,10 @@ export default function Login(props){
                           <span>Show password</span>
                           <input type="checkbox" onChange={() => setShowPassword(!showPassword)} />
                         </div>
-                        <div className="checkboxInput">
+                        {/* <div className="checkboxInput">
                           <span>Signing up as a seller?</span>
                           <input type="checkbox" name="isMerchant" />
-                        </div>
+                        </div> */}
                         <input type="submit" value="Submit" className="submit" />
                     </>
                 );
@@ -98,7 +108,7 @@ export default function Login(props){
                 </h3>
               ))}
             </div>
-            <form className="login_form">
+            <form className="login_form" onSubmit={handleSubmit}>
               {renderFormFields()}
             </form>
           </div>
