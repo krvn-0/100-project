@@ -1,6 +1,6 @@
 import './App.css'; // import stylesheet
 import Login from './components/login';
-// import Menu from './components/menu';  // import array to be used for the "menu"
+import Menu from './components/menu';  // import array to be used for the "menu"
 // import Item from './components/items'; // import array of items to be shown
 // import Cart from './components/cart';   // import array of items in cart
 // import { useState } from 'react';
@@ -11,8 +11,8 @@ function App() {
   return (
     <div className="App">
       {/* navbar containing the app name and the different "menu" */}
-      <Login list={sign_in} />
-      {/* <Menu list={menus} /> */}
+      {/* <Login list={sign_in} /> */}
+      <Menu list={menus} />
       <div className="App_body">
         {/* passing the setCart for updating the cart elements, as well as the cart itself
         <Item list={items} setCart={setCart} cart={cart}/>

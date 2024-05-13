@@ -64,7 +64,7 @@ code {
   left: 1.2vw;
   text-align: left;
   color: white;
-  font-size: 4.5vw;
+  font-size: 4vw;
   font-weight:550;
   padding-left: 3vw;
   padding-right: 3vw;
@@ -87,8 +87,9 @@ code {
   justify-content: space-around;
   align-items: center;
   padding: 0.75vw;
-  font-size: 2vw;
+  font-size: 1.75vw;
   font-weight: bolder;
+  height: 6vw;
 }
 
 .login_opt_selected {
@@ -108,7 +109,7 @@ code {
   padding: 1vw;
   padding-left: 2.25vw;
   padding-right: 2.25vw;
-  font-size: 1.5vw;
+  font-size: 1.25vw;
 }
 
 .login_form label {
@@ -145,7 +146,7 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: row;  /* elements are to be placed in columns */
   background-color: #90E39A;
-  height: 100px; /* sets height to a fixed 100px value*/
+  height: 5vw; /* sets height to a fixed 100px value*/
   justify-content: space-between;
   z-index: 1;
 }
@@ -154,34 +155,47 @@ input[type="checkbox"] {
 .App_name {
   display: flex;
   align-items: center;
-  flex: 0.5; /* takes half the space allotted by the parent container*/
+  flex: 0.65; 
 
   margin-left: 4vw;
 
   text-align: left;
-  color: #3D3A4B;
-  font-size: 4vw;
+  color: white;
+  font-size: 2.5vw;
 }
 
 /* menu elements */
 .select {
-  flex: 0.5;
+  flex: 0.35;
   display: flex;
   flex-direction: row;
   margin-right: 20px;
-  
-  justify-content: flex-end; /* contents, as a whole, are aligned to the right */
-  color: #CBBAED;
+  width: 100%;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 1.5vw;
+}
+
+.select .selected_menu {
+  background-color: #35605A;
+  color: #90E39A; /* This will now correctly change the text color */
+  height: 100%;
+  margin: 0;
+  border: solid #35605A;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0px 0px 10px 6px rgba(0, 0, 0, 0.2);
 }
 
 .select h3 {
   display: flex;
   padding-inline: 10px;
-  align-items: center;
   text-decoration: none;
-  color: #3D3A4B;
+  color: white;
+  flex: 1 1;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .App_body {
