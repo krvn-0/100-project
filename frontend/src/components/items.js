@@ -12,13 +12,16 @@ export default function ItemList(props) {
             let cart_item = {
                 id: item.id,
                 name: item.name,
-                price: item.price,
+                desc: item.description,
+                type: item.type,
                 quantity: 1
             }
             temp_cart.push(cart_item);  // push object to array
         }
+
         console.log("Successfully added", item.name, "to cart");
         props.setCart(temp_cart);
+        props.handleItemQuantity(item.id, -1)
     };
     
 
@@ -34,7 +37,7 @@ export default function ItemList(props) {
                     <button className="addtocart" onClick={() => handleAddToCart(item)}>
                         Add to Cart
                     </button>
-                    <p id="item_price">${item.price}</p>
+                    <p id="item_qty">{item.quantity} left</p>
                     <p id="item_name">{item.name}</p>
                     <img className="item_img" src={item.image} alt={item.name}/>
                 </div>
