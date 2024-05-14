@@ -32,12 +32,12 @@ function App() {
 
   const handleSelectClick = (menu_id) => {
     setSelectedMenu(menu_id);
-  }
+  };
 
   const handleLogin = (user) => { // Add this function
     setIsLoggedIn(true);
     setUser(user);
-  }
+  };
 
   const handleLogout = () => {
     setSelectedMenu(null); // Reset selected menu
@@ -51,7 +51,7 @@ function App() {
       email: "",
       password: ""
     })
-  }
+  };
 
   const handleItemQuantity = (itemID, change) => {
     setItems(prevItems => 
@@ -59,7 +59,15 @@ function App() {
         item.id === itemID ? {...item, quantity: item.quantity - change} : item
       )
     );
-  }
+  };
+
+  const handleOrderStatus = (transID, statusUpd) => {
+    setOrders(prevOrders =>
+      prevOrders.map(order =>
+        order.transactID === transID ? {...order, status: statusUpd} : order
+      )
+    );
+  };
 
   return (
     <div className="App">
@@ -73,7 +81,7 @@ function App() {
               {selectedMenu === 1 && <Home user={User} onLogout={handleLogout}/>}
               {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity}/>}
               {selectedMenu === 3 && <Cart list={cart} setCart={setCart}  cart={cart} handleItemQuantity={handleItemQuantity}/>}
-              {selectedMenu === 4 && <Order list={orders} setCart={setCart} setOrders={setOrders} cart={cart} handleItemQuantity={handleItemQuantity}/>}
+              {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity}/>}
             </div>
           </>
         )}

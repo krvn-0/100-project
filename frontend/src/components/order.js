@@ -10,6 +10,10 @@ export default function OrderList(props) {
         "1": "completed"
     }
 
+    const handleOrderCancel = (order) => {
+        props.setStatus(order.transactID, -1)
+    }
+
     return (
         <div className="order">
             <div className="order_header">
@@ -38,7 +42,7 @@ export default function OrderList(props) {
                                         order.status === -1 ? 'cancelled' : '',
                                         order.status === 1 ? 'completed' : ''
                                     ].join(' ')}
-                                    // onClick={() =>}
+                                    onClick={() => handleOrderCancel(order)}
                                     onMouseEnter={() =>setIsHovered(order.transactID)
                                     }
                                     onMouseLeave={() => setIsHovered(null)}
