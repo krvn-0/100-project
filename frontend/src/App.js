@@ -10,17 +10,28 @@ function App() {
   const [cart, setCart] = useState([])
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
 
-  const handleLogin = (username) => { // Add this function
+  const [User, setUser] = useState({
+    username: "",
+    userType: 0,
+    address: "",
+  })
+
+  const handleLogin = (u_name) => { // Add this function
     setIsLoggedIn(true);
-    setUsername(username);
+    setUser(prevUser =>({...prevUser, username: u_name}));
   }
 
   const handleLogout = () => {
     setSelectedMenu(null); // Reset selected menu
     setCart([]); // Empty the cart
     setIsLoggedIn(false); // Log out the user
+    setUser({
+      username: "",
+      userType: 0,
+      address: ""
+    })
   }
   
   useEffect(() => {
@@ -28,7 +39,7 @@ function App() {
       if (homeMenu) {
           setSelectedMenu(homeMenu.id);
       }
-  }, [menus]);
+  }, []);
 
   const handleSelectClick = (menu_id) => {
     setSelectedMenu(menu_id);
@@ -42,7 +53,7 @@ function App() {
           <>
             <Menu list={menus} handleSelectClick={handleSelectClick} />
             <div className="App_body">
-              {selectedMenu === 1 && <Home username={username} onLogout={handleLogout}/>}
+              {selectedMenu === 1 && <Home user={User} onLogout={handleLogout}/>}
               {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart}/>}
               {selectedMenu === 3 && <Cart list={cart} setCart={setCart}  cart={cart}/>}
             </div>
@@ -94,50 +105,7 @@ const items = [
       name: 'Speaker',
       price: 229,
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBXHSLbVTmDUTvTpqW1kUbV5UerVJB4mqdAtVLgby8Jw&s'
-  },
-  {
-      id: 6,
-      name: 'Computer',
-      price: 499,
-      image: 'https://cdn.originpc.com/img/compare-all/gaming-desktops/genesis-7000-series-system-image.png'
-  },
-  {
-      id: 7,
-      name: 'Monitor',
-      price: 549,
-      image: 'https://cdn.arstechnica.net/wp-content/uploads/2022/01/XXXXXX.jpg'
-  },
-  {
-      id: 8,
-      name: 'Samsung',
-      price: 699,
-      image: 'https://images.samsung.com/is/image/samsung/p6pim/ph/2401/gallery/ph-galaxy-s24-s928-sm-s928bztqphl-thumb-539303751'
-  },
-  {
-      id: 9,
-      name: 'Aircon',
-      price: 549,
-      image: 'https://www.lg.com/my/images/home-air-conditioners/bs-q126bry4/gallery/Artcool_zoom_02.jpg'
-  },
-  {
-      id: 10,
-      name: 'EFan',
-      price: 149,
-      image: 'https://ansons.ph/wp-content/uploads/2022/05/01_BKWST-16BK.png'
-  },
-  {
-      id: 11,
-      name: 'Air Cooler',
-      price: 249,
-      image: 'https://d1pjg4o0tbonat.cloudfront.net/content/dam/midea-aem/id/AC120-16AR-BLUE-LIGHT.png/jcr:content/renditions/cq5dam.compression.png'
-  },
-  {
-      id: 12,
-      name: 'Washing Machine',
-      price: 349,
-      image: 'https://www.lg.com/ph/images/washing-machines/md07556668/gallery1/D-2.jpg'
   }
-  
 ];
 
 export default App;

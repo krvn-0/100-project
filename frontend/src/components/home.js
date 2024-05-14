@@ -1,5 +1,5 @@
 export default function Home(props){
-    const {username, onLogout} = props;
+    const {user, onLogout} = props;
 
     const handleLogout = () => {
         onLogout();
@@ -9,7 +9,7 @@ export default function Home(props){
       <div className="home_page">
         <div className="home_contents">
         <div className="greeting">
-            <p>Hello, {username}</p>
+            <p>Hello, {user.username}</p>
         </div>
         <div className="instruction">
             <p className="message">
