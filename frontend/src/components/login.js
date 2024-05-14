@@ -5,11 +5,23 @@ export default function Login(props){
 
     const [selectedLogOpt, setSelectedLogOpt] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
-    const [username, setUsername] = useState("");
+    const [User, setUser] = useState({ // placeholder for handling user info
+      fname: "",
+      mname: "",
+      lname: "",
+      userType: 0,
+      email: "",
+      password: ""
+  });
 
-    const handleUsernameChange = (event) => {
-      if(event.target) setUsername(event.target.value)
+  const handleInputChange = (event) => {
+    if(event.target) {
+        setUser({
+        ...User,
+        [event.target.name]: event.target.value
+       });
     }
+  }
     const handleLogOptClick = (log_opt_id) => {
       setSelectedLogOpt(log_opt_id);
       setShowPassword(false);
@@ -17,7 +29,7 @@ export default function Login(props){
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      props.onLogin(username);
+      props.onLogin(User);
     }
 
     const renderFormFields = () => {
@@ -27,32 +39,28 @@ export default function Login(props){
                     <>
                       <label>
                             First Name:
-                            <input type="text" name="fname" className="common_input" required />
+                            <input type="text" name="fname" className="common_input" required 
+                            onChange={handleInputChange}/>
                         </label>
                         <label>
                             Middle Name:
-                            <input type="text" name="mname" className="common_input" />
+                            <input type="text" name="mname" className="common_input" 
+                            onChange={handleInputChange}/>
                         </label>
                         <label>
                             Last Name:
                             <input type="text" name="lname" className="common_input" required 
-                            onChange={handleUsernameChange}/>
-                        </label>
-                        <label>
-                            Username:
-                            <input type="text" name="username" className="common_input" required />
+                            onChange={handleInputChange}/>
                         </label>
                         <label>
                           Email:
-                          <input type="email" name="email" className="common_input" required />
-                        </label>
-                        <label>
-                          Address:
-                          <input type="address" name="address" className="common_input" required />
+                          <input type="email" name="email" className="common_input" required 
+                          onChange={handleInputChange}/>
                         </label>
                         <label>
                             Password:
-                            <input type={showPassword ? "text" : "password"} name="password" className="common_input" required />
+                            <input type={showPassword ? "text" : "password"} name="password" className="common_input" required 
+                            onChange={handleInputChange}/>
                         </label>
                         <div className="showPass">
                           <span>Show password</span>

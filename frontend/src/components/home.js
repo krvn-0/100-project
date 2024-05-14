@@ -9,7 +9,7 @@ export default function Home(props){
       <div className="home_page">
         <div className="home_contents">
         <div className="greeting">
-            <p>Hello, {user.username}</p>
+            <p>Hello, {user.fname} {user.lname}</p>
         </div>
         <div className="instruction">
             <p className="message">

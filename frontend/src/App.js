@@ -10,17 +10,19 @@ function App() {
   const [cart, setCart] = useState([])
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [username, setUsername] = useState("");
 
-  const [User, setUser] = useState({
-    username: "",
+  const [User, setUser] = useState({ // placeholder for handling user info
+    fname: "",
+    mname: "",
+    lname: "",
     userType: 0,
-    address: "",
+    email: "",
+    password: ""
   })
 
-  const handleLogin = (u_name) => { // Add this function
+  const handleLogin = (user) => { // Add this function
     setIsLoggedIn(true);
-    setUser(prevUser =>({...prevUser, username: u_name}));
+    setUser(user);
   }
 
   const handleLogout = () => {
@@ -28,9 +30,12 @@ function App() {
     setCart([]); // Empty the cart
     setIsLoggedIn(false); // Log out the user
     setUser({
-      username: "",
+      fname: "",
+      mname: "",
+      lname: "",
       userType: 0,
-      address: ""
+      email: "",
+      password: ""
     })
   }
   
