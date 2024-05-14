@@ -1,10 +1,10 @@
 import {useState} from "react"; // for use state
-import { Trash3Fill } from 'react-bootstrap-icons';
+import { Trash3Fill, CheckCircleFill } from 'react-bootstrap-icons';
 
 export default function CartList(props) {
     const cart = props.list;    // extracts the cart array 
-    const [isHovered, setIsHovered] = useState(false);  // adds an isHovered attribute to each cart item
-
+    const [isHoveredCK, setIsHoveredCK] = useState(false);  // adds an isHovered attribute to each cart item
+    const [isHoveredDL, setIsHoveredDL] = useState(false);
     // const computeTotal = (item) => {
     //     var total = item.quantity * item.price;
     //     return total;
@@ -17,8 +17,9 @@ export default function CartList(props) {
             const new_cart = curr_cart.filter((cart_item) => cart_item.id !== item.id)   
             console.log("Successfully removed " + item.name + " from the cart");
 
-            if(isHovered === item.id) { // resets isHovered attribute of items that got removed
-                setIsHovered(null);
+            if(isHoveredCK === item.id || isHoveredDL === item.id) { // resets isHovered attribute of items that got removed
+                setIsHoveredDL(null);
+                setIsHoveredCK(null)
             };
 
             return new_cart;
@@ -70,12 +71,23 @@ export default function CartList(props) {
                         {/* maps each item of the cart */}
                         {cart.map(cart_item => (
                             // uses conditional operator for added hover suffix class for added ux
-                            <div key={cart_item.id} className={`cart_item ${isHovered === cart_item.id ? 'hovered' : ''}`}>
+                            <div key={cart_item.id} 
+                                className={[
+                                    'cart_item',
+                                    isHoveredDL === cart_item.id ? 'hovered_delete' : '',
+                                    isHoveredCK === cart_item.id ? 'hovered_checkout' : ''
+                                ].join(' ')}>
                                 <button className="removeItem" 
                                     onClick={() => handleRemoveItem(cart_item)} 
-                                    onMouseEnter={() => setIsHovered(cart_item.id)} 
-                                    onMouseLeave={() => setIsHovered(null)}>
+                                    onMouseEnter={() => setIsHoveredDL(cart_item.id)} 
+                                    onMouseLeave={() => setIsHoveredDL(null)}>
                                         <Trash3Fill />
+                                </button>
+                                <button className="checkout" 
+                                    onClick={() => handleRemoveItem(cart_item)} 
+                                    onMouseEnter={() => setIsHoveredCK(cart_item.id)} 
+                                    onMouseLeave={() => setIsHoveredCK(null)}>
+                                        <CheckCircleFill />
                                 </button>
                                 {/* <div id="cart_item_price">${computeTotal(cart_item)}</div> */}
                                 <div className="cart_item_quantity">

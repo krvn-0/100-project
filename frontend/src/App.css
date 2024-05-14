@@ -289,7 +289,7 @@ input[type="checkbox"] {
 }
 
 /* button formatting */
-.addtocart, .removeItem, .logout {
+.addtocart, .removeItem, .logout, .checkout {
   display: flex;
   margin: 0.5vw;
   height: 2.25vw;   
@@ -310,6 +310,10 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
+.checkout {
+  background-color: #90E39A;
+}
+
 .logout {
   width: 6vw;
 }
@@ -318,7 +322,7 @@ input[type="checkbox"] {
   width: 8vw;
 }
 
-.removeItem {
+.removeItem, .checkout {
   width: 4vw;
 }
 
@@ -344,6 +348,12 @@ input[type="checkbox"] {
   background-color: white; 
   color: black; 
   border: 0.2vw solid #FF6663;
+}
+
+.checkout:hover {
+  background-color: white;
+  color: #90E39A;
+  border: 0.2vw solid #90E39A;
 }
 
 /* add to cart section formatting */
@@ -393,8 +403,13 @@ input[type="checkbox"] {
   transition: background-color 0.45s ease, color 0.45s ease;
 }
 
-.cart_item.hovered{
+.cart_item.hovered_delete{
   background-color: #FF6663;
+  color: white;
+}
+
+.cart_item.hovered_checkout{
+  background-color: #90E39A;
   color: white;
 }
 
