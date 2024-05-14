@@ -43,7 +43,7 @@ function App() {
   const handleItemQuantity = (itemID, change) => {
     setItems(prevItems => 
       prevItems.map(item =>
-        item.id === itemID ? {...item, quantity: item.quantity + change} : item
+        item.id === itemID ? {...item, quantity: item.quantity - change} : item
       )
     );
   }
@@ -69,7 +69,7 @@ function App() {
             <div className="App_body">
               {selectedMenu === 1 && <Home user={User} onLogout={handleLogout}/>}
               {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity}/>}
-              {selectedMenu === 3 && <Cart list={cart} setCart={setCart}  cart={cart}/>}
+              {selectedMenu === 3 && <Cart list={cart} setCart={setCart}  cart={cart} handleItemQuantity={handleItemQuantity}/>}
             </div>
           </>
         )}
@@ -86,7 +86,8 @@ const sign_in = [
 const menus = [
   { name: "Home", url: "#home", id: 1},
   { name: "Products", url: "#products", id: 2},
-  { name: "Orders", url: "#orders", id: 3}
+  { name: "Cart", url: "#cart", id: 3},
+  { name: "Orders", url: "#orders", id: 4}
 ];
 
 const initialItems = [
@@ -94,7 +95,7 @@ const initialItems = [
       id: 1,
       name: 'iPhone',
       description: '',
-      type: '',
+      type: 1,
       quantity: 749,
       image: 'https://img.freepik.com/free-photo/front-view-hand-holding-smartphone_23-2148775905.jpg?w=360&t=st=1714897773~exp=1714898373~hmac=7b8a20fe9c24cc72c3e6a71f38fe20ffe07ef3d0f6c8c6890278e82568aec7a9'
   },
@@ -102,7 +103,7 @@ const initialItems = [
       id: 2,
       name: 'Laptop',
       description: '',
-      type: '',
+      type: 2,
       quantity: 699,
       image: 'https://img.freepik.com/free-photo/laptop-pencils-arrangement_23-2148128294.jpg?t=st=1714918664~exp=1714922264~hmac=62e6facb7a2f7891f4d478a400144f186e91e8530c9040ae9555534a55ab604f&w=900'
   },
@@ -110,7 +111,7 @@ const initialItems = [
       id: 3,
       name: 'Earphones',
       description: '',
-      type: '',
+      type: 1,
       quantity: 199,
       image: 'https://img.freepik.com/free-vector/headphones-wireless-realistic-composition-with-isolated-image-phones-with-power-bank-dock-station-with-reflections-vector-illustration_1284-73201.jpg?t=st=1714918934~exp=1714922534~hmac=834dabc524b56c434ca78b7606ed8f282cd15f0c9fe9719e9ffb1d3bd321a8e4&w=740'
   },
@@ -118,7 +119,7 @@ const initialItems = [
       id: 4,
       name: 'Headset',
       description: '',
-      type: '',
+      type: 2,
       quantity: 249,
       image: 'https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817602.jpg?t=st=1714918994~exp=1714922594~hmac=27d3658b8a41dedaaf584c6b1be77b3b8ead9f2fb11052175c634812fa702a53&w=360'
   },
@@ -126,7 +127,7 @@ const initialItems = [
       id: 5,
       name: 'Speaker',
       description: '',
-      type: '',
+      type: 1,
       quantity: 229,
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBXHSLbVTmDUTvTpqW1kUbV5UerVJB4mqdAtVLgby8Jw&s'
   }

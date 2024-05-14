@@ -11,6 +11,7 @@ export default function CartList(props) {
     // };
 
     const handleRemoveItem = (item) => {
+        props.handleItemQuantity(item.id, -item.quantity)
         props.setCart((curr_cart) => {
             // retains only the cart items apart from the removed one
             const new_cart = curr_cart.filter((cart_item) => cart_item.id !== item.id)   
@@ -25,11 +26,16 @@ export default function CartList(props) {
     };
 
     const updateQuantity = (item, value) => {
-        let temp_cart = [...props.cart]
+        let prev_qty;
+        let temp_cart = [...props.cart];
         temp_cart.forEach((cart_item) => {
-            if (item.id === cart_item.id) cart_item.quantity = value;
+            if (item.id === cart_item.id) {
+                prev_qty = cart_item.quantity
+                cart_item.quantity = value;
+            }
         });
-        props.setCart(temp_cart)
+        props.setCart(temp_cart);
+        props.handleItemQuantity(item.id, (value- prev_qty));
     }
 
     const totalCount = (cart) => {  //  function that tallies the total number of items
