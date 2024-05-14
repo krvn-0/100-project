@@ -1,9 +1,10 @@
 import './App.css'; // import stylesheet
 import Login from './components/login';
-import Menu from './components/menu';  // import array to be used for the "menu"
+import Menu from './components/menu';  
 import Home from './components/home';
-import Item from './components/items'; // import array of items to be shown
-import Cart from './components/cart';   // import array of items in cart
+import Item from './components/items'; 
+import Cart from './components/cart';   
+import Order from './components/order';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState(initialItems);
+  const [orders, setOrders] = useState(initialOrders);
 
   const [User, setUser] = useState({ // placeholder for handling user info
     fname: "",
@@ -20,6 +22,17 @@ function App() {
     email: "",
     password: ""
   })
+
+  useEffect(() => {
+    const homeMenu = menus.find(menu => menu.name.toLowerCase() === 'home');
+    if (homeMenu) {
+        setSelectedMenu(homeMenu.id);
+    }
+  }, []); 
+
+  const handleSelectClick = (menu_id) => {
+    setSelectedMenu(menu_id);
+  }
 
   const handleLogin = (user) => { // Add this function
     setIsLoggedIn(true);
@@ -47,17 +60,6 @@ function App() {
       )
     );
   }
-  
-  useEffect(() => {
-      const homeMenu = menus.find(menu => menu.name.toLowerCase() === 'home');
-      if (homeMenu) {
-          setSelectedMenu(homeMenu.id);
-      }
-  }, []);
-
-  const handleSelectClick = (menu_id) => {
-    setSelectedMenu(menu_id);
-  }
 
   return (
     <div className="App">
@@ -67,9 +69,11 @@ function App() {
           <>
             <Menu list={menus} handleSelectClick={handleSelectClick} />
             <div className="App_body">
+              {/* user dashboard */}
               {selectedMenu === 1 && <Home user={User} onLogout={handleLogout}/>}
               {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity}/>}
               {selectedMenu === 3 && <Cart list={cart} setCart={setCart}  cart={cart} handleItemQuantity={handleItemQuantity}/>}
+              {selectedMenu === 4 && <Order list={orders} setCart={setCart} setOrders={setOrders} cart={cart} handleItemQuantity={handleItemQuantity}/>}
             </div>
           </>
         )}
@@ -132,5 +136,56 @@ const initialItems = [
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBXHSLbVTmDUTvTpqW1kUbV5UerVJB4mqdAtVLgby8Jw&s'
   }
 ];
+
+const initialOrders = [
+  {
+    transactID: 1,
+    id: 1,
+    user: 'asasdasfasdvdas',
+    product: 'iPhone',
+    quantity: 2,
+    status: -1 // cancelled
+},
+{
+    transactID: 2,
+    id: 2,
+    user: 'asasdasfasdvdas',
+    product: 'Laptop',
+    quantity: 4,
+    status: 0 // pending
+},
+{
+    transactID: 3,
+    id: 3,
+    user: 'asasdasfasdvdas',
+    product: 'Earphones',
+    quantity: 5,
+    status: 1 // completed
+},
+{
+    transactID: 4,
+    id: 4,
+    user: 'asasdasfasdvdas',
+    product: 'Headset',
+    quantity: 2,
+    status: -1 
+},
+{
+    transactID: 5,
+    id: 4,
+    user: 'asasdasfasdvdas',
+    product: 'Headset',
+    quantity: 2,
+    status: 1 
+},
+{
+    transactID: 6,
+    id: 4,
+    user: 'asasdasfasdvdas',
+    product: 'Headset',
+    quantity: 2,
+    status: 0 
+}
+]
 
 export default App;
