@@ -12,10 +12,12 @@
   "license": "",
   "description": "",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
     "mongoose": "^8.3.3"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
     "typescript": "^5.4.5"
   }

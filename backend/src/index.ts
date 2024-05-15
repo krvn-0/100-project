@@ -1,5 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
+
+import { RouteWithInternalData } from './routers.js';
 
 const app = express();
 const port = parseInt(process.env.BACKEND_PORT || '3001', 10);
@@ -7,12 +10,22 @@ if (isNaN(port)) {
     throw new Error("PORT environment variable is not a number");
 }
 
+app.use(express.json({
+    strict: true
+}));
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(cookieParser());
+
 // Add request console logger
 app.use((req, res, next) => {
+    console.log("==============")
     console.log(`Received ${req.method} request: ${req.url}`);
     console.log(`Origin: ${req.headers.origin}`);
     console.log(`Authorization: ${req.headers.authorization}`);
     console.log(`Body: ${typeof req.body === 'object' ? JSON.stringify(req.body) : req.body}`);
+    console.log(`Cookies: ${JSON.stringify(req.cookies)}`);
 
     next();
 });
@@ -30,6 +43,8 @@ app.use((req, res, next) => {
 
     next();
 });
+
+RouteWithInternalData(app);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
