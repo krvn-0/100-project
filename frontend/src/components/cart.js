@@ -2,7 +2,9 @@ import {useState} from "react"; // for use state
 import { Trash3Fill, CheckCircleFill } from 'react-bootstrap-icons';
 
 export default function CartList(props) {
-    const cart = props.list;    // extracts the cart array 
+    const cart = props.cart_list;    // extracts the cart array 
+    const orders = props.order_list
+
     const [isHoveredCK, setIsHoveredCK] = useState(false);  // adds an isHovered attribute to each cart item
     const [isHoveredDL, setIsHoveredDL] = useState(false);
 
@@ -11,12 +13,17 @@ export default function CartList(props) {
         return total;
     };
 
-    const handleRemoveItem = (item) => {
-        props.handleItemQuantity(item.id, -item.quantity)
+    const handleRemoveItem = (item, type) => {
         props.setCart((curr_cart) => {
             // retains only the cart items apart from the removed one
             const new_cart = curr_cart.filter((cart_item) => cart_item.id !== item.id)   
-            console.log("Successfully removed " + item.name + " from the cart");
+
+            if(type === "remove") {
+                console.log("Successfully removed " + item.name + " from the cart");
+            } else {
+                handleAddToOrders(item);
+                console.log("Successfully checked out " + item.name);
+            }
 
             if(isHoveredCK === item.id || isHoveredDL === item.id) { // resets isHovered attribute of items that got removed
                 setIsHoveredDL(null);
@@ -27,22 +34,36 @@ export default function CartList(props) {
             });
     };
 
-    // const handleCheckoutItem = (item) => {
-
-    // }
-
-    const updateQuantity = (item, value) => {
-        let prev_qty;
-        let temp_cart = [...props.cart];
-        temp_cart.forEach((cart_item) => {
-            if (item.id === cart_item.id) {
-                prev_qty = cart_item.quantity
-                cart_item.quantity = value;
-            }
-        });
-        props.setCart(temp_cart);
-        props.handleItemQuantity(item.id, (value- prev_qty));
+    const handleAddToOrders = (item) => {
+        let temp_orders = [...orders]; // stores previous state of the cart
+        let order_count = temp_orders.length+1
+        
+        // construct a temporary object
+        let order_item = {
+            transactID: order_count,
+            id: item.id,
+            user: props.username,
+            product: item.name,
+            quantity: item.quantity,
+            status: 0
+        }
+        props.handleItemQuantity(item.id, item.quantity);
+        temp_orders.push(order_item);  // push object to array
+        props.setOrders(temp_orders);
     }
+
+    // const updateQuantity = (item, value) => {
+    //     let prev_qty;
+    //     let temp_cart = [...props.cart];
+    //     temp_cart.forEach((cart_item) => {
+    //         if (item.id === cart_item.id) {
+    //             prev_qty = cart_item.quantity
+    //             cart_item.quantity = value;
+    //         }
+    //     });
+    //     props.setCart(temp_cart);
+    //     props.handleItemQuantity(item.id, (value- prev_qty));
+    // }
 
     const totalCount = (cart) => {  //  function that tallies the total number of items
         var total = 0;
@@ -83,13 +104,13 @@ export default function CartList(props) {
                                     isHoveredCK === cart_item.id ? 'hovered_checkout' : ''
                                 ].join(' ')}>
                                 <button className="removeItem" 
-                                    onClick={() => handleRemoveItem(cart_item)} 
+                                    onClick={() => handleRemoveItem(cart_item, "remove")} 
                                     onMouseEnter={() => setIsHoveredDL(cart_item.id)} 
                                     onMouseLeave={() => setIsHoveredDL(null)}>
                                         <Trash3Fill />
                                 </button>
                                 <button className="checkout" 
-                                    onClick={() => handleRemoveItem(cart_item)} 
+                                    onClick={() => handleRemoveItem(cart_item, "checkout")} 
                                     onMouseEnter={() => setIsHoveredCK(cart_item.id)} 
                                     onMouseLeave={() => setIsHoveredCK(null)}>
                                         <CheckCircleFill />
@@ -100,7 +121,6 @@ export default function CartList(props) {
                                     <input className="qty_input" id={`QTY_${cart_item.name}`} type={"number"} defaultValue={cart_item.quantity} min={0} onChange={(ev) => {
                                         if (ev.target.valueAsNumber === 0) handleRemoveItem(cart_item)
                                         else {
-                                            updateQuantity(cart_item, ev.target.valueAsNumber)
                                             ev.target.defaultValue = cart_item.quantity
                                         }
                                     }} />

@@ -22,7 +22,7 @@ export default function ItemList(props) {
 
         console.log("Successfully added", item.name, "to cart");
         props.setCart(temp_cart);
-        props.handleItemQuantity(item.id, 1)
+        // props.handleItemQuantity(item.id, 1)
     };
     
 
