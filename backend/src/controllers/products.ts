@@ -102,3 +102,18 @@ export function updateProduct(req: Request, res: Response) {
     res.status(200).send(product);
 }
 
+export function getProducts(req: Request, res: Response) {
+    let ret: ProductDOT[] = products.map((p) => {
+        return{
+            id: p.id,
+            name: p.name,
+            description: p.description,
+            ownderId: p.ownerId,
+            type: p.type,
+            quantity: p.quantity,
+            unitPrice: p.unitPrice
+        }
+    })
+
+    res.send(ret);
+}

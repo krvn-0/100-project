@@ -25,4 +25,13 @@ export const products: ProductDOT[] = [{
     type: ProductType.CROP,
     quantity: 100,
     unitPrice: 1000
+},
+{
+    id: "id2",
+    name: "product 2",
+    description: "pangalawa",
+    ownerId: "ppppp",
+    type: ProductType.POULTRY,
+    quantity: 99,
+    unitPrice: 9999,
 }];
