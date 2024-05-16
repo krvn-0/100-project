@@ -87,7 +87,7 @@ function App() {
             {/* user dashboard */}
             {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
             {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
-            {selectedMenu === 3 && <Cart list={cart} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
+            {selectedMenu === 3 && <Cart username={User.fname} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
             {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
             {selectedMenu === 5 && <Admin users={[User]} products={items} setProducts={setItems} orders={orders} />} {/* render Admin component */}
           </div>
