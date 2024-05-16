@@ -4,6 +4,7 @@ export type UserDOT = {
     middleName?: string;
     lastName: string;
     email: string;
+    isAdmin?: boolean;
     isMerchant?: boolean;
     productIds?: string[];
 };
