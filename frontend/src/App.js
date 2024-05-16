@@ -1,18 +1,20 @@
 import './App.css'; // import stylesheet
 import Login from './components/login';
-import Menu from './components/menu';  
+import Menu from './components/menu';
 import Home from './components/home';
-import Item from './components/items'; 
-import Cart from './components/cart';   
+import Item from './components/items';
+import Cart from './components/cart';
 import Order from './components/order';
+import Admin from './components/admin'; // import Admin component
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState(initialItems);
   const [orders, setOrders] = useState(initialOrders);
+  const [menus, setMenus] = useState(initialMenus); // use state for menus
 
   const [User, setUser] = useState({ // placeholder for handling user info
     fname: "",
@@ -21,22 +23,26 @@ function App() {
     userType: 0,
     email: "",
     password: ""
-  })
+  });
 
   useEffect(() => {
     const homeMenu = menus.find(menu => menu.name.toLowerCase() === 'home');
     if (homeMenu) {
         setSelectedMenu(homeMenu.id);
     }
-  }, []); 
+  }, [menus]); // add menus as a dependency
 
   const handleSelectClick = (menu_id) => {
     setSelectedMenu(menu_id);
   };
 
-  const handleLogin = (user) => { // Add this function
+  const handleLogin = (user) => {
     setIsLoggedIn(true);
     setUser(user);
+
+    if (user.email.toLowerCase() === 'admin@gmail.com') {
+      setMenus(prevMenus => [...prevMenus, { name: "Admin", url: "#admin", id: 5 }]);
+    }
   };
 
   const handleLogout = () => {
@@ -50,11 +56,12 @@ function App() {
       userType: 0,
       email: "",
       password: ""
-    })
+    });
+    setMenus(initialMenus); // reset menus to initial state
   };
 
   const handleItemQuantity = (itemID, change) => {
-    setItems(prevItems => 
+    setItems(prevItems =>
       prevItems.map(item =>
         item.id === itemID ? {...item, quantity: item.quantity - change} : item
       )
@@ -71,35 +78,36 @@ function App() {
 
   return (
     <div className="App">
-        {!isLoggedIn ? (
-          <Login list={sign_in} onLogin={handleLogin} />
-        ) : (
-          <>
-            <Menu list={menus} handleSelectClick={handleSelectClick} />
-            <div className="App_body">
-              {/* user dashboard */}
-              {selectedMenu === 1 && <Home user={User} onLogout={handleLogout}/>}
-              {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity}/>}
-              {selectedMenu === 3 && <Cart list={cart} setCart={setCart}  cart={cart} handleItemQuantity={handleItemQuantity}/>}
-              {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity}/>}
-            </div>
-          </>
-        )}
-      </div>
+      {!isLoggedIn ? (
+        <Login list={sign_in} onLogin={handleLogin} />
+      ) : (
+        <>
+          <Menu list={menus} handleSelectClick={handleSelectClick} />
+          <div className="App_body">
+            {/* user dashboard */}
+            {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
+            {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
+            {selectedMenu === 3 && <Cart list={cart} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
+            {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
+            {selectedMenu === 5 && <Admin users={[User]} products={items} setProducts={setItems} orders={orders} />} {/* render Admin component */}
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 
 // initialization of the arrays
 const sign_in = [
-  { name: "Sign-Up", url: "#signup", id: 1},
-  { name: "Sign-In", url: "#signin", id: 2}
-]
+  { name: "Sign-Up", url: "#signup", id: 1 },
+  { name: "Sign-In", url: "#signin", id: 2 }
+];
 
-const menus = [
-  { name: "Home", url: "#home", id: 1},
-  { name: "Products", url: "#products", id: 2},
-  { name: "Cart", url: "#cart", id: 3},
-  { name: "Orders", url: "#orders", id: 4}
+const initialMenus = [
+  { name: "Home", url: "#home", id: 1 },
+  { name: "Products", url: "#products", id: 2 },
+  { name: "Cart", url: "#cart", id: 3 },
+  { name: "Orders", url: "#orders", id: 4 }
 ];
 
 const initialItems = [
@@ -147,6 +155,7 @@ const initialItems = [
       price: 349,
       quantity: 229,
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBXHSLbVTmDUTvTpqW1kUbV5UerVJB4mqdAtVLgby8Jw&s'
+
   }
 ];
 
@@ -158,47 +167,47 @@ const initialOrders = [
     product: 'iPhone',
     quantity: 2,
     status: -1 // cancelled
-},
-{
+  },
+  {
     transactID: 2,
     id: 2,
     user: 'asasdasfasdvdas',
     product: 'Laptop',
     quantity: 4,
     status: 0 // pending
-},
-{
+  },
+  {
     transactID: 3,
     id: 3,
     user: 'asasdasfasdvdas',
     product: 'Earphones',
     quantity: 5,
     status: 1 // completed
-},
-{
+  },
+  {
     transactID: 4,
     id: 4,
     user: 'asasdasfasdvdas',
     product: 'Headset',
     quantity: 2,
     status: -1 
-},
-{
+  },
+  {
     transactID: 5,
     id: 4,
     user: 'asasdasfasdvdas',
     product: 'Headset',
     quantity: 2,
     status: 1 
-},
-{
+  },
+  {
     transactID: 6,
     id: 4,
     user: 'asasdasfasdvdas',
     product: 'Headset',
     quantity: 2,
     status: 0 
-}
-]
+  }
+];
 
 export default App;
