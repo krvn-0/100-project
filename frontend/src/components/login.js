@@ -78,11 +78,11 @@ export default function Login(props){
                     <>
                         <label>
                             Email:
-                            <input type="email" name="email" className="common_input" required />
+                            <input type="email" name="email" className="common_input" required onChange={handleInputChange}/>
                         </label>
                         <label>
                             Password:
-                            <input type={showPassword ? "text" : "password"} name="password" className="common_input" required />
+                            <input type={showPassword ? "text" : "password"} name="password" className="common_input" required onChange={handleInputChange}/>
                         </label>
                         <div className="showPass">
                           <span>Show password</span>
