@@ -58,3 +58,4 @@ export function getProducts(req: Request, res: Response) {
         });
     }
 }
+
