@@ -76,7 +76,10 @@ export function login(req: Request, res: Response) {
         token
     });
 
-    res.setHeader("Set-Cookie", `token=${token}; HttpOnly`);
+    res.cookie("token", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 3 // 3 days
+    });
     res.status(200).send(ret);
 }
 
@@ -105,6 +108,9 @@ export function logout(req: Request, res: Response) {
 
     userTokens.splice(tokenIndex, 1);
 
-    res.setHeader("Set-Cookie", `token=; HttpOnly`);
+    res.cookie("token", "", {
+        expires: new Date(0),
+        httpOnly: true,
+    });
     res.status(204).send();
 }
