@@ -37,7 +37,6 @@ export type Product = {
     id: string;
     name: string;
     description: string;
-    ownerId?: string;
     type: ProductType;
     quantity: number;
     unitPrice: number;
