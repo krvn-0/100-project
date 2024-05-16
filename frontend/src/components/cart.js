@@ -52,18 +52,15 @@ export default function CartList(props) {
         props.setOrders(temp_orders);
     }
 
-    // const updateQuantity = (item, value) => {
-    //     let prev_qty;
-    //     let temp_cart = [...props.cart];
-    //     temp_cart.forEach((cart_item) => {
-    //         if (item.id === cart_item.id) {
-    //             prev_qty = cart_item.quantity
-    //             cart_item.quantity = value;
-    //         }
-    //     });
-    //     props.setCart(temp_cart);
-    //     props.handleItemQuantity(item.id, (value- prev_qty));
-    // }
+    const updateQuantity = (item, value) => {
+        let temp_cart = [...cart];
+        temp_cart.forEach((cart_item) => {
+            if (item.id === cart_item.id) {
+                cart_item.quantity = value;
+            }
+        });
+        props.setCart(temp_cart);
+    }
 
     const totalCount = (cart) => {  //  function that tallies the total number of items
         var total = 0;
@@ -85,7 +82,7 @@ export default function CartList(props) {
         <div className="cart">
             <div className="cart_header">
                 <p id="cart_title">Shopping Cart</p>
-                <p id="num_items">Item Count: {totalCount(cart)}</p>
+                <p id="num_items">Item Count: {Number(totalCount(cart)).toString()}</p>
             </div>
             {cart.length === 0 ? (
                 <div id="emptyCart">
@@ -119,8 +116,9 @@ export default function CartList(props) {
                                 <div className="cart_item_quantity">
                                     <label id="qty">QTY:</label>
                                     <input className="qty_input" id={`QTY_${cart_item.name}`} type={"number"} defaultValue={cart_item.quantity} min={0} onChange={(ev) => {
-                                        if (ev.target.valueAsNumber === 0) handleRemoveItem(cart_item)
+                                        if (ev.target.valueAsNumber === 0) handleRemoveItem(cart_item, "remove")
                                         else {
+                                            updateQuantity(cart_item, ev.target.value);
                                             ev.target.defaultValue = cart_item.quantity
                                         }
                                     }} />
