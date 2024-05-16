@@ -61,6 +61,7 @@ function App() {
       password: ""
     });
     setMenus(initialUserMenus); // reset menus to initial state
+    setUserType(false);
   };
 
   const handleItemQuantity = (itemID, change) => {
