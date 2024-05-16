@@ -450,12 +450,12 @@ input[type="checkbox"] {
   font-size: 1.2vw;
 }
 
-/* .totalPrice{
+.totalPrice{
   display: flex;
   padding: 1vw;
   justify-content: flex-start;
   align-items: center;
-} */
+}
 
 /* stylizing the trash icon for remove */
 svg {
@@ -464,7 +464,7 @@ svg {
 
 /* name and price formatting */
 
-#item_name, #item_qty {
+#item_name, #item_qty, #item_price {
   margin: 0;
   padding: 0.5vw;
   text-align: center;
@@ -475,8 +475,13 @@ svg {
   font-weight: bold;
 }
 
-#item_qty, #order_qty, .order_status {
+.order_status, #item_price {
   font-size: 1.5vw;
+  font-style: oblique;
+}
+
+#item_qty, #order_qty {
+  font-size: 1vw;
   font-style: oblique;
 }
 
@@ -506,12 +511,12 @@ svg {
   font-size: 1.8vw;
 }
 
-#cart_item_quantity, #order_qty, .order_status {
+#cart_item_quantity, #cart_item_price, #order_qty, .order_status {
   font-style: italic;
   font-size: 1.3vw;
 }
 
-#cart_item_quantity {
+#cart_item_quantity, #cart_item_price {
   flex: 0.6;
 }
 
@@ -528,7 +533,7 @@ svg {
   font-size: 1.3vw;
 } */
 
-/* #totalPrice_title {
+#totalPrice_title {
   font-weight: bold;
   font-size: 1.3vw;
   text-align: right;
@@ -538,4 +543,4 @@ svg {
 #totalPrice_val {
   font-style: oblique;
   font-size: 1.3vw;
-} */
+}

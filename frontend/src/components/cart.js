@@ -5,10 +5,11 @@ export default function CartList(props) {
     const cart = props.list;    // extracts the cart array 
     const [isHoveredCK, setIsHoveredCK] = useState(false);  // adds an isHovered attribute to each cart item
     const [isHoveredDL, setIsHoveredDL] = useState(false);
-    // const computeTotal = (item) => {
-    //     var total = item.quantity * item.price;
-    //     return total;
-    // };
+
+    const computeTotal = (item) => {
+        var total = item.quantity * item.price;
+        return total;
+    };
 
     const handleRemoveItem = (item) => {
         props.handleItemQuantity(item.id, -item.quantity)
@@ -25,6 +26,10 @@ export default function CartList(props) {
             return new_cart;
             });
     };
+
+    // const handleCheckoutItem = (item) => {
+
+    // }
 
     const updateQuantity = (item, value) => {
         let prev_qty;
@@ -47,13 +52,13 @@ export default function CartList(props) {
         return total;
     }
 
-    // const tallyTotal = (cart) => {  // function that tallies the total price to be paid
-    //     var totalPrice = 0;
-    //     cart.forEach(cart_item => {
-    //         totalPrice += computeTotal(cart_item);
-    //     });
-    //     return totalPrice;
-    // }
+    const tallyTotal = (cart) => {  // function that tallies the total price to be paid
+        var totalPrice = 0;
+        cart.forEach(cart_item => {
+            totalPrice += computeTotal(cart_item);
+        });
+        return totalPrice;
+    }
 
     return (
         <div className="cart">
@@ -89,7 +94,7 @@ export default function CartList(props) {
                                     onMouseLeave={() => setIsHoveredCK(null)}>
                                         <CheckCircleFill />
                                 </button>
-                                {/* <div id="cart_item_price">${computeTotal(cart_item)}</div> */}
+                                <div id="cart_item_price">Cost: ${computeTotal(cart_item)}</div>
                                 <div className="cart_item_quantity">
                                     <label id="qty">QTY:</label>
                                     <input className="qty_input" id={`QTY_${cart_item.name}`} type={"number"} defaultValue={cart_item.quantity} min={0} onChange={(ev) => {
@@ -104,10 +109,10 @@ export default function CartList(props) {
                             </div>
                         ))}
                     </div>
-                    {/* <div className="totalPrice">
+                    <div className="totalPrice">
                         <div id="totalPrice_title">Total Price:</div>
                         <div id="totalPrice_val">${tallyTotal(cart)}</div>
-                    </div> */}
+                    </div>
                 </div>
             )}
         </div>
