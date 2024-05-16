@@ -450,6 +450,22 @@ input[type="checkbox"] {
   font-size: 1.2vw;
 }
 
+.admin-dashboard {
+  padding: 20px;
+  text-align: center;
+}
+
+.admin-options {
+  margin-top: 20px;
+}
+
+.admin-options button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .totalPrice{
   display: flex;
   padding: 1vw;
@@ -526,6 +542,80 @@ svg {
 
 #order_qty, .order_status {
   flex: 0.4;
+}
+.admin-dashboard {
+  padding: 20px;
+  text-align: center;
+}
+
+.admin-options {
+  margin-top: 20px;
+}
+
+.admin-options button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #35605A;
+  color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.admin-options button:hover {
+  background-color: #90E39A;
+  color: #35605A;
+}
+
+.admin-products, .admin-users, .browse-orders {
+  margin-top: 20px;
+}
+
+.product-list, .admin-users ul, .browse-orders ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-item, .admin-users li, .browse-orders li {
+  background-color: #ffffff;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-item h3, .admin-users li, .browse-orders li {
+  margin: 0;
+  padding: 0;
+}
+
+.add-product, .admin-users ul, .browse-orders ul {
+  margin-top: 20px;
+}
+
+.add-product input, .add-product button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.add-product button {
+  background-color: #35605A;
+  color: white;
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.add-product button:hover {
+  background-color: #90E39A;
+  color: #35605A;
 }
 
 /* #cart_item_quantity, #cart_item_price {
