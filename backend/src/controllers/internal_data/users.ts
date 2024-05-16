@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 
-import { ProductDOT, Product, UserDOT, User } from "../../entities.js";
 import { products, users, userTokens } from "./data.js";
+
+import { User } from "../../entities/user.js";
+import { Product } from "../../entities/product.js";
 
 export function getUsers(req: Request, res: Response) {
     const token = req.cookies?.token;
