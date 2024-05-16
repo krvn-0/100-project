@@ -1,6 +1,6 @@
-import { Product, User } from "../../entities.js";
+import { ProductDOT, UserDOT } from "../../entities.js";
 
-interface UserInternal extends User {
+type UserInternal = UserDOT & {
     password: string
 }
 
@@ -17,4 +17,4 @@ export const userTokens: {
     userId: string,
     token: string,
 }[] = []
-export const products: Product[] = [];
+export const products: ProductDOT[] = [];
