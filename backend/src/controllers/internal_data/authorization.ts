@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { userTokens, users } from './data.js';
-import { User } from '../../entities.js';
+import { products, userTokens, users } from './data.js';
+import { Product, User } from '../../entities.js';
 
 function generateToken() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -59,7 +59,15 @@ export function login(req: Request, res: Response) {
         lastName: user.lastName,
         email: user.email,
         isMerchant: user.isMerchant,
-        productIds: user.productIds
+        products: user.productIds?.map?.(id => {
+            let product = products.find(p => p.id === id);
+            if (product === undefined) {
+                return undefined;
+            }
+
+            delete product.ownerId
+            return product
+        }).filter(p => p !== undefined) as Product[]
     }
 
     token = generateToken();
