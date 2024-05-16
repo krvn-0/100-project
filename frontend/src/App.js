@@ -14,7 +14,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState(initialItems);
   const [orders, setOrders] = useState(initialOrders);
-  const [menus, setMenus] = useState(initialMenus); // use state for menus
+  const [menus, setMenus] = useState(initialUserMenus); // use state for menus
+  const [isAdmin, setUserType] = useState(false);
 
   const [User, setUser] = useState({ // placeholder for handling user info
     fname: "",
@@ -41,7 +42,9 @@ function App() {
     setUser(user);
 
     if (user.email.toLowerCase() === 'admin@gmail.com') {
-      setMenus(prevMenus => [...prevMenus, { name: "Admin", url: "#admin", id: 5 }]);
+      setUserType(true);
+      setMenus(initialAdminMenus);
+      // setMenus(prevMenus => [...prevMenus, { name: "Admin", url: "#admin", id: 5 }]);
     }
   };
 
@@ -57,7 +60,7 @@ function App() {
       email: "",
       password: ""
     });
-    setMenus(initialMenus); // reset menus to initial state
+    setMenus(initialUserMenus); // reset menus to initial state
   };
 
   const handleItemQuantity = (itemID, change) => {
@@ -80,19 +83,28 @@ function App() {
     <div className="App">
       {!isLoggedIn ? (
         <Login list={sign_in} onLogin={handleLogin} />
-      ) : (
-        <>
-          <Menu list={menus} handleSelectClick={handleSelectClick} />
-          <div className="App_body">
-            {/* user dashboard */}
-            {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
-            {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
-            {selectedMenu === 3 && <Cart username={User.fname} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
-            {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
-            {selectedMenu === 5 && <Admin users={[User]} products={items} setProducts={setItems} orders={orders} />} {/* render Admin component */}
-          </div>
-        </>
-      )}
+        ) : ( 
+          !isAdmin ? (
+            <>
+              <Menu list={menus} handleSelectClick={handleSelectClick} />
+              <div className="App_body">
+                {/* user dashboard */}
+                {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
+                {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
+                {selectedMenu === 3 && <Cart username={User.fname} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
+                {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
+              </div>
+            </>
+          ) : (
+            <>
+              <Menu  list={menus} handleSelectClick={handleSelectClick} />
+              <div className="App_body">
+                {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
+                {selectedMenu === 2 && <Admin users={[User]} products={items} setProducts={setItems} orders={orders} />} {/* render Admin component */}
+              </div>
+            </>
+          ) 
+        )}
     </div>
   );
 }
@@ -103,12 +115,17 @@ const sign_in = [
   { name: "Sign-In", url: "#signin", id: 2 }
 ];
 
-const initialMenus = [
+const initialUserMenus = [
   { name: "Home", url: "#home", id: 1 },
   { name: "Products", url: "#products", id: 2 },
   { name: "Cart", url: "#cart", id: 3 },
   { name: "Orders", url: "#orders", id: 4 }
 ];
+
+const initialAdminMenus = [
+  { name: "Home", url: "#home", id: 1 },
+  { name: "Admin", url: "#admin", id: 2 }
+]
 
 const initialItems = [
   {
