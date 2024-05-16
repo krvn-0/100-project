@@ -1,4 +1,4 @@
-export interface User {
+export type UserDOT = {
     id: string;
     firstName: string;
     middleName?: string;
@@ -13,12 +13,33 @@ export enum ProductType {
     POULTRY = 2,
 };
 
-export interface Product {
+export type ProductDOT = {
     id: string;
     name: string;
     description: string;
-    ownerId: string;
+    ownerId?: string;
     type: ProductType;
     quantity: number;
     unitPrice: number;
+};
+
+export type User = {
+    id: string;
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    email: string;
+    isMerchant?: boolean;
+    products?: Product[];
+};
+
+export type Product = {
+    id: string;
+    name: string;
+    description: string;
+    ownerId?: string;
+    type: ProductType;
+    quantity: number;
+    unitPrice: number;
+    owner?: User;
 };
