@@ -2,6 +2,7 @@ import { Express } from "express";
 
 import { createUser, getUser, getUsers, login, logout } from "./controllers/internal_data.js";
 import { deleteUser, updateUser } from "./controllers/internal_data/users.js";
+import { addProduct, getProduct, updateProduct } from "./controllers/products.js";
 
 export function RouteWithInternalData(app: Express) {
     app.post('/login', login);
@@ -12,4 +13,8 @@ export function RouteWithInternalData(app: Express) {
     app.get("/users/:id", getUser);
     app.patch("/users/:id", updateUser);
     app.delete("/users/:id", deleteUser);
+
+    app.get("/products/:id", getProduct);
+    app.put("/products", addProduct);
+    app.patch("/products/:id", updateProduct);
 }

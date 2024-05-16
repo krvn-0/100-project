@@ -17,7 +17,7 @@ export function addProduct(req: Request, res: Response) {
 
         res.status(400).send({
             type: "urn:100-project:error:malformed",
-            name: "malformed request",
+            title: "malformed request",
             status: 400,
             message: "id, name, description must be strings and  quantity, unitPrice must be numbers",
         });
@@ -26,7 +26,7 @@ export function addProduct(req: Request, res: Response) {
     if(type !== ProductType.CROP && type !== ProductType.POULTRY) {
         res.status(400).send({
             type: "urn:100-project:error:malformed",
-            name: "malformed request",
+            title: "malformed request",
             status: 400,
             message: "type should be at least 1 or 2"
             
@@ -44,18 +44,61 @@ export function addProduct(req: Request, res: Response) {
     });
 }
 
-export function getProducts(req: Request, res: Response) {
+export function getProduct(req: Request, res: Response) {
     let id: string = req.params.id; // route /:id
 
-    const foundProduct = products.find((p) => p.id == id);
+    const foundProduct: ProductDOT | undefined = products.find((p) => p.id == id);
 
     if(foundProduct === undefined) {
         res.send({
             type:"urn:100-project:error:not-found",
-            name: "Product Not Found",
+            title: "Product Not Found",
             status: 404,
             message: "Product does not exist"
         });
+        return;
     }
+
+    res.send({
+        id: foundProduct.id,
+        name: foundProduct.name,
+        description: foundProduct.description,
+        ownerId: foundProduct.ownerId,
+        type: foundProduct.type,
+        quantity: foundProduct.quantity,
+        unitPrice: foundProduct.unitPrice,
+    })
+}
+
+export function updateProduct(req: Request, res: Response) {
+    const id = req.params.id;
+
+    const product: ProductDOT | undefined = products.find((p) => p.id === id);
+
+    if(product === undefined) {
+        res.status(404).send({
+            type: "urn:100-project:error:not-found",
+            title: "Product Not Found",
+            status: 404,
+            message: "Product does not exist"
+        });
+        return;
+    }
+
+    const name: string = req.body.name;
+    const description: string = req.body.description;
+    const type: ProductType = req.body.type;
+    const quantity: number = req.body.quantity;
+    const unitPrice: number = req.body.unitPrice;
+    const ownerId: string | undefined = req.body.ownerId;
+
+    product.name = name ?? product.name;
+    product.description = description ?? product.description;
+    product.type = type ?? product.type;
+    product.quantity = quantity ?? product.quantity;
+    product.unitPrice = unitPrice ?? product.unitPrice;
+    product.ownerId = ownerId ?? product.ownerId;
+
+    res.status(200).send(product);
 }
 
