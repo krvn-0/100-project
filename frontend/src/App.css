@@ -168,6 +168,16 @@ input[type="checkbox"] {
   height: 5vw; /* sets height to a fixed 100px value*/
   justify-content: space-between;
   z-index: 1;
+
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.topnav_placeholder {
+  top: 0;
+  height: 5vw;
+  background-color: rgba(61, 58, 75, 0);
 }
 
 .select {
@@ -385,9 +395,20 @@ input[type="checkbox"] {
   height: 4vw;
   flex-direction: row;
   align-items: center;
-  background-color: hsla(335, 86%, 3%, 0.812);
+  background-color: hsl(332, 87%, 3%);
   color: #E3DFFF;
   justify-content: space-between;
+}
+
+.sticky {
+  position: fixed;
+  top: 1;
+  width: 100%;
+}
+
+.sticky_placeholder {
+  height: 4vw;
+  background-color: rgba(61, 58, 75, 0);
 }
 
 .cart_body, .order_body {
