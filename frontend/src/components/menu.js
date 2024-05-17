@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 
-export default function Menus({list, handleSelectClick}){
+export default function Menus(props){
+  const menus = props.list;
+  
   const [selectedMenu, setSelectedMenu] = useState(null);
 
   // sets the default menu to home
   useEffect(() => {
-    const homeMenu = list.find(menu => menu.name.toLowerCase() === 'home');
+    const homeMenu = menus.find(menu => menu.name.toLowerCase() === 'home');
     if (homeMenu) {
         setSelectedMenu(homeMenu.id);
-        handleSelectClick(homeMenu.id)
+        props.handleSelectClick(homeMenu.id);
     }
-  }, [list, handleSelectClick]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // empty array means this useEffect will only run once
 
   const handleMenuClick = (menu_id) => {
     setSelectedMenu(menu_id);
-    handleSelectClick(menu_id); // Notify the parent component
+    props.handleSelectClick(menu_id); // Notify the parent component
   }
 
   return (
@@ -25,7 +28,7 @@ export default function Menus({list, handleSelectClick}){
           <p>Farm-2-U</p>
         </div>
         <div className="select">
-          {list.map(menu => (
+          {menus.map(menu => (
             <h3 key={menu.id} id={menu.name.toLowerCase()} 
             onClick={() => handleMenuClick(menu.id)}
             className={selectedMenu === menu.id ? 'selected_menu' : ''}> 
