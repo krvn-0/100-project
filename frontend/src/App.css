@@ -411,6 +411,79 @@ input[type="checkbox"] {
   background-color: rgba(61, 58, 75, 0);
 }
 
+.custom-dropdown {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  margin-top: 1vw;
+  font-size: 1vw;
+  align-items: center;
+  justify-content: flex-end;
+
+  margin-right: 4vw;
+
+  position: relative;
+}
+
+.custom-dropdown-container {
+  position: fixed;
+  display: inline-block;
+} 
+
+.dropdown-header {
+  cursor: pointer;
+  border: none;
+  border-radius: 1.2vw;
+  padding: 0px 0.5vw;
+  text-align: center;
+  align-content: center;
+
+  min-width: 6vw ;
+  width: fit-content;
+  height: 2.5vw;
+  
+  background-color: #90E39A;
+  color: white;
+  
+}
+
+.sort-by-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  padding-right: 0.5vw;
+}
+
+.dropdown-options {
+  z-index: 1;
+  position: absolute;
+  top: calc(100% + 5px); /* Position dropdown options below header */
+  right: 0;
+
+  border: none;
+  border-radius: .5vw;
+  background-color: #90E39A;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-option {
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: background-color 0.2s ease;
+  width: 4vw;
+}
+
+.dropdown-option:hover {
+  background-color: #35605A;
+}
+
 .cart_body, .order_body {
   width: 100%;
   background-color: white;
