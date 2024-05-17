@@ -1,10 +1,14 @@
+import { useState } from "react";
+
 export default function ItemList(props) {
     const items = props.list;   // extracts the items array
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentItem, setCurrentItem] = useState(null);
 
     const handleAddToCart = (item) => {
         let temp_cart = [...props.cart]; // stores previous state of the cart
         const itemIndex = temp_cart.findIndex((cart_item) => cart_item.id === item.id); // locates the item in the cart, if present
-    
+
         if(itemIndex !== -1) {  // item is already in the cart
             temp_cart[itemIndex].quantity += 1;
         } else {
@@ -24,27 +28,59 @@ export default function ItemList(props) {
         props.setCart(temp_cart);
         // props.handleItemQuantity(item.id, 1)
     };
+
+    const checkDescription = (item) => {
+        setCurrentItem(item);
+        setIsModalOpen(true);
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setCurrentItem(null);
+    }
     
 
     return (
-        // shows the elements of the items array
-        <div className="items">
-            {/* <Item list={items} /> */}
-            {items.map(item=> ( // mapping of the individual elements
-                <div key={item.id} className="item">
-                <div className="item_details">
-                    {/* order is reversed */}
-                    {/* adds a button to the bottom part of the item details  */}
-                    <button className="addtocart" onClick={() => handleAddToCart(item)}>
-                        Add to Cart
-                    </button>
-                    <p id="item_qty">{item.quantity} left</p>
-                    <p id="item_price">${item.price}</p>
-                    <p id="item_name">{item.name}</p>
-                    <img className="item_img" src={item.image} alt={item.name}/>
+        <div>
+            {/* shows the elements of the items array */}
+            <div className="items">
+                {/* <Item list={items} /> */}
+                {items.map(item=> ( // mapping of the individual elements
+                    <div key={item.id} className="item">
+                        <div className="item_details">
+                            {/* order is reversed */}
+                            {/* adds a button to the bottom part of the item details  */}
+                            <button className="addtocart" onClick={() => handleAddToCart(item)}>
+                                Add to Cart
+                            </button>
+                            <p id="item_qty">{item.quantity} left</p>
+                            <p id="item_price">${item.price}</p>
+                            <p id="item_name" onClick={() => checkDescription(item)}>{item.name}</p>
+                            <img className="item_img" src={item.image} alt={item.name}/>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {isModalOpen && currentItem && (
+                <div className="modal">
+                    <div className="modal_content">
+                            <span className="close" onClick={closeModal}>&times;</span>
+                            <div className="modal_left">
+                                <img src={currentItem.image} alt={currentItem.name} />
+                                <p className="modal_type">{currentItem.type === 1 ? "Crops" : "Poultry"}</p>
+                                <p className="modal_qty">{currentItem.quantity} remaining</p>
+                                <p className="modal_price">${currentItem.price} each</p>
+                            </div>
+                            <div className="modal_right">
+                                <p className="modal_name">{currentItem.name}</p>
+                                <p className="modal_description">{currentItem.description}</p>
+                            </div>
+                            
+                    </div>
                 </div>
-                </div>
-            ))}
+            )}
         </div>
+        
     );
 };

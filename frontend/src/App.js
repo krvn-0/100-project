@@ -132,7 +132,7 @@ const initialItems = [
   {
       id: 1,
       name: 'iPhone',
-      description: '',
+      description: 'this is product1 description this is product1 description this is product1 description this is product1 description',
       type: 1,
       price: 649,
       quantity: 749,
@@ -141,7 +141,7 @@ const initialItems = [
   {
       id: 2,
       name: 'Laptop',
-      description: '',
+      description: 'this is product2 description',
       type: 2,
       price: 799,
       quantity: 699,
@@ -150,7 +150,7 @@ const initialItems = [
   {
       id: 3,
       name: 'Earphones',
-      description: '',
+      description: 'this is product3 description',
       type: 1,
       price: 199,
       quantity: 199,
@@ -159,7 +159,7 @@ const initialItems = [
   {
       id: 4,
       name: 'Headset',
-      description: '',
+      description: 'this is product4 description',
       type: 2,
       price: 249,
       quantity: 249,
@@ -168,7 +168,7 @@ const initialItems = [
   {
       id: 5,
       name: 'Speaker',
-      description: '',
+      description: 'this is product5 description',
       type: 1,
       price: 349,
       quantity: 229,
