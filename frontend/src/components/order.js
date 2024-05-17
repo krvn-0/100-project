@@ -16,7 +16,8 @@ export default function OrderList(props) {
 
     return (
         <div className="order">
-            <div className="order_header">
+            <div className="sticky_placeholder" />
+            <div className="order_header sticky">
                 <p id="order_title">Orders</p>
                 <p id="num_orders">Order Count: {orders.length}</p>
             </div>

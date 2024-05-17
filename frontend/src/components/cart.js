@@ -80,7 +80,8 @@ export default function CartList(props) {
 
     return (
         <div className="cart">
-            <div className="cart_header">
+            <div className="sticky_placeholder" />
+            <div className="cart_header sticky">
                 <p id="cart_title">Shopping Cart</p>
                 <p id="num_items">Item Count: {Number(totalCount(cart)).toString()}</p>
             </div>
