@@ -12,6 +12,7 @@ export default function OrderList(props) {
 
     const handleOrderCancel = (order) => {
         props.setStatus(order.transactID, -1)
+        props.handleItemQuantity(order.id, -order.quantity);
     }
 
     return (
