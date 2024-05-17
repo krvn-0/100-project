@@ -1,7 +1,8 @@
 import { useState } from "react";
+import Sort from './sortItems';
 
 export default function ItemList(props) {
-    const items = props.list;   // extracts the items array
+    const [items, setItems] = useState(props.list);   // extracts the items array
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
 
@@ -26,7 +27,6 @@ export default function ItemList(props) {
 
         console.log("Successfully added", item.name, "to cart");
         props.setCart(temp_cart);
-        // props.handleItemQuantity(item.id, 1)
     };
 
     const checkDescription = (item) => {
@@ -38,16 +38,16 @@ export default function ItemList(props) {
         setIsModalOpen(false);
         setCurrentItem(null);
     }
-    
 
     return (
         <div>
+            <Sort item_list={items} setItems={setItems} options={props.options}/>
             {/* shows the elements of the items array */}
             <div className="items">
                 {/* <Item list={items} /> */}
                 {items.map(item=> ( // mapping of the individual elements
                     <div key={item.id} className="item">
-                        <div className="item_details">
+                        <div className="item_details" >
                             {/* order is reversed */}
                             {/* adds a button to the bottom part of the item details  */}
                             <button className="addtocart" onClick={() => handleAddToCart(item)}>
