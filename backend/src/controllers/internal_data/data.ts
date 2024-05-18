@@ -1,4 +1,4 @@
-import { ProductDOT, ProductType, UserDOT } from "../../entities.js";
+import { ProductDOT, ProductType, Transaction, UserDOT } from "../../entities.js";
 
 type UserInternal = UserDOT & {
     password: string
@@ -35,3 +35,5 @@ export const products: ProductDOT[] = [{
     quantity: 99,
     unitPrice: 9999,
 }];
+
+export const transactions: Transaction[] = [];
