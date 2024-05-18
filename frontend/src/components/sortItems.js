@@ -65,25 +65,25 @@ export default function SortedList(props){
     };
 
     return (
-        <div className="custom-dropdown">
-            <label htmlFor="label-dropdown" className="label">Sort By:</label>
-            <div className="dropdown-header" onClick={handleToggleDropdown}>
+        <div className="custom_dropdown">
+            <label htmlFor="label_dropdown" className="label">Sort By:</label>
+            <div className="dropdown_header" onClick={handleToggleDropdown}>
                 {selectedOption ? (
-                    <div className="sort-by-option">
+                    <div className="sort_by_option">
                         {selectedOption}
                         <p>{sortOrder === "ascending" ? <ArrowUp /> : <ArrowDown /> }</p>
                     </div>
                     ) : (
-                    <div className="sort-by-option">
+                    <div className="sort_by_option">
                         <p>Select an option </p> 
                         <ArrowDown />
                     </div>
                 )}
             </div>
             {isOpen && (
-                <div className="dropdown-options">
+                <div className="dropdown_options">
                     {options.map((option) => (
-                        <div key={option} className="dropdown-option" onClick={() => handleOptionClick(option)}>
+                        <div key={option} className="dropdown_option" onClick={() => handleOptionClick(option)}>
                             {option}
                         </div>
                     ))}
