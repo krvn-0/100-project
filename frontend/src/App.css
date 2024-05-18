@@ -293,6 +293,15 @@ input[type="checkbox"] {
   margin-bottom: 0.2vw;
 }
 
+.item_price {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  height: fit-content;
+  padding: 0.2vw;
+}
+
 .addtocart:hover ~ .item_img {
   transform: scale(1.15);
   box-shadow: 0px 0px 10px 6px rgba(0, 0, 0, 0.2);
@@ -574,7 +583,7 @@ svg {
 
 /* name and price formatting */
 
-#item_name, #item_qty, #item_price {
+#item_name, #item_qty {
   margin: 0;
   padding: 0.5vw;
   text-align: center;
@@ -591,6 +600,16 @@ svg {
 
 .order_status, #item_price {
   font-size: 1.5vw;
+  font-style: oblique;
+}
+
+#item_price, #item_price_unit {
+  margin: 0;
+
+}
+
+#item_price_unit {
+  font-size: 0.8vw;
   font-style: oblique;
 }
 
