@@ -92,7 +92,7 @@ function App() {
                 {/* user dashboard */}
                 {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
                 {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} options={options}/>}
-                {selectedMenu === 3 && <Cart username={User.fname} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
+                {selectedMenu === 3 && <Cart email={User.email} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
                 {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
               </div>
             </>
@@ -180,43 +180,53 @@ const initialItems = [
 const initialOrders = [
   {
     transactID: 1,
-    id: 1,
-    user: 'asasdasfasdvdas',
+    product_id: 1,
+    user: 'asdadasdasd@gmail.com',
     product: 'iPhone',
     quantity: 2,
-    status: -1 // cancelled
+    status: -1, // cancelled
+    date: "5/17/2023",
+    time: "3:45:27 PM"
   },
   {
     transactID: 2,
-    id: 2,
-    user: 'asasdasfasdvdas',
+    product_id: 2,
+    user: 'asdadasdasd@gmail.com',
     product: 'Laptop',
     quantity: 4,
-    status: 0 // pending
+    status: 0, // pending
+    date: "6/21/2023",
+    time: "5:06:24 AM"
   },
   {
     transactID: 3,
-    id: 3,
-    user: 'asasdasfasdvdas',
+    product_id: 3,
+    user: 'asdadasdasd@gmail.com',
     product: 'Earphones',
     quantity: 5,
-    status: 1 // completed
+    status: 1, // completed
+    date: "7/23/2023",
+    time: "6:12:00 AM"
   },
   {
     transactID: 4,
-    id: 4,
-    user: 'asasdasfasdvdas',
+    product_id: 4,
+    user: 'asdadasdasd@gmail.com',
     product: 'Headset',
     quantity: 2,
-    status: -1 
+    status: -1,
+    date: "8/1/2023",
+    time: "9:13:21 PM" 
   },
   {
     transactID: 5,
-    id: 4,
-    user: 'asasdasfasdvdas',
+    product_id: 4,
+    email: 'asdadasdasd@gmail.com',
     product: 'Headset',
     quantity: 2,
-    status: 1 
+    status: 1,
+    date: "10/22/2023",
+    time: "12:45:27 PM" 
   },
   {
     transactID: 6,
@@ -224,7 +234,9 @@ const initialOrders = [
     user: 'asasdasfasdvdas',
     product: 'Headset',
     quantity: 2,
-    status: 0 
+    status: 0,
+    date: "1/1/2024",
+    time: "12:00:01 AM" 
   }
 ];
 
