@@ -38,15 +38,20 @@ export default function CartList(props) {
         let temp_orders = [...orders]; // stores previous state of the cart
         let order_count = temp_orders.length+1
         
+        let currentDateTime = new Date();
+
         // construct a temporary object
         let order_item = {
             transactID: order_count,
-            id: item.id,
-            user: props.username,
+            product_id: item.id,
+            email: props.email,
             product: item.name,
             quantity: item.quantity,
-            status: 0
+            status: 0,
+            date: currentDateTime.toLocaleDateString(),
+            time: currentDateTime.toLocaleTimeString()  
         }
+        
         props.handleItemQuantity(item.id, item.quantity);
         temp_orders.push(order_item);  // push object to array
         props.setOrders(temp_orders);

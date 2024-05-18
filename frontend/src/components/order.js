@@ -12,7 +12,7 @@ export default function OrderList(props) {
 
     const handleOrderCancel = (order) => {
         props.setStatus(order.transactID, -1)
-        props.handleItemQuantity(order.id, -order.quantity);
+        props.handleItemQuantity(order.product_id, -order.quantity);
     }
 
     return (
@@ -58,6 +58,14 @@ export default function OrderList(props) {
                                     <p id="order_qty">
                                     Quantity: {order.quantity}
                                     </p>
+                                </div>
+                                <div className="date_time">
+                                    <label htmlFor="date_time_val" id="date_time_label">
+                                        Order made on:
+                                    </label>
+                                    <div id="date_time_val">
+                                        {order.date} - {order.time}
+                                    </div>
                                 </div>
                                 <div id="order_product">
                                     {order.product}
