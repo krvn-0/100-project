@@ -54,7 +54,11 @@ export default function ItemList(props) {
                                 Add to Cart
                             </button>
                             <p id="item_qty">{item.quantity} left</p>
-                            <p id="item_price">${item.price}</p>
+                            <div className="item_price">
+                                <p id="item_price">${item.price}</p>
+                                <p id="item_price_unit">/{item.qty_type}</p>
+                            </div>
+                            
                             <p id="item_name" onClick={() => checkDescription(item)}>{item.name}</p>
                             <img className="item_img" src={item.image} alt={item.name}/>
                         </div>
