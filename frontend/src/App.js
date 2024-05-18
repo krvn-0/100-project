@@ -14,7 +14,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState(initialItems);
   const [orders, setOrders] = useState(initialOrders);
-  const [menus, setMenus] = useState(initialMenus); // use state for menus
+  const [menus, setMenus] = useState(initialUserMenus); // use state for menus
+  const [isAdmin, setUserType] = useState(false);
 
   const [User, setUser] = useState({ // placeholder for handling user info
     fname: "",
@@ -41,7 +42,9 @@ function App() {
     setUser(user);
 
     if (user.email.toLowerCase() === 'admin@gmail.com') {
-      setMenus(prevMenus => [...prevMenus, { name: "Admin", url: "#admin", id: 5 }]);
+      setUserType(true);
+      setMenus(initialAdminMenus);
+      // setMenus(prevMenus => [...prevMenus, { name: "Admin", url: "#admin", id: 5 }]);
     }
   };
 
@@ -57,7 +60,8 @@ function App() {
       email: "",
       password: ""
     });
-    setMenus(initialMenus); // reset menus to initial state
+    setMenus(initialUserMenus); // reset menus to initial state
+    setUserType(false);
   };
 
   const handleItemQuantity = (itemID, change) => {
@@ -80,19 +84,28 @@ function App() {
     <div className="App">
       {!isLoggedIn ? (
         <Login list={sign_in} onLogin={handleLogin} />
-      ) : (
-        <>
-          <Menu list={menus} handleSelectClick={handleSelectClick} />
-          <div className="App_body">
-            {/* user dashboard */}
-            {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
-            {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
-            {selectedMenu === 3 && <Cart list={cart} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
-            {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
-            {selectedMenu === 5 && <Admin users={[User]} products={items} setProducts={setItems} orders={orders} />} {/* render Admin component */}
-          </div>
-        </>
-      )}
+        ) : ( 
+          !isAdmin ? (
+            <>
+              <Menu list={menus} handleSelectClick={handleSelectClick} />
+              <div className="App_body">
+                {/* user dashboard */}
+                {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
+                {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} options={options}/>}
+                {selectedMenu === 3 && <Cart email={User.email} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
+                {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
+              </div>
+            </>
+          ) : (
+            <>
+              <Menu  list={menus} handleSelectClick={handleSelectClick} />
+              <div className="App_body">
+                {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
+                {selectedMenu === 2 && <Admin users={[User]} products={items} setProducts={setItems} orders={orders} />} {/* render Admin component */}
+              </div>
+            </>
+          ) 
+        )}
     </div>
   );
 }
@@ -103,111 +116,329 @@ const sign_in = [
   { name: "Sign-In", url: "#signin", id: 2 }
 ];
 
-const initialMenus = [
+const initialUserMenus = [
   { name: "Home", url: "#home", id: 1 },
   { name: "Products", url: "#products", id: 2 },
   { name: "Cart", url: "#cart", id: 3 },
   { name: "Orders", url: "#orders", id: 4 }
 ];
 
+const initialAdminMenus = [
+  { name: "Home", url: "#home", id: 1 },
+  { name: "Admin", url: "#admin", id: 2 }
+]
+
 const initialItems = [
   {
-      id: 1,
-      name: 'iPhone',
-      description: '',
-      type: 1,
-      price: 649,
-      quantity: 749,
-      image: 'https://img.freepik.com/free-photo/front-view-hand-holding-smartphone_23-2148775905.jpg?w=360&t=st=1714897773~exp=1714898373~hmac=7b8a20fe9c24cc72c3e6a71f38fe20ffe07ef3d0f6c8c6890278e82568aec7a9'
+    id: 1,
+    name: 'Corn',
+    description: 'High-quality, non-GMO corn ideal for a variety of uses including food, feed, and ethanol production.',
+    type: 1,
+    price: 2.5,
+    quantity: 10000,
+    qty_type: "kilo",
+    image: 'https://img.freepik.com/free-photo/corn-pod-isolated-with-corn-kernels-from-corn-field-white-wall_1150-21863.jpg?t=st=1716023495~exp=1716027095~hmac=eea2b93511f1a7e209d9bf73a7375cb98e81b8f5313c4fffb77e79975ccc4e4e&w=826'
   },
   {
       id: 2,
-      name: 'Laptop',
-      description: '',
+      name: 'Chicken',
+      description: 'Free-range, organic chickens raised with the highest standards of care and nutrition.',
       type: 2,
-      price: 799,
-      quantity: 699,
-      image: 'https://img.freepik.com/free-photo/laptop-pencils-arrangement_23-2148128294.jpg?t=st=1714918664~exp=1714922264~hmac=62e6facb7a2f7891f4d478a400144f186e91e8530c9040ae9555534a55ab604f&w=900'
+      price: 12,
+      quantity: 500,
+      qty_type: "kilo",
+      image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
       id: 3,
-      name: 'Earphones',
-      description: '',
+      name: 'Wheat',
+      description: 'Premium wheat grain suitable for baking and milling purposes, harvested from sustainable farms.',
       type: 1,
-      price: 199,
-      quantity: 199,
-      image: 'https://img.freepik.com/free-vector/headphones-wireless-realistic-composition-with-isolated-image-phones-with-power-bank-dock-station-with-reflections-vector-illustration_1284-73201.jpg?t=st=1714918934~exp=1714922534~hmac=834dabc524b56c434ca78b7606ed8f282cd15f0c9fe9719e9ffb1d3bd321a8e4&w=740'
+      price: 3,
+      quantity: 15000,
+      qty_type: "kilo",
+      image: 'https://img.freepik.com/free-photo/oats-peeled_1368-5469.jpg?t=st=1716023390~exp=1716026990~hmac=b7b47aa7059e9987fdee377f94cc3f2d7a66103f5586437d8e39769bdeec695e&w=826'
   },
   {
       id: 4,
-      name: 'Headset',
-      description: '',
+      name: 'Chicken Eggs',
+      description: 'Organic, cage-free eggs produced with care for both the hens and the environment.',
       type: 2,
-      price: 249,
-      quantity: 249,
-      image: 'https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817602.jpg?t=st=1714918994~exp=1714922594~hmac=27d3658b8a41dedaaf584c6b1be77b3b8ead9f2fb11052175c634812fa702a53&w=360'
+      price: 3.5,
+      quantity: 2000,
+      qty_type: "dozen",
+      image: 'https://img.freepik.com/free-photo/three-fresh-organic-raw-eggs-isolated-white-surface_114579-43677.jpg?t=st=1716023528~exp=1716027128~hmac=2544b54994caf00549e7b3a6810f5d4fc8f2b136528d19b8c5cdfe39cadc7b96&w=826'
   },
   {
       id: 5,
-      name: 'Speaker',
-      description: '',
+      name: 'Soybeans',
+      description: 'High-yield soybeans perfect for tofu, soy milk, and other soy-based products.',
       type: 1,
-      price: 349,
-      quantity: 229,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBXHSLbVTmDUTvTpqW1kUbV5UerVJB4mqdAtVLgby8Jw&s'
-
+      price: 2.8,
+      quantity: 8000,
+      qty_type: "kilo",
+      image: 'https://img.freepik.com/free-photo/yellow-soy-beans_74190-7153.jpg?t=st=1716023558~exp=1716027158~hmac=58782b39a497c38107f8f9d4af2a2626c9ff6d72b9107096aeffd1fd57233969&w=360'
+  },
+  {
+      id: 6,
+      name: 'Turkey',
+      description: 'Pasture-raised turkeys known for their rich flavor and high nutritional value.',
+      type: 2,
+      price: 20,
+      quantity: 300,
+      qty_type: "kilo",
+      image: 'https://images.unsplash.com/photo-1461037506617-211749beac60?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+      id: 7,
+      name: 'Rice',
+      description: 'Top-grade rice suitable for a variety of culinary applications, grown in optimal conditions.',
+      type: 1,
+      price: 1.5,
+      quantity: 20000,
+      qty_type: "kilo",
+      image: 'https://img.freepik.com/free-photo/sack-rice-with-rice-wooden-spoon-rice-plant_1150-34315.jpg?t=st=1716025041~exp=1716028641~hmac=b60ac8a06306195cde4fd226df7e667ca609c21cca301aad0f2b0c6803db2983&w=996'
+  },
+  {
+      id: 8,
+      name: 'Ducks',
+      description: 'Healthy, free-range ducks, ideal for meat and egg production, raised with care.',
+      type: 2,
+      price: 18,
+      quantity: 250,
+      qty_type: "kilo",
+      image: 'https://img.freepik.com/free-photo/group-ducks-looking-camera_23-2148315320.jpg?t=st=1716024066~exp=1716027666~hmac=b67d91f82564666dfe6ea5654efec92d146ff863d0fb2c457a33fd1655ff021d&w=826'
+  },
+  {
+      id: 9,
+      name: 'Barley',
+      description: 'High-quality barley grains used for brewing, animal feed, and health foods.',
+      type: 1,
+      price: 2.2,
+      quantity: 12000,
+      qty_type: "kilo",
+      image: 'https://img.freepik.com/free-photo/organic-grain-healthy-diet_1127-308.jpg?t=st=1716024269~exp=1716027869~hmac=9e7c90107c8eabadecc9334e490205cb7a765e9a1cfc9c728df8a31f2985bd0b&w=826'
+  },
+  {
+      id: 10,
+      name: 'Quail',
+      description: 'Quail raised with care, known for their tender meat and nutrient-rich eggs.',
+      type: 2,
+      price: 15,
+      quantity: 400,
+      qty_type: "kilo",
+      image: 'https://www.asian-agribiz.com/wp-content/uploads/2022/03/quails.jpg'
   }
 ];
 
 const initialOrders = [
   {
     transactID: 1,
-    id: 1,
-    user: 'asasdasfasdvdas',
-    product: 'iPhone',
-    quantity: 2,
-    status: -1 // cancelled
+    product_id: 1,
+    user: 'farmer.joe@gmail.com',
+    product: 'Corn',
+    quantity: 50,
+    status: -1, // cancelled
+    date: "5/17/2023",
+    time: "3:45:27 PM"
   },
   {
     transactID: 2,
-    id: 2,
-    user: 'asasdasfasdvdas',
-    product: 'Laptop',
-    quantity: 4,
-    status: 0 // pending
+    product_id: 2,
+    user: 'farmer.joe@gmail.com',
+    product: 'Chicken',
+    quantity: 10,
+    status: 0, // pending
+    date: "6/21/2023",
+    time: "5:06:24 AM"
   },
   {
     transactID: 3,
-    id: 3,
-    user: 'asasdasfasdvdas',
-    product: 'Earphones',
-    quantity: 5,
-    status: 1 // completed
+    product_id: 3,
+    user: 'farmer.joe@gmail.com',
+    product: 'Wheat',
+    quantity: 100,
+    status: 1, // completed
+    date: "7/23/2023",
+    time: "6:12:00 AM"
   },
   {
     transactID: 4,
-    id: 4,
-    user: 'asasdasfasdvdas',
-    product: 'Headset',
-    quantity: 2,
-    status: -1 
+    product_id: 4,
+    user: 'farmer.joe@gmail.com',
+    product: 'Eggs',
+    quantity: 30,
+    status: -1, // cancelled
+    date: "8/1/2023",
+    time: "9:13:21 PM"
   },
   {
     transactID: 5,
-    id: 4,
-    user: 'asasdasfasdvdas',
-    product: 'Headset',
-    quantity: 2,
-    status: 1 
+    product_id: 4,
+    user: 'farmer.joe@gmail.com',
+    product: 'Eggs',
+    quantity: 40,
+    status: 1, // completed
+    date: "10/22/2023",
+    time: "12:45:27 PM"
   },
   {
     transactID: 6,
-    id: 4,
-    user: 'asasdasfasdvdas',
-    product: 'Headset',
-    quantity: 2,
-    status: 0 
+    product_id: 5,
+    user: 'farmer.joe@gmail.com',
+    product: 'Soybeans',
+    quantity: 80,
+    status: 0, // pending
+    date: "1/1/2024",
+    time: "12:00:01 AM"
+  },
+  {
+    transactID: 7,
+    product_id: 6,
+    user: 'farmer.joe@gmail.com',
+    product: 'Turkey',
+    quantity: 12,
+    status: 1, // completed
+    date: "2/14/2024",
+    time: "3:30:00 PM"
+  },
+  {
+    transactID: 8,
+    product_id: 7,
+    user: 'farmer.joe@gmail.com',
+    product: 'Rice',
+    quantity: 200,
+    status: 0, // pending
+    date: "3/3/2024",
+    time: "8:15:45 AM"
+  },
+  {
+    transactID: 9,
+    product_id: 8,
+    user: 'farmer.joe@gmail.com',
+    product: 'Ducks',
+    quantity: 20,
+    status: -1, // cancelled
+    date: "4/10/2024",
+    time: "11:50:32 AM"
+  },
+  {
+    transactID: 10,
+    product_id: 9,
+    user: 'farmer.joe@gmail.com',
+    product: 'Barley',
+    quantity: 150,
+    status: 1, // completed
+    date: "5/5/2024",
+    time: "2:22:12 PM"
+  },
+  {
+    transactID: 11,
+    product_id: 10,
+    user: 'farmer.joe@gmail.com',
+    product: 'Quail',
+    quantity: 25,
+    status: 0, // pending
+    date: "5/17/2024",
+    time: "7:45:27 AM"
+  },
+  {
+    transactID: 12,
+    product_id: 1,
+    user: 'farmer.joe@gmail.com',
+    product: 'Corn',
+    quantity: 60,
+    status: 1, // completed
+    date: "5/10/2024",
+    time: "4:33:14 PM"
+  },
+  {
+    transactID: 13,
+    product_id: 2,
+    user: 'farmer.joe@gmail.com',
+    product: 'Chicken',
+    quantity: 8,
+    status: 0, // pending
+    date: "5/14/2024",
+    time: "9:05:18 AM"
+  },
+  {
+    transactID: 14,
+    product_id: 3,
+    user: 'farmer.joe@gmail.com',
+    product: 'Wheat',
+    quantity: 120,
+    status: -1, // cancelled
+    date: "5/16/2024",
+    time: "1:40:59 PM"
+  },
+  {
+    transactID: 15,
+    product_id: 4,
+    user: 'farmer.joe@gmail.com',
+    product: 'Eggs',
+    quantity: 50,
+    status: 1, // completed
+    date: "5/18/2024",
+    time: "3:12:00 PM"
+  },
+  {
+    transactID: 16,
+    product_id: 5,
+    user: 'farmer.joe@gmail.com',
+    product: 'Soybeans',
+    quantity: 70,
+    status: 0, // pending
+    date: "5/17/2024",
+    time: "10:45:27 AM"
+  },
+  {
+    transactID: 17,
+    product_id: 6,
+    user: 'farmer.joe@gmail.com',
+    product: 'Turkey',
+    quantity: 15,
+    status: 1, // completed
+    date: "5/18/2024",
+    time: "12:30:00 PM"
+  },
+  {
+    transactID: 18,
+    product_id: 7,
+    user: 'farmer.joe@gmail.com',
+    product: 'Rice',
+    quantity: 250,
+    status: 0, // pending
+    date: "5/14/2024",
+    time: "6:15:45 PM"
+  },
+  {
+    transactID: 19,
+    product_id: 8,
+    user: 'farmer.joe@gmail.com',
+    product: 'Ducks',
+    quantity: 18,
+    status: -1, // cancelled
+    date: "5/17/2024",
+    time: "8:20:32 AM"
+  },
+  {
+    transactID: 20,
+    product_id: 9,
+    user: 'farmer.joe@gmail.com',
+    product: 'Barley',
+    quantity: 180,
+    status: 1, // completed
+    date: "5/18/2024",
+    time: "11:02:12 AM"
   }
+];
+
+const options = [
+  "Name",
+  "Price",
+  "Quantity",
+  "Type"
 ];
 
 export default App;
