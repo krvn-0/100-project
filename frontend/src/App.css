@@ -168,6 +168,16 @@ input[type="checkbox"] {
   height: 5vw; /* sets height to a fixed 100px value*/
   justify-content: space-between;
   z-index: 1;
+
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.topnav_placeholder {
+  top: 0;
+  height: 5vw;
+  background-color: rgba(61, 58, 75, 0);
 }
 
 .select {
@@ -283,6 +293,15 @@ input[type="checkbox"] {
   margin-bottom: 0.2vw;
 }
 
+.item_price {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  height: fit-content;
+  padding: 0.2vw;
+}
+
 .addtocart:hover ~ .item_img {
   transform: scale(1.15);
   box-shadow: 0px 0px 10px 6px rgba(0, 0, 0, 0.2);
@@ -385,9 +404,93 @@ input[type="checkbox"] {
   height: 4vw;
   flex-direction: row;
   align-items: center;
-  background-color: hsla(335, 86%, 3%, 0.812);
+  background-color: hsl(332, 87%, 3%);
   color: #E3DFFF;
   justify-content: space-between;
+}
+
+.sticky {
+  position: fixed;
+  top: 1;
+  width: 100%;
+}
+
+.sticky_placeholder {
+  height: 4vw;
+  background-color: rgba(61, 58, 75, 0);
+}
+
+.custom_dropdown {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  margin-top: 1vw;
+  font-size: 1vw;
+  align-items: center;
+  justify-content: flex-end;
+
+  margin-right: 4vw;
+
+  position: relative;
+}
+
+.custom_dropdown_container {
+  position: fixed;
+  display: inline-block;
+} 
+
+.dropdown_header {
+  cursor: pointer;
+  border: none;
+  border-radius: 1.2vw;
+  padding: 0px 0.5vw;
+  text-align: center;
+  align-content: center;
+
+  min-width: 6vw ;
+  width: fit-content;
+  height: 2.5vw;
+  
+  background-color: #90E39A;
+  color: white;
+  
+}
+
+.sort_by_option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  padding-right: 0.5vw;
+}
+
+.dropdown_options {
+  z-index: 1;
+  position: absolute;
+  top: calc(100% + 5px); /* Position dropdown options below header */
+  right: 0;
+
+  border: none;
+  border-radius: .5vw;
+  background-color: #90E39A;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown_option {
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: background-color 0.2s ease;
+  width: 4vw;
+}
+
+.dropdown_option:hover {
+  background-color: #35605A;
 }
 
 .cart_body, .order_body {
@@ -480,10 +583,14 @@ svg {
 
 /* name and price formatting */
 
-#item_name, #item_qty, #item_price {
+#item_name, #item_qty {
   margin: 0;
   padding: 0.5vw;
   text-align: center;
+}
+
+#item_name {
+  cursor: pointer;
 }
 
 #item_name, #order_product {
@@ -493,6 +600,16 @@ svg {
 
 .order_status, #item_price {
   font-size: 1.5vw;
+  font-style: oblique;
+}
+
+#item_price, #item_price_unit {
+  margin: 0;
+
+}
+
+#item_price_unit {
+  font-size: 0.8vw;
   font-style: oblique;
 }
 
@@ -537,12 +654,128 @@ svg {
 }
 
 #order_product {
-  flex: 0.6
+  flex: 0.5;
+}
+
+.date_time {
+  display: flex;
+  flex-direction: column;
+  flex: 0.3;
+}
+
+#date_time_label {
+  font-size: 1.1vw;
+  font-style: oblique;
+  font-weight: 500;
+}
+
+#date_time_val {
+  font-size: 1vw;
+  text-decoration: underline;
+  font-weight: 500;
 }
 
 #order_qty, .order_status {
   flex: 0.4;
 }
+
+/* modal styling */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal_content {
+  background-color: #90e39a;
+  margin: auto;
+  padding: 1.5vw;
+  border: 0.1vw;
+  border-radius: 1vw;
+  box-shadow: 0 0.5vw 1.5vw rgba(0, 0, 0, 0.3);
+  
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.close {
+  color: #EC4E20;
+  float: right;
+  font-size: 2.8vw;
+  font-weight: bold;
+  position: absolute;
+  top: 0.3vw;
+  right: 2vw;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal_left {
+  flex: 0.25;
+}
+
+.modal_right {
+  flex: 0.75;
+  text-align: left;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  align-self:flex-start ;
+}
+
+/* Modal image */
+.modal_content img {
+  width: 10vw;
+  height: 16vw;
+  object-fit: contain;
+  margin-bottom: 0.25vw;
+  border: none;
+  border-radius: 1vw;
+
+  background-color: white;
+}
+
+.modal_name {
+  font-size: 2vw;
+  font-weight: bold;
+  margin-top: 0.4vw;
+  margin-bottom: 1vw;
+}
+
+.modal_type {
+  font-size: 1.4vw;
+  margin: 0.5vw 0;
+}
+
+.modal_price, .modal_qty, .modal_description {
+  font-size: 1.2vw;
+  margin: 0.5vw 0;
+}
+
+.modal_description {
+  height: 60%;
+  overflow-y: auto;
+}
+
+/* Admin Dashboard formatting/styling */
 .admin-dashboard {
   padding: 20px;
   text-align: center;
