@@ -1,9 +1,9 @@
-import {Product, ProductDOT, ProductType, User} from '../entities.js';
-import {products} from './internal_data/data.js';
+import {Product, ProductDOT, ProductType, User} from '../../entities.js';
+import {products} from './data.js';
 
 import {Request, Response} from 'express';
 
-export function addProduct(req: Request, res: Response) {
+export function createProduct(req: Request, res: Response) {
 
     const id: string = req.body.id;
     const name: string = req.body.name;
@@ -17,18 +17,18 @@ export function addProduct(req: Request, res: Response) {
 
         res.status(400).send({
             type: "urn:100-project:error:malformed",
-            title: "malformed request",
+            title: "Malformed request",
             status: 400,
-            message: "id, name, description must be strings and  quantity, unitPrice must be numbers",
+            message: "Id, name, description must be strings and  quantity, unitPrice must be numbers",
         });
     }
     
     if(type !== ProductType.CROP && type !== ProductType.POULTRY) {
         res.status(400).send({
             type: "urn:100-project:error:malformed",
-            title: "malformed request",
+            title: "Malformed request",
             status: 400,
-            message: "type should be at least 1 or 2"
+            message: "Type should be at least 1 or 2"
             
         })
     }
