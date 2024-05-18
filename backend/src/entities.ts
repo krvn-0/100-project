@@ -14,6 +14,12 @@ export enum ProductType {
     POULTRY = 2,
 };
 
+export enum TransactionStatus {
+    CANCELLED = -1,
+    PENDING = 0,
+    CONFIRMED = 1
+}
+
 export type ProductDOT = {
     id: string;
     name: string;
@@ -43,3 +49,12 @@ export type Product = {
     unitPrice: number;
     owner?: User;
 };
+
+export type Transaction = {
+    id: string,
+    user: User,
+    product: Product,
+    quantity: number,
+    status: TransactionStatus,
+    timestamp: number,
+}
