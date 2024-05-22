@@ -70,3 +70,35 @@ export function getProduct(req: Request, res: Response) {
     })
 }
 
+export function updateProduct(req: Request, res: Response) {
+    const id = req.params.id;
+
+    const product: ProductDOT | undefined = products.find((p) => p.id === id);
+
+    if(product === undefined) {
+        res.status(404).send({
+            type: "urn:100-project:error:not-found",
+            title: "Product Not Found",
+            status: 404,
+            message: "Product does not exist"
+        });
+        return;
+    }
+
+    const name: string = req.body.name;
+    const description: string = req.body.description;
+    const type: ProductType = req.body.type;
+    const quantity: number = req.body.quantity;
+    const unitPrice: number = req.body.unitPrice;
+    const ownerId: string | undefined = req.body.ownerId;
+
+    product.name = name ?? product.name;
+    product.description = description ?? product.description;
+    product.type = type ?? product.type;
+    product.quantity = quantity ?? product.quantity;
+    product.unitPrice = unitPrice ?? product.unitPrice;
+    product.ownerId = ownerId ?? product.ownerId;
+
+    res.status(200).send(product);
+}
+
