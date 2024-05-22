@@ -4,6 +4,7 @@ import { Trash3Fill, CheckCircleFill } from 'react-bootstrap-icons';
 export default function CartList(props) {
     const cart = props.cart_list;    // extracts the cart array 
     const orders = props.order_list
+    const inv = props.item_list
 
     const [isHoveredCK, setIsHoveredCK] = useState(false);  // adds an isHovered attribute to each cart item
     const [isHoveredDL, setIsHoveredDL] = useState(false);
@@ -59,11 +60,18 @@ export default function CartList(props) {
 
     const updateQuantity = (item, value) => {
         let temp_cart = [...cart];
-        temp_cart.forEach((cart_item) => {
-            if (item.id === cart_item.id) {
-                cart_item.quantity = value;
-            }
-        });
+
+        let itemInCart = temp_cart.find(cart_item => cart_item.id === item.id) // locates the item in the cart
+
+        let itemInInv = inv.find(invItem => invItem.id === item.id) 
+        
+        if (itemInInv.quantity < value) {
+            console.log("Insufficient stock");
+            itemInCart.quantity = itemInInv.quantity;
+        } else {
+            itemInCart.quantity = value;
+        }
+
         props.setCart(temp_cart);
     }
 
@@ -121,11 +129,10 @@ export default function CartList(props) {
                                 <div id="cart_item_price">Cost: ${computeTotal(cart_item)}</div>
                                 <div className="cart_item_quantity">
                                     <label id="qty">QTY:</label>
-                                    <input className="qty_input" id={`QTY_${cart_item.name}`} type={"number"} defaultValue={cart_item.quantity} min={0} onChange={(ev) => {
+                                    <input className="qty_input" id={`QTY_${cart_item.name}`} type={"number"} value={cart_item.quantity} min={0} onChange={(ev) => {
                                         if (ev.target.valueAsNumber === 0) handleRemoveItem(cart_item, "remove")
                                         else {
                                             updateQuantity(cart_item, ev.target.value);
-                                            ev.target.defaultValue = cart_item.quantity
                                         }
                                     }} />
                                 </div>
