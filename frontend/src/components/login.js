@@ -79,6 +79,7 @@ export default function Login(props) {
             <div className="showPass">
               <span>Show password</span>
             </div>
+            <input type="submit" value="Submit" className="submit" />
           </>
         )
       default:
