@@ -118,3 +118,22 @@ export function getProducts(req: Request, res: Response) {
     res.send(ret);
 }
 
+export function deleteProduct(req: Request, res: Response) {
+    const id: string = req.params.id;
+
+    const productIndex: number = products.findIndex((p) => p.id === id);
+
+    if (productIndex === -1) {
+        res.status(404).send({
+            type: "urn:100-project:error:not-found",
+            title: "Product not found",
+            status: 404,
+            message: "Product does not exist"
+        });
+        return;
+    }
+
+    products.splice(productIndex, 1);
+
+    res.status(204).send();
+}
