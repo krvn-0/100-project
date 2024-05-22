@@ -43,3 +43,30 @@ export function createProduct(req: Request, res: Response) {
         unitPrice: unitPrice
     });
 }
+
+export function getProduct(req: Request, res: Response) {
+    let id: string = req.params.id; // route /:id
+
+    const foundProduct: ProductDOT | undefined = products.find((p) => p.id == id);
+
+    if(foundProduct === undefined) {
+        res.send({
+            type:"urn:100-project:error:not-found",
+            title: "Product Not Found",
+            status: 404,
+            message: "Product does not exist"
+        });
+        return;
+    }
+
+    res.send({
+        id: foundProduct.id,
+        name: foundProduct.name,
+        description: foundProduct.description,
+        ownerId: foundProduct.ownerId,
+        type: foundProduct.type,
+        quantity: foundProduct.quantity,
+        unitPrice: foundProduct.unitPrice,
+    })
+}
+
