@@ -31,6 +31,21 @@ export default function Login(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onLogin(user);
+
+    fetch('https://localhost:3001/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   }
 
   const renderFormFields = () => {
@@ -78,6 +93,7 @@ export default function Login(props) {
             </label>
             <div className="showPass">
               <span>Show password</span>
+              <input type="checkbox" onChange={() => setShowPassword(!showPassword)} />
             </div>
             <input type="submit" value="Submit" className="submit" />
           </>
