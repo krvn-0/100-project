@@ -10,6 +10,11 @@ export default function ItemList(props) {
         let temp_cart = [...props.cart]; // stores previous state of the cart
         const itemIndex = temp_cart.findIndex((cart_item) => cart_item.id === item.id); // locates the item in the cart, if present
 
+        if(item.quantity === 0) {
+            console.log("Item has no stock.");
+            return;
+        }
+
         if(itemIndex !== -1) {  // item is already in the cart
             temp_cart[itemIndex].quantity += 1;
         } else {
