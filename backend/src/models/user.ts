@@ -4,11 +4,6 @@ import bcrypt from "bcrypt";
 import { UserDAO } from "../entities/user.js";
 
 const UserSchema = new Schema<UserDAO>({
-    _id: {
-        type: Types.UUID,
-        default: () => new Types.UUID(),
-        unique: true
-    },
     firstName: {
         type: String,
         required: true,
@@ -46,7 +41,7 @@ const UserSchema = new Schema<UserDAO>({
 
 // Salt and hash the user's password before saving it to the database.
 UserSchema.pre('save', async function(next) {
-    if (!this.isModified("password")) {
+    if (this.isModified("password")) {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
     }

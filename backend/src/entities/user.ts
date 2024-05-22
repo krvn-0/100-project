@@ -2,7 +2,6 @@ import { Types } from "mongoose";
 import { Product } from "./product.js";
 
 export type UserDAO = {
-    _id?: Types.UUID;
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -33,4 +32,9 @@ export type User = {
     email: string;
     isMerchant?: boolean;
     products?: Product[];
+};
+
+export type UserToken = {
+    id: string,
+    isAdmin: true,
 };

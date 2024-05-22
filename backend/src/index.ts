@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
-import { RouteWithInternalData } from './routers.js';
+import RouteWithMongoDB from './controllers/mongodb.js';
 
 const app = express();
 const port = parseInt(process.env.BACKEND_PORT || '3001', 10);
@@ -44,24 +44,11 @@ app.use((req, res, next) => {
     next();
 });
 
-RouteWithInternalData(app);
+RouteWithMongoDB(app);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-
-await mongoose.connect(
-    process.env.DB_URI!,
-    {
-        dbName: process.env.DB_NAME,
-        auth: {
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD
-        }
-    }
-).then((value) => {
-    console.log(`Connected to MongoDB: ${value.connection.name}`);
-})
 
 app.listen(port, () => {
     console.log(`Backend server started on port ${port}.`);
