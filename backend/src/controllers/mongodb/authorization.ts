@@ -3,7 +3,7 @@ import jwt, { Jwt, JwtPayload, VerifyErrors } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 import { UserModel } from "../../models/user.js";
-import { User } from "../../entities/user.js";
+import { User, UserToken } from "../../entities/user.js";
 import { ProductModel } from "../../models/product.js";
 import { TokenSecretManager } from "./secrets.js";
 
@@ -70,11 +70,14 @@ export async function login(req: Request, res: Response) {
         }
     }
 
+    const tokenBody: UserToken = {
+        id: user._id.toHexString(),
+        isAdmin: user.isAdmin,
+        isMerchant: user.isMerchant
+    }
+
     const token = jwt.sign(
-        {
-            id: user._id.toHexString(),
-            isAdmin: user.isAdmin
-        },
+        tokenBody,
         TokenSecretManager.getCurrent(),
         {
             expiresIn: "7d",

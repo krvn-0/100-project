@@ -35,6 +35,7 @@ export type User = {
 };
 
 export type UserToken = {
-    id: string,
-    isAdmin: true,
+    id: string;
+    isAdmin: boolean;
+    isMerchant: boolean;
 };
