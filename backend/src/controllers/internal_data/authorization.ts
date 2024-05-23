@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 
 import { products, userTokens, users } from './data.js';
-import { Product, User } from '../../entities.js';
+import { Product } from '../../entities/product.js';
+import { User } from '../../entities/user.js';
 
 function generateToken() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);

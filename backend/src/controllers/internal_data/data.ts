@@ -1,4 +1,5 @@
-import { ProductDOT, UserDOT } from "../../entities.js";
+import { ProductDOT } from "../../entities/product.js";
+import { UserDOT } from "../../entities/user.js";
 
 type UserInternal = UserDOT & {
     password: string
