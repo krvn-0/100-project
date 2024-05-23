@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
 
 export default function SortedList(props){
-    const options = props.options;
+    
+    const options = [
+        "Name",
+        "Price",
+        "Quantity",
+        "Type"
+    ];
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("");
