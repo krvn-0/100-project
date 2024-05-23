@@ -77,7 +77,7 @@ export default function SortedList(props){
                 {selectedOption ? (
                     <div className="sort_by_option">
                         {selectedOption}
-                        <p>{sortOrder === "ascending" ? <ArrowUp /> : <ArrowDown /> }</p>
+                        <p>{sortOrder === "ascending" ? <ArrowUp viewBox="0 0 16 10" /> : <ArrowDown viewBox="0 0 16 10" /> }</p>
                     </div>
                     ) : (
                     <div className="sort_by_option">
