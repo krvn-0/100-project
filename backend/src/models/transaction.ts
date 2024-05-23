@@ -2,16 +2,12 @@ import mongoose, {Schema, Types} from 'mongoose';
 import {TransactionDAO} from '../entities/transaction.js';
 
 const TransactionSchema = new Schema<TransactionDAO>({
-    _id: {
-        type: Types.UUID,
-        default: () => new Types.UUID
-    },
     user: {
-        type: Types.UUID,
+        type: Types.ObjectId,
         required: true
     },
     product: {
-        type: Types.UUID,
+        type: Types.ObjectId,
         required: true
     },
     quantity: {
@@ -27,4 +23,6 @@ const TransactionSchema = new Schema<TransactionDAO>({
         default: Date.now,
         required: true
     }
-})
+});
+
+export mongoose.model("Transaction", TransactionSchema, "transactions");

@@ -1,4 +1,4 @@
-import 'Types' from 'mongoose';
+import {Types} from 'mongoose';
 import {User} from './user.js';
 import {Product} from './product.js';
  
@@ -17,8 +17,8 @@ export type Transaction = {
 }
 
 export type TransactionDAO = {
-    user: Types.UUID,
-    product: Types.UUID,
+    user: Types.ObjectId,
+    product: Types.ObjectId,
     quantity: Number,
     status: TransactionStatus,
     timestamp: Date
