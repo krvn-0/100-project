@@ -38,3 +38,4 @@ export type UserToken = {
     id: string,
     isAdmin: true,
 };
+
