@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { User, UserDAO, UserToken } from "../../entities/user.js";
 import { TokenSecretManager } from "./secrets.js";
 import { UserModel } from "../../models/user.js";
+import { ProductModel } from "../../models/product.js";
 
 export async function getUsers(req: Request, res: Response) {
     const token = req.cookies?.token;
@@ -60,7 +61,23 @@ export async function getUsers(req: Request, res: Response) {
         };
 
         if (dao.isMerchant) {
-            user.products = [];
+            let productIds = dao.get("productIds");
+            let results = await ProductModel.find({
+                "_id": {
+                    $in: productIds
+                }
+            });
+
+            user.products = results.map((dao) => {
+                return {
+                    id: dao._id.toHexString(),
+                    name: dao.name,
+                    description: dao.description,
+                    type: dao.type,
+                    quantity: dao.quantity,
+                    unitPrice: dao.unitPrice
+                }
+            })
         }
 
         users.push(user);
@@ -76,7 +93,7 @@ export async function createUser(req: Request, res: Response) {
     const email: string = req.body.email;
     const password: string = req.body.password;
 
-    if (typeof(firstName) !== 'string' || (middleName !== undefined && typeof(middleName) !== 'string') || typeof(lastName) !== 'string' || typeof(email) !== 'string' || typeof(password) !== 'string') {
+    if (typeof (firstName) !== 'string' || (middleName !== undefined && typeof (middleName) !== 'string') || typeof (lastName) !== 'string' || typeof (email) !== 'string' || typeof (password) !== 'string') {
         res.status(400).send({
             type: "urn:100-project:error:malformed",
             title: "Bad Request",
@@ -86,7 +103,7 @@ export async function createUser(req: Request, res: Response) {
         return;
     }
 
-    if (await UserModel.exists({email: email})) {
+    if (await UserModel.exists({ email: email })) {
         res.status(409).send({
             type: "urn:100-project:error:email_in_use",
             title: "Email Address In Use",
@@ -188,8 +205,23 @@ export async function getUser(req: Request, res: Response) {
     };
 
     if (targetUser.get("isMerchant")) {
-        // TODO: Create products model
-        ret.products = [];
+        let productIds = targetUser.get("productIds");
+        let results = await ProductModel.find({
+            "_id": {
+                $in: productIds
+            }
+        });
+
+        ret.products = results.map((dao) => {
+            return {
+                id: dao._id.toHexString(),
+                name: dao.name,
+                description: dao.description,
+                type: dao.type,
+                quantity: dao.quantity,
+                unitPrice: dao.unitPrice
+            }
+        })
     }
 
     res.status(200).send(ret);
@@ -270,8 +302,23 @@ export async function updateUser(req: Request, res: Response) {
     }
 
     if (targetUser.get("isMerchant")) {
-        // TODO: Create products model
-        ret.products = [];
+        let productIds = targetUser.get("productIds");
+        let results = await ProductModel.find({
+            "_id": {
+                $in: productIds
+            }
+        });
+
+        ret.products = results.map((dao) => {
+            return {
+                id: dao._id.toHexString(),
+                name: dao.name,
+                description: dao.description,
+                type: dao.type,
+                quantity: dao.quantity,
+                unitPrice: dao.unitPrice
+            }
+        })
     }
 
     res.status(200).send(ret);
@@ -327,7 +374,7 @@ export async function deleteUser(req: Request, res: Response) {
 
     if (await UserModel.findByIdAndDelete(id)) {
         if (id === tokenBody.id) {
-            res.cookie("token", "", {expires: new Date(0)});
+            res.cookie("token", "", { expires: new Date(0) });
         }
         res.status(204).send();
     } else {
