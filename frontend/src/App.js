@@ -1,14 +1,14 @@
 import './App.css'; // import stylesheet
 import Login from './components/login';
-import AdminDashboard from './dashboards/AdminDashboard';
-import UserDashboard from './dashboards/UserDashboard';
+// import AdminDashboard from './dashboards/AdminDashboard';
+// import UserDashboard from './dashboards/UserDashboard';
 
 import Menu from './components/menu';
 import Home from './components/home';
-import Item from './components/items';
-import Cart from './components/cart';
-import Order from './components/order';
-import Admin from './components/admin';
+import Item from './user/items';
+import Cart from './user/cart';
+import Order from './user/order';
+import Admin from './admin/admin';
 
 import { useState, useEffect } from 'react';
 
