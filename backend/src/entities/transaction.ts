@@ -2,7 +2,7 @@ import {Types} from 'mongoose';
 import {User} from './user.js';
 import {Product} from './product.js';
  
-export enum TransactionStatus = {
+export enum TransactionStatus {
     CANCELLED = -1,
     PENDING = 0,
     CONFIRMED = 1
@@ -19,7 +19,7 @@ export type Transaction = {
 export type TransactionDAO = {
     user: Types.ObjectId,
     product: Types.ObjectId,
-    quantity: Number,
+    quantity: number,
     status: TransactionStatus,
     timestamp: Date
 }
