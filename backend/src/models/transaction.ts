@@ -1,13 +1,13 @@
 import mongoose, {Schema, Types} from 'mongoose';
-import {TransactionDAO} from '../entities/transaction.js';
+import {TransactionDAO, TransactionStatus} from '../entities/transaction.js';
 
 const TransactionSchema = new Schema<TransactionDAO>({
     user: {
-        type: Types.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true
     },
     product: {
-        type: Types.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true
     },
     quantity: {
@@ -16,7 +16,8 @@ const TransactionSchema = new Schema<TransactionDAO>({
     },
     status: {
         type: Number,
-        required: true
+        required: true,
+        enum: [TransactionStatus.CANCELLED, TransactionStatus.CONFIRMED, TransactionStatus.PENDING]
     },
     timestamp: {
         type: Date,
@@ -25,4 +26,4 @@ const TransactionSchema = new Schema<TransactionDAO>({
     }
 });
 
-export mongoose.model("Transaction", TransactionSchema, "transactions");
+export const TransactionModel = mongoose.model("Transaction", TransactionSchema, "transactions");
