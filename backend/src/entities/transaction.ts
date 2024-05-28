@@ -1,4 +1,4 @@
-import {Types} from 'mongoose';
+import {Document, Types} from 'mongoose';
 import {User} from './user.js';
 import {Product} from './product.js';
  
@@ -16,7 +16,7 @@ export type Transaction = {
     timestamp: number
 }
 
-export type TransactionDAO = {
+export interface TransactionDAO extends Document{
     user: Types.ObjectId,
     product: Types.ObjectId,
     quantity: number,
