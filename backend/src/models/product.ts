@@ -26,6 +26,10 @@ const ProductSchema = new Schema<ProductDAO>({
         type: Number,
         required: true,
     },
+    unit: {
+        type: String,
+        required: true,
+    }
 });
 
 export const ProductModel = mongoose.model("Product", ProductSchema, "products");

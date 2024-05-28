@@ -75,7 +75,8 @@ export async function getUsers(req: Request, res: Response) {
                     description: dao.description,
                     type: dao.type,
                     quantity: dao.quantity,
-                    unitPrice: dao.unitPrice
+                    unitPrice: dao.unitPrice,
+                    unit: dao.unit
                 }
             })
         }
@@ -219,7 +220,8 @@ export async function getUser(req: Request, res: Response) {
                 description: dao.description,
                 type: dao.type,
                 quantity: dao.quantity,
-                unitPrice: dao.unitPrice
+                unitPrice: dao.unitPrice,
+                unit: dao.unit
             }
         })
     }
@@ -316,7 +318,8 @@ export async function updateUser(req: Request, res: Response) {
                 description: dao.description,
                 type: dao.type,
                 quantity: dao.quantity,
-                unitPrice: dao.unitPrice
+                unitPrice: dao.unitPrice,
+                unit: dao.unit
             }
         })
     }
