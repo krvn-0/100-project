@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
 export default function Login(props) {
-  const login = props.list;
+  const login = [  
+    { name: "Sign-Up", url: "#signup", id: 1 },
+    { name: "Sign-In", url: "#signin", id: 2 }
+  ];
 
   const [selectedLogOpt, setSelectedLogOpt] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -32,20 +35,23 @@ export default function Login(props) {
     event.preventDefault();
     props.onLogin(user);
 
-    fetch('https://localhost:3001/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(user),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    // fetch('https://localhost:3001/login', {
+    // method: 'POST',
+    // headers: {
+    //   'Content-Type': 'application/json',
+    // },
+    // body: JSON.stringify(user),
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   console.log(data);
+    // })
+    // .catch(error => {
+    //   console.error('Error:', error);
+    // });
+
+    // redirect sa dashboard filter..?
+    // useNavigate('/user') or useNavigate('/admin)
   }
 
   const renderFormFields = () => {
@@ -53,49 +59,103 @@ export default function Login(props) {
       case 1:
         return (
           <>
-            <label>
-              First Name:
-              <input type="text" name="fname" className="common_input" required value={user.fname} onChange={handleInputChange} />
-            </label>
-            <label>
-              Middle Name:
-              <input type="text" name="mname" className="common_input" value={user.mname} onChange={handleInputChange} />
-            </label>
-            <label>
-              Last Name:
-              <input type="text" name="lname" className="common_input" required value={user.lname} onChange={handleInputChange} />
-            </label>
-            <label>
-              Email:
-              <input type="email" name="email" className="common_input" required value={user.email} onChange={handleInputChange} />
-            </label>
-            <label>
-              Password:
-              <input type={showPassword ? "text" : "password"} name="password" className="common_input" required value={user.password} onChange={handleInputChange} />
-            </label>
+            <label>First Name:</label>
+            <input 
+              type="text" 
+              name="fname" 
+              className="common_input" 
+              required 
+              value={user.fname} 
+              onChange={handleInputChange} 
+            />
+
+            <label>Middle Name:</label>
+            <input 
+              type="text" 
+              name="mname" 
+              className="common_input" 
+              value
+              ={user.mname} 
+              onChange={handleInputChange} 
+            />
+            
+            <label>Last Name:</label>
+            <input 
+              type="text" 
+              name="lname" 
+              className="common_input" 
+              required 
+              value={user.lname} 
+              onChange={handleInputChange} 
+            />
+            
+            <label>Email:</label>
+            <input 
+              type="email"
+              name="email" 
+              className="common_input" 
+              required 
+              value={user.email} 
+              onChange={handleInputChange} 
+            />
+            
+            <label>Password:</label>
+            <input 
+              type={showPassword ? "text" : "password"} 
+              name="password" className="common_input" 
+              required 
+              value={user.password} 
+              onChange={handleInputChange} 
+            />
+            
             <div className="showPass">
               <span>Show password</span>
-              <input type="checkbox" onChange={() => setShowPassword(!showPassword)} />
+              <input 
+                type="checkbox" 
+                onChange={() => setShowPassword(!showPassword)} />
             </div>
-            <input type="submit" value="Submit" className="submit" />
+
+            <input 
+              type="submit" 
+              value="Submit" 
+              className="submit" 
+            />
           </>
         );
       case 2:
         return (
           <>
-            <label>
-              Email:
-              <input type="email" name="email" className="common_input" required  value={user.email} onChange={handleInputChange} />
-            </label>
-            <label>
-              Password:
-              <input type={showPassword ? "text" : "password"} name="password" className="common_input" required value={user.password} onChange={handleInputChange} />
-            </label>
+            <label>Email:</label>
+            <input 
+              type="email"
+              name="email" 
+              className="common_input" 
+              required 
+              value={user.email} 
+              onChange={handleInputChange} 
+            />
+            
+            <label>Password:</label>
+            <input 
+              type={showPassword ? "text" : "password"} 
+              name="password" className="common_input" 
+              required 
+              value={user.password} 
+              onChange={handleInputChange} 
+            />
+
             <div className="showPass">
               <span>Show password</span>
-              <input type="checkbox" onChange={() => setShowPassword(!showPassword)} />
+              <input 
+                type="checkbox" 
+                onChange={() => setShowPassword(!showPassword)} />
             </div>
-            <input type="submit" value="Submit" className="submit" />
+
+            <input 
+              type="submit" 
+              value="Submit" 
+              className="submit" 
+            />
           </>
         )
       default:
