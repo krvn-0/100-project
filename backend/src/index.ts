@@ -44,7 +44,7 @@ app.use((req, res, next) => {
     next();
 });
 
-RouteWithMongoDB(app);
+await RouteWithMongoDB(app);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
