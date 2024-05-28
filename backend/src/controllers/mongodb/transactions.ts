@@ -59,7 +59,10 @@ export async function confirmTransaction(req: Request, res: Response) {
         
         if(transaction == null) {
             res.status(400).send({
-
+                type: "urn:100-project:error:transaction_not_found",
+                title: "Transaction Not Found",
+                status: 404,
+                detail: "The transaction does not exist"
             });
             return;
         }
@@ -73,7 +76,10 @@ export async function confirmTransaction(req: Request, res: Response) {
 
         if(product == null) {
             res.status(400).send({
-
+                type: "urn:100-project:error:product_not_found",
+                title: "Product Not Found",
+                status: 404,
+                detail: "The product associated with the transaction does not exist"
             });
             return;
         }
@@ -81,9 +87,15 @@ export async function confirmTransaction(req: Request, res: Response) {
         product.quantity = product.quantity - transaction.quantity;
         await product.save();
 
+        res.status(200).send({
+            message: "Transaction confirmed and product quantity updated"
+        });
     } catch (error) {
         res.status(500).send({
-            
+            type: "urn:100-project:error:unable_to_confirm_transaction",
+            title: "Unable to Confirm Transaction",
+            status: 500,
+            detail: "An error occured while confirming the transaction"
         })
     }
 }
