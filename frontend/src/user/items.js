@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Sort from '../components/sortItems';
+import Sort from './sortItems';
 
 export default function ItemList(props) {
     const [items, setItems] = useState(props.list);   // extracts the items array
