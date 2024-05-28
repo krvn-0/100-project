@@ -1,9 +1,11 @@
 import {Request, Response} from 'express';
 import { TransactionModel } from '../../models/transaction.js';
+import { TransactionStatus } from '../../entities/transaction.js';
 
-export function getTransactions(req: Request, res: Response) {
+export async function getTransactions(req: Request, res: Response) {
     try{
-        const orders = TransactionModel.find();
+        const orders = await TransactionModel.find();
+        res.status(201).send(orders);
     } catch (error) {
         res.status(500).send({
             type: "urn:100-project:error:unable_to_get_transactions",
@@ -14,7 +16,21 @@ export function getTransactions(req: Request, res: Response) {
     }
 }
 
-
+export async function getActiveTransactions(req: Request, res: Response){
+    try{
+        const orders = await TransactionModel.find({
+            status: TransactionStatus.PENDING,
+        });
+        res.status(201).send(orders);
+    }catch(error){
+        res.status(500).send({
+            type: "urn:100-project:error:unable_to_get_transactions",
+            title: "Unable to get transactions",
+            status: 500,
+            detail: "An error occured while fetching transactions"
+        })
+    }
+}
 
 
 
