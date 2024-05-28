@@ -32,5 +32,21 @@ export async function getActiveTransactions(req: Request, res: Response){
     }
 }
 
+export async function getTransactionByUserAndProduct(req: Request, res: Response) {
+    try{
+        const order = await TransactionModel.findOne({
+            user: req.query.userId,
+            product: req.query.productId,
+        });
+        res.status(201).send(order);
+    } catch (error) {
+        res.status(500).send({
+            type: "urn:100-project:error:unable_to_get_transactions",
+            title: "Unable to get transactions",
+            status: 500,
+            detail: "An error occured while fetching transactions"
+        });
+    }
+} 
 
 
