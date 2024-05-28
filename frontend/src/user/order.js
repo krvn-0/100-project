@@ -1,8 +1,16 @@
 import {useState} from "react"; // for use state
 import { XCircleFill } from 'react-bootstrap-icons';
+import PersistentGet from "../http_methods/getter_persistent";
 
 export default function OrderList(props) {
     const orders = props.list;
+    
+    // const [items, setItems] = useState([]);
+    // const [orders, setOrders] = useState([]);
+
+    // PersistentGet(`http://localhost:3001/transactions/${user.id}`, setOrders);
+    // PersistentGet('http://localhost:3001/products', setItems)
+
     const [isHovered, setIsHovered] = useState(null);
     const statusMapping = {
         "-1": "cancelled",

@@ -1,9 +1,14 @@
 export default function Home(props){
-    const {user, onLogout} = props;
+    // const {user, onLogout} = props;
 
-    const handleLogout = () => {
-        onLogout();
-    }
+    // const handleLogout = () => {
+    //     onLogout();
+    // }
+
+    const user = {
+        fname: 'Eparji',
+        lname: 'Agz'
+    };
     
     return (
       <div className="home_page">
@@ -19,7 +24,10 @@ export default function Home(props){
             </p>
         </div>
         <div>
-            <button onClick={handleLogout} className="logout">
+            <button 
+                // onClick={handleLogout} 
+                className="logout"
+            >
                 Logout
             </button>
         </div>

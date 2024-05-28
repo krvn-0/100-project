@@ -1,10 +1,15 @@
 import { useState } from "react";
 import Sort from './sortItems';
+// import PersistentGet from "../http_methods/getter_persistent";
 
 export default function ItemList(props) {
     const [items, setItems] = useState(props.list);   // extracts the items array
+    // const [cart, setCart] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
+
+    // PersistentGet('http://localhost:3001/products', setItems); // fetching products
+    // PersistentGet('http://localhost:3001/transactions', setCart); // fetching cart
 
     const handleAddToCart = (item) => {
         let temp_cart = [...props.cart]; // stores previous state of the cart
