@@ -1,12 +1,17 @@
 import './App.css'; // import stylesheet
 import Login from './components/login';
+// import AdminDashboard from './dashboards/AdminDashboard';
+// import UserDashboard from './dashboards/UserDashboard';
+
 import Menu from './components/menu';
 import Home from './components/home';
-import Item from './components/items';
-import Cart from './components/cart';
-import Order from './components/order';
-import Admin from './components/admin'; // import Admin component
+import Item from './user/items';
+import Cart from './user/cart';
+import Order from './user/order';
+import Admin from './admin/admin';
+
 import { useState, useEffect } from 'react';
+
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -44,7 +49,6 @@ function App() {
     if (user.email.toLowerCase() === 'admin@gmail.com') {
       setUserType(true);
       setMenus(initialAdminMenus);
-      // setMenus(prevMenus => [...prevMenus, { name: "Admin", url: "#admin", id: 5 }]);
     }
   };
 
@@ -83,7 +87,7 @@ function App() {
   return (
     <div className="App">
       {!isLoggedIn ? (
-        <Login list={sign_in} onLogin={handleLogin} />
+        <Login onLogin={handleLogin} />
         ) : ( 
           !isAdmin ? (
             <>
@@ -91,8 +95,8 @@ function App() {
               <div className="App_body">
                 {/* user dashboard */}
                 {selectedMenu === 1 && <Home user={User} onLogout={handleLogout} />}
-                {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} options={options}/>}
-                {selectedMenu === 3 && <Cart email={User.email} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
+                {selectedMenu === 2 && <Item list={items} setCart={setCart} cart={cart} handleItemQuantity={handleItemQuantity} />}
+                {selectedMenu === 3 && <Cart email={User.email} item_list={items} cart_list={cart} order_list={orders} setCart={setCart} setOrders={setOrders} handleItemQuantity={handleItemQuantity} />}
                 {selectedMenu === 4 && <Order list={orders} setCart={setCart} setStatus={handleOrderStatus} cart={cart} handleItemQuantity={handleItemQuantity} />}
               </div>
             </>
@@ -108,13 +112,46 @@ function App() {
         )}
     </div>
   );
-}
 
-// initialization of the arrays
-const sign_in = [
-  { name: "Sign-Up", url: "#signup", id: 1 },
-  { name: "Sign-In", url: "#signin", id: 2 }
-];
+  // return (
+  //   <>
+  //     <div className="App">
+  //       {!isLoggedIn ? (
+  //         <Login onLogin={handleLogin} />
+  //       ) : (
+  //         isAdmin ? (
+  //           <AdminDashboard
+  //             selectedMenu={selectedMenu}
+  //             menus={menus}
+  //             handleSelectClick={handleSelectClick}
+  //             User={User}
+  //             handleLogout={handleLogout}
+  //             items={items}
+  //             setItems={setItems}
+  //             orders={orders}
+  //           />
+  //         ) : (
+  //           <UserDashboard
+  //             selectedMenu={selectedMenu}
+  //             menus={menus}
+  //             handleSelectClick={handleSelectClick}
+  //             User={User}
+  //             handleLogout={handleLogout}
+  //             items={items}
+  //             setCart={setCart}
+  //             cart={cart}
+  //             handleItemQuantity={handleItemQuantity}
+  //             options={[]}
+  //             orders={orders}
+  //             setOrders={setOrders}
+  //             handleOrderStatus={handleOrderStatus}
+  //           />
+  //         )
+  //       )}
+  //     </div>
+  //   </>
+  // )
+}
 
 const initialUserMenus = [
   { name: "Home", url: "#home", id: 1 },
@@ -432,13 +469,6 @@ const initialOrders = [
     date: "5/18/2024",
     time: "11:02:12 AM"
   }
-];
-
-const options = [
-  "Name",
-  "Price",
-  "Quantity",
-  "Type"
 ];
 
 export default App;

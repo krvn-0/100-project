@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AdminUser from './adminUser';
 import AdminProduct from './adminProduct';
-import BrowseOrders from './browseOrders';
+import BrowseOrders from '../user/browseOrders';
 
 const Admin = ({ users, products, setProducts, orders }) => {
   const [selectedAdminOption, setSelectedAdminOption] = useState(null);
