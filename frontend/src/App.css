@@ -459,10 +459,10 @@ input[type="checkbox"] {
 .sort_by_option {
   display: flex;
   flex-direction: row;
-  align-items: center;
   padding: 0;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 .label {
@@ -474,6 +474,7 @@ input[type="checkbox"] {
   position: absolute;
   top: calc(100% + 5px); /* Position dropdown options below header */
   right: 0;
+  width: fit-content;
 
   border: none;
   border-radius: .5vw;
@@ -484,7 +485,7 @@ input[type="checkbox"] {
 
 .dropdown_option {
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 0.8vw 1.2vw;
   transition: background-color 0.2s ease;
   width: 4vw;
 }
