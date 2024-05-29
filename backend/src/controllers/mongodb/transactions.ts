@@ -115,53 +115,69 @@ export async function confirmTransaction(req: Request, res: Response) {
     }
 }
 
-// create transaction
-// export async function updateTransaction(req: Request, res: Response) {
-//     const userId = req.query.userId; // get userid
+export async function createTransaction(req: Request, res: Response) {
+    
+    try {
+        const productId = req.query.productId;
+        const quantity = req.query.quantity; 
+        const userId = req.query.userId;
 
-//     try{
-//         const user = await UserModel.findById(userId); // find user by id
-        
-//         // handle if user is null
-//         if(user === null) {
-//             res.status(404).send({
-//                 type: "urn:100-project:error:user_not_found",
-//                 title: "User Not Found",
-//                 status: 404,
-//                 detail: "The user does not exist"
-//             })
-//             return;
-//         }
+        // check if productid, quantity, userId types are correct
+        if(typeof(productId) !== 'string' || typeof(quantity) !== 'number' || typeof(userId) !== 'string'){
+            res.status(400).send({
+                type: "urn:100-project:error:malformed",
+                title: "Malformed Request",
+                status: 400,
+                detail: "Product id and user id must be strings and quantity must be number"
+            });
+            return;
+        }
 
-//         // iterate through shopping cart of user
-//         for(let itemId of user.productIds){
+        // fetch user
+        const user = await UserModel.findById(userId);
 
-//             let product = await ProductModel.findById(itemId);
-            
-//             if(product === null) {
-//                 res.status(404).send({
-//                     type: "urn:100-project:error:product_not_found",
-//                     title: "Product Not Found",
-//                     status: 404,
-//                     detail: "The product does not exist"
-//                 })
-//                 continue;
-//             };
+        // check if user exists
+        if(user === null) {
+            res.status(404).send({
+                type: "urn:100-project:error:user_not_found",
+                title: "User Not Found",
+                status: 404,
+                detail: "User does not exist."
+            });
+            return;
+        }
 
-//             product.quantity = product.quantity - 
-//         }
+        // fetch product
+        const product = await ProductModel.findById(productId);
 
+        // check if product exists
+        if(product === null) {
+            res.status(404).send({
+                type: "urn:100-project:error:product_not_found",
+                title: "Product Not Found",
+                status: 404,
+                detail: "Product does not exist."
+            });
+            return;
+        }
 
-//     }
-// }
+        // create transaction and set fields
+        const transaction = new TransactionModel();
+        transaction.set('user', user);
+        transaction.set("product", product);
+        transaction.set('quantity', quantity) ;
+        transaction.set("status", TransactionStatus.PENDING); // default when new transaction
+        transaction.set("timestamp", Date.now) 
 
-export async function getUserShoppingCart(req: Request, res: Response) {
-    try{
-        // fetch user from db
-        const user = await UserModel.findById(req.query.userId);
-                                                                                          
-    } catch {
+        res.status(200).send(transaction);
 
+    } catch(error) {
+        res.status(500).send({
+            type: "urn:100-project:error:internal_server_error",
+            title: "Internal Server Error",
+            status: 500,
+            detail: "An error occured while creating transaction"
+        })
     }
 }
 
