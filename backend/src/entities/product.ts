@@ -8,7 +8,7 @@ export enum ProductType {
     POULTRY = 2,
 };
 
-export interface ProductDAO extends Document {
+export type ProductDAO = {
     name: string;
     description: string;
     ownerId: Types.ObjectId;

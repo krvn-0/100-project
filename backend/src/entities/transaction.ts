@@ -16,7 +16,7 @@ export type Transaction = {
     timestamp: number
 }
 
-export interface TransactionDAO extends Document{
+export type TransactionDAO = {
     user: Types.ObjectId,
     product: Types.ObjectId,
     quantity: number,
