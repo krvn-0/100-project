@@ -1,10 +1,19 @@
 import {useState} from "react"; // for use state
 import { Trash3Fill, CheckCircleFill } from 'react-bootstrap-icons';
+import PersistentGet from "../http_methods/getter_persistent";
 
 export default function CartList(props) {
     const cart = props.cart_list;    // extracts the cart array 
     const orders = props.order_list
     const inv = props.item_list
+
+    // const [cart, setCart] = useState([]);
+    // const [orders, setOrders] = useState([]);
+    // const [inv, setItems] = useState([]);
+    
+    // PersistentGet('http://localhost:3001/products', setItems); // fetching products
+    // PersistentGet(`https://localhost:3001/cart/${user.id}`); // fetching cart
+    // PersistentGet(`http://localhost:3001/transactions/${user.id}`, setOrders); // fetching order
 
     const [isHoveredCK, setIsHoveredCK] = useState(false);  // adds an isHovered attribute to each cart item
     const [isHoveredDL, setIsHoveredDL] = useState(false);
