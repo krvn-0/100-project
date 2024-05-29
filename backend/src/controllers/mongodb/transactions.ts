@@ -41,6 +41,15 @@ export async function getTransactionByUserAndProduct(req: Request, res: Response
             product: req.query.productId,
         });
         res.status(201).send(transaction);
+
+        if(transaction === null) {
+            res.status(404).send({
+                type: "urn:100-project:error:transaction_not_found",
+                title: "Transaction not Found",
+                status: 404,
+                detail: "The transaction does not exist"
+            });
+        }
     } catch (error) {
         res.status(500).send({
             type: "urn:100-project:error:unable_to_get_transactions",
