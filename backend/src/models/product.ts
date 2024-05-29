@@ -11,7 +11,7 @@ const ProductSchema = new Schema<ProductDAO>({
         default: "",
     },
     ownerId: {
-        type: Types.ObjectId,
+        type: "ObjectId",
         required: true,
     },
     type: {

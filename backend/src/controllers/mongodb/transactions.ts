@@ -3,6 +3,7 @@ import { TransactionModel } from '../../models/transaction.js';
 import { TransactionDAO, TransactionStatus } from '../../entities/transaction.js';
 import { ProductModel } from '../../models/product.js';
 import { ProductDAO } from '../../entities/product.js';
+import { UserModel } from '../../models/user.js';
 
 export async function getTransactions(req: Request, res: Response) {
     try{
@@ -10,11 +11,11 @@ export async function getTransactions(req: Request, res: Response) {
         res.status(201).send(orders);
     } catch (error) {
         res.status(500).send({
-            type: "urn:100-project:error:unable_to_get_transactions",
-            title: "Unable to get transactions",
+            type: "urn:100-project:error:internal_server_error",
+            title: "Internal Server Error",
             status: 500,
             detail: "An error occured while fetching transactions"
-        })
+        });
     }
 }
 
@@ -23,11 +24,16 @@ export async function getActiveTransactions(req: Request, res: Response){
         const orders = await TransactionModel.find({
             status: TransactionStatus.PENDING,
         });
+        if(orders === null) {
+            res.status(404).send({
+                type:"urn:100-project:"
+            })
+        }
         res.status(201).send(orders);
     }catch(error){
         res.status(500).send({
-            type: "urn:100-project:error:unable_to_get_transactions",
-            title: "Unable to get transactions",
+            type: "urn:100-project:error:internal_server_error",
+            title: "Internal Server Error",
             status: 500,
             detail: "An error occured while fetching transactions"
         })
@@ -52,8 +58,8 @@ export async function getTransactionByUserAndProduct(req: Request, res: Response
         }
     } catch (error) {
         res.status(500).send({
-            type: "urn:100-project:error:unable_to_get_transactions",
-            title: "Unable to get transactions",
+            type: "urn:100-project:error:internal_server_error",
+            title: "Internal Server Error",
             status: 500,
             detail: "An error occured while fetching transactions"
         });
@@ -62,7 +68,7 @@ export async function getTransactionByUserAndProduct(req: Request, res: Response
 
 export async function confirmTransaction(req: Request, res: Response) {
     try{
-        const transaction: TransactionDAO | null = await TransactionModel.findOne({
+        const transaction = await TransactionModel.findOne({
             _id: req.query.transactionId
         });
         
@@ -79,7 +85,7 @@ export async function confirmTransaction(req: Request, res: Response) {
         transaction.status = TransactionStatus.CONFIRMED;
         await transaction.save();
 
-        let product: ProductDAO | null = await ProductModel.findOne({
+        const product = await ProductModel.findOne({
             _id: transaction.product
         });
 
@@ -101,12 +107,61 @@ export async function confirmTransaction(req: Request, res: Response) {
         });
     } catch (error) {
         res.status(500).send({
-            type: "urn:100-project:error:unable_to_confirm_transaction",
-            title: "Unable to Confirm Transaction",
+            type: "urn:100-project:error:internal_server_error",
+            title: "Internal Server Error",
             status: 500,
             detail: "An error occured while confirming the transaction"
         })
     }
 }
 
+// create transaction
+// export async function updateTransaction(req: Request, res: Response) {
+//     const userId = req.query.userId; // get userid
+
+//     try{
+//         const user = await UserModel.findById(userId); // find user by id
+        
+//         // handle if user is null
+//         if(user === null) {
+//             res.status(404).send({
+//                 type: "urn:100-project:error:user_not_found",
+//                 title: "User Not Found",
+//                 status: 404,
+//                 detail: "The user does not exist"
+//             })
+//             return;
+//         }
+
+//         // iterate through shopping cart of user
+//         for(let itemId of user.productIds){
+
+//             let product = await ProductModel.findById(itemId);
+            
+//             if(product === null) {
+//                 res.status(404).send({
+//                     type: "urn:100-project:error:product_not_found",
+//                     title: "Product Not Found",
+//                     status: 404,
+//                     detail: "The product does not exist"
+//                 })
+//                 continue;
+//             };
+
+//             product.quantity = product.quantity - 
+//         }
+
+
+//     }
+// }
+
+export async function getUserShoppingCart(req: Request, res: Response) {
+    try{
+        // fetch user from db
+        const user = await UserModel.findById(req.query.userId);
+                                                                                          
+    } catch {
+
+    }
+}
 
