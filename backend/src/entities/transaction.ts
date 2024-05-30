@@ -12,14 +12,16 @@ export type Transaction = {
     user: User,
     product: Product,
     quantity: number,
+    price: number, 
     status: TransactionStatus,
-    timestamp: number
+    timestamp: number,
 }
 
 export type TransactionDAO = {
     user: Types.ObjectId,
     product: Types.ObjectId,
     quantity: number,
+    price: number,
     status: TransactionStatus,
     timestamp: Date
 }

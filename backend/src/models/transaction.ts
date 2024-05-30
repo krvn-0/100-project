@@ -14,6 +14,10 @@ const TransactionSchema = new Schema<TransactionDAO>({
         type: Number,
         required: true
     },
+    price: {
+        type: Number,
+        required: true
+    },
     status: {
         type: Number,
         required: true,

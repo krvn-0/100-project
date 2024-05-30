@@ -63,6 +63,7 @@ export async function getTransactions(req: Request, res: Response) {
         if (productId) filter["product"] = productId;
 
         const orders = await TransactionModel.find(filter);
+
         const mapping: Promise<Transaction | null>[] = orders.map(async (order) => {
             const buyer = (await UserModel.findById(order.user))!;
             const product = (await ProductModel.findById(order.product))!;
@@ -96,7 +97,8 @@ export async function getTransactions(req: Request, res: Response) {
                 },
                 quantity: order.quantity,
                 status: order.status,
-                timestamp: Date.parse(order.timestamp.toISOString())
+                timestamp: Date.parse(order.timestamp.toISOString()),
+                // TODO: add price
             }
 
             return transaction;
@@ -126,7 +128,10 @@ export async function getActiveTransactions(req: Request, res: Response){
         });
         if(orders === null) {
             res.status(404).send({
-                type:"urn:100-project:"
+                type:"urn:100-project:transaction_not_found",
+                title: "Transaction Not Found",
+                status: 404,
+                detail: "Transaction does not exist."
             })
         }
         res.status(201).send(orders);
@@ -204,7 +209,7 @@ export async function getTransactionByUserAndProduct(req: Request, res: Response
 }
 
 //TODO: make this more generic
-export async function confirmTransaction(req: Request, res: Response) {
+export async function updateTransaction(req: Request, res: Response) {
 
     const token = req.cookies?.token;
     let tokenBody: UserToken;
@@ -248,7 +253,7 @@ export async function confirmTransaction(req: Request, res: Response) {
         });
         
         if(transaction == null) {
-            res.status(400).send({
+            res.status(404).send({
                 type: "urn:100-project:error:transaction_not_found",
                 title: "Transaction Not Found",
                 status: 404,
@@ -256,8 +261,19 @@ export async function confirmTransaction(req: Request, res: Response) {
             });
             return;
         }
+        
+        const status: TransactionStatus = req.body.status;
 
-        transaction.status = TransactionStatus.CONFIRMED;
+        if(status != TransactionStatus.PENDING && status != TransactionStatus.CONFIRMED && status != TransactionStatus.CANCELLED){
+            res.status(400).send({
+                type: "urn:100-project:error:malformed",
+                title: "Bad Request",
+                status: 400,
+                detail: "status must be of enum TransactionStatus."
+            })
+        }
+
+        transaction.status = status;
         await transaction.save();
 
         const product = await ProductModel.findOne({
@@ -265,7 +281,7 @@ export async function confirmTransaction(req: Request, res: Response) {
         });
 
         if(product == null) {
-            res.status(400).send({
+            res.status(404).send({
                 type: "urn:100-project:error:product_not_found",
                 title: "Product Not Found",
                 status: 404,
@@ -277,6 +293,9 @@ export async function confirmTransaction(req: Request, res: Response) {
         product.quantity = product.quantity - transaction.quantity;
         await product.save();
 
+        const ret: Transaction = {
+            user: 
+        }
         res.status(200).send({
             message: "Transaction confirmed and product quantity updated"
         });
