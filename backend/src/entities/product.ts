@@ -1,6 +1,5 @@
-// src/entities/product.ts
 
-import { Document, Types } from "mongoose";
+import { Types } from "mongoose";
 import { User } from "./user.js";
 
 export enum ProductType {
@@ -15,18 +14,21 @@ export type ProductDAO = {
     type: ProductType;
     quantity: number;
     unitPrice: number;
+    unit: string;
 }
 
 export type ProductDOT = {
+    id: string;
     name: string;
     description: string;
-    ownerId?: string;  
+    ownerId?: string;
     type: ProductType;
     quantity: number;
     unitPrice: number;
 };
 
 export type Product = {
+    id: string;
     name: string;
     description: string;
     ownerId?: string;
