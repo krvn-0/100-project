@@ -267,6 +267,12 @@ export async function updateTransaction(req: Request, res: Response) {
         // check if status is 
         if(transaction.status === TransactionStatus.CONFIRMED || transaction.status === TransactionStatus.CANCELLED){
             // TODO: add response message
+            res.status(409).send({
+                type: "urn:100-project:error:conflict",
+                title: "Transaction Status in Conflict",
+                status: 409,
+                detail: "Transaction status must be of PENDING"
+            });
             return;
         }
         
@@ -337,7 +343,7 @@ export async function updateTransaction(req: Request, res: Response) {
             timestamp: Date.parse(transaction.timestamp.toISOString())
         };
 
-        res.status(200).send(ret)
+        res.status(200).send(ret);
 
     } catch (error) {
         res.status(500).send({
