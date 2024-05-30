@@ -303,18 +303,42 @@ export async function updateTransaction(req: Request, res: Response) {
 
         // return Transaction object
 
-        const userdao = UserModel.findById(transaction.user);
+        const userdao = (await UserModel.findById(transaction.user))!;
         
-        const user = {
-            id: userdao._id.t
-        }
+        const productOwner = (await UserModel.findById(product.ownerId))!;
 
         const ret: Transaction = {
-            user: user
-        }
-        res.status(200).send({
-            message: "Transaction confirmed and product quantity updated"
-        });
+            user: {
+                id: userdao._id.toHexString(),
+                firstName: userdao.firstName,
+                middleName: userdao.middleName,
+                lastName: userdao.lastName,
+                email: userdao.email,
+            },
+            product: {
+                id: product._id.toHexString(),
+                name: product.name,
+                description: product.description,
+                type: product.type,
+                quantity: product.quantity,
+                unitPrice: product.unitPrice,
+                owner: {
+                    id: productOwner._id.toHexString(),
+                    lastName: productOwner.lastName,
+                    middleName: productOwner.middleName,
+                    firstName: productOwner.firstName,
+                    email: productOwner.email,
+                    isMerchant: productOwner.isMerchant,
+                }
+            },
+            price: transaction.price,
+            status: status,
+            quantity: transaction.quantity,
+            timestamp: Date.parse(transaction.timestamp.toISOString())
+        };
+
+        res.status(200).send(ret)
+
     } catch (error) {
         res.status(500).send({
             type: "urn:100-project:error:internal_server_error",
