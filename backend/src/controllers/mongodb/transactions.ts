@@ -66,6 +66,7 @@ export async function getTransactionByUserAndProduct(req: Request, res: Response
     }
 }
 
+//TODO: make this more generic
 export async function confirmTransaction(req: Request, res: Response) {
     try{
         const transaction = await TransactionModel.findOne({
