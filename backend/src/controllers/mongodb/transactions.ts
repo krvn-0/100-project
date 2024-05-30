@@ -99,6 +99,7 @@ export async function getTransactions(req: Request, res: Response) {
                 status: order.status,
                 timestamp: Date.parse(order.timestamp.toISOString()),
                 // TODO: add price
+                price: product.unitPrice * order.quantity
             }
 
             return transaction;
@@ -252,6 +253,7 @@ export async function updateTransaction(req: Request, res: Response) {
             _id: req.params.id
         });
         
+        // check if transaction exists
         if(transaction == null) {
             res.status(404).send({
                 type: "urn:100-project:error:transaction_not_found",
@@ -259,6 +261,12 @@ export async function updateTransaction(req: Request, res: Response) {
                 status: 404,
                 detail: "The transaction does not exist"
             });
+            return;
+        }
+
+        // check if status is 
+        if(transaction.status === TransactionStatus.CONFIRMED || transaction.status === TransactionStatus.CANCELLED){
+            // TODO: add response message
             return;
         }
         
@@ -293,8 +301,16 @@ export async function updateTransaction(req: Request, res: Response) {
         product.quantity = product.quantity - transaction.quantity;
         await product.save();
 
+        // return Transaction object
+
+        const userdao = UserModel.findById(transaction.user);
+        
+        const user = {
+            id: userdao._id.t
+        }
+
         const ret: Transaction = {
-            user: 
+            user: user
         }
         res.status(200).send({
             message: "Transaction confirmed and product quantity updated"
