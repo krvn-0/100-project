@@ -13,6 +13,7 @@ export type ProductDAO = {
     type: ProductType;
     quantity: number;
     unitPrice: number;
+    imageUrl: string;
     unit: string;
 }
 
@@ -35,5 +36,6 @@ export type Product = {
     quantity: number;
     unitPrice: number;
     unit: string;
+    imageUrl: string;
     owner?: User;
 };

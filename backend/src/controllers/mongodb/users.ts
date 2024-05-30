@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { User, UserDAO, UserToken } from "../../entities/user.js";
 import { TokenManager } from "./secrets.js";
 import { UserModel } from "../../models/user.js";
@@ -74,9 +73,10 @@ export async function getUsers(req: Request, res: Response) {
                     type: dao.type,
                     quantity: dao.quantity,
                     unitPrice: dao.unitPrice,
-                    unit: dao.unit
+                    unit: dao.unit,
+                    imageUrl: dao.imageUrl
                 }
-            })
+            });
         }
 
         users.push(user);
@@ -217,9 +217,10 @@ export async function getUser(req: Request, res: Response) {
                 type: dao.type,
                 quantity: dao.quantity,
                 unitPrice: dao.unitPrice,
-                unit: dao.unit
-            }
-        })
+                unit: dao.unit,
+                imageUrl: dao.imageUrl
+            };
+        });
     }
 
     res.status(200).send(ret);
@@ -313,9 +314,10 @@ export async function updateUser(req: Request, res: Response) {
                 type: dao.type,
                 quantity: dao.quantity,
                 unitPrice: dao.unitPrice,
-                unit: dao.unit
-            }
-        })
+                unit: dao.unit,
+                imageUrl: dao.imageUrl
+            };
+        });
     }
 
     res.status(200).send(ret);

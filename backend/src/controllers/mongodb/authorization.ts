@@ -65,7 +65,8 @@ export async function login(req: Request, res: Response) {
                 type: product.type,
                 quantity: product.quantity,
                 unitPrice: product.unitPrice,
-                unit: product.unit
+                unit: product.unit,
+                imageUrl: product.imageUrl
             });
         }
     }
