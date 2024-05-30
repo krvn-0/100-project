@@ -7,13 +7,13 @@ export enum ProductType {
 };
 
 export type ProductDAO = {
-    _id: Types.UUID;
     name: string;
     description: string;
-    ownerId: Types.UUID;
+    ownerId: Types.ObjectId;
     type: ProductType;
     quantity: number;
     unitPrice: number;
+    unit: string;
 }
 
 export type ProductDOT = {
@@ -34,5 +34,6 @@ export type Product = {
     type: ProductType;
     quantity: number;
     unitPrice: number;
+    unit: string;
     owner?: User;
 };

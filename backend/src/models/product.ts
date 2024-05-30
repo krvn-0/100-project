@@ -2,10 +2,6 @@ import mongoose, { Schema, Types } from "mongoose";
 import { ProductDAO } from "../entities/product.js";
 
 const ProductSchema = new Schema<ProductDAO>({
-    _id: {
-        type: Types.UUID,
-        default: () => new Types.UUID(),
-    },
     name: {
         type: String,
         required: true,
@@ -15,8 +11,8 @@ const ProductSchema = new Schema<ProductDAO>({
         default: "",
     },
     ownerId: {
-        type: Types.UUID,
-        required: true,
+        type: "ObjectId",
+        required: true
     },
     type: {
         type: Number,
@@ -30,6 +26,10 @@ const ProductSchema = new Schema<ProductDAO>({
         type: Number,
         required: true,
     },
+    unit: {
+        type: String,
+        required: true,
+    }
 });
 
 export const ProductModel = mongoose.model("Product", ProductSchema, "products");

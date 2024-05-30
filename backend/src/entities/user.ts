@@ -9,7 +9,7 @@ export type UserDAO = {
     password: string;
     isAdmin: boolean;
     isMerchant: boolean;
-    productIds: Types.UUID[];
+    productIds: Types.ObjectId[];
 };
 
 export type UserDOT = {
@@ -35,6 +35,7 @@ export type User = {
 };
 
 export type UserToken = {
-    id: string,
-    isAdmin: true,
+    id: string;
+    isAdmin: boolean;
+    isMerchant: boolean;
 };
