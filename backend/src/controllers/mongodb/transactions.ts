@@ -1,14 +1,114 @@
 import {Request, Response} from 'express';
 import { TransactionModel } from '../../models/transaction.js';
-import { TransactionDAO, TransactionStatus } from '../../entities/transaction.js';
+import { Transaction, TransactionDAO, TransactionStatus } from '../../entities/transaction.js';
 import { ProductModel } from '../../models/product.js';
 import { ProductDAO } from '../../entities/product.js';
 import { UserModel } from '../../models/user.js';
+import { UserToken } from '../../entities/user.js';
+import jwt from "jsonwebtoken";
+import { TokenSecretManager } from './secrets.js';
+
 
 export async function getTransactions(req: Request, res: Response) {
+
+    const token = req.cookies?.token;
+    let tokenBody: UserToken;
+    try {
+        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
+    } catch (err) {
+        try {
+            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
+            res.cookie(
+                "token",
+                jwt.sign(
+                    {
+                        userId: tokenBody.id,
+                        isAdmin: tokenBody.isAdmin
+                    },
+                    TokenSecretManager.getCurrent(),
+                    {
+                        expiresIn: "7d"
+                    }
+                ),
+                {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 60 * 24 * 7
+                }
+            );
+        }
+        catch {
+            res.status(401).send({
+                type: "urn:100-project:error:not_logged_in",
+                title: "Not Logged In",
+                status: 401,
+                detail: "You are not logged in."
+            });
+            return;
+        }
+    }
+
+    // data set
+    // no debate while presenting
+    // wag magulat
+    // june 7 10:30 - 11:00
+
     try{
-        const orders = await TransactionModel.find();
-        res.status(201).send(orders);
+
+        const buyerId = req.query.buyerId;
+        const productId = req.query.productId;
+        const sellerId = req.query.sellerId;
+
+        const filter: any = {};
+        if (buyerId) filter["user"] = buyerId;
+        if (productId) filter["product"] = productId;
+
+        const orders = await TransactionModel.find(filter);
+        const mapping: Promise<Transaction | null>[] = orders.map(async (order) => {
+            const buyer = (await UserModel.findById(order.user))!;
+            const product = (await ProductModel.findById(order.product))!;
+            if (sellerId && product.ownerId.toHexString() != sellerId) return null;
+            
+            const seller = (await UserModel.findById(product.ownerId))!;
+
+            const transaction: Transaction = {
+                user: {
+                    id: buyer!._id.toHexString(),
+                    firstName: buyer!.firstName,
+                    middleName: buyer!.middleName,
+                    lastName: buyer!.lastName,
+                    email: buyer!.email,
+                    isMerchant: buyer!.isMerchant
+                },
+                product: {
+                    id: product._id.toHexString(),
+                    name: product.name,
+                    description: product.description,
+                    type: product.type,
+                    unitPrice: product.unitPrice,
+                    owner: {
+                        id: seller._id.toHexString(),
+                        firstName: seller.firstName,
+                        middleName: seller.middleName,
+                        lastName: seller.lastName,
+                        email: seller.email,
+                        isMerchant: seller.isMerchant
+                    }
+                },
+                quantity: order.quantity,
+                status: order.status,
+                timestamp: Date.parse(order.timestamp.toISOString())
+            }
+
+            return transaction;
+        });
+
+        const ret: Transaction[] = [];
+        for (var promise of mapping) {
+            const transaction = await promise;
+            if (transaction) ret.push(transaction);
+        }
+
+        res.status(200).send(ret);
     } catch (error) {
         res.status(500).send({
             type: "urn:100-project:error:internal_server_error",
@@ -41,6 +141,43 @@ export async function getActiveTransactions(req: Request, res: Response){
 }
 
 export async function getTransactionByUserAndProduct(req: Request, res: Response) {
+
+    const token = req.cookies?.token;
+    let tokenBody: UserToken;
+    try {
+        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
+    } catch (err) {
+        try {
+            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
+            res.cookie(
+                "token",
+                jwt.sign(
+                    {
+                        userId: tokenBody.id,
+                        isAdmin: tokenBody.isAdmin
+                    },
+                    TokenSecretManager.getCurrent(),
+                    {
+                        expiresIn: "7d"
+                    }
+                ),
+                {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 60 * 24 * 7
+                }
+            );
+        }
+        catch {
+            res.status(401).send({
+                type: "urn:100-project:error:not_logged_in",
+                title: "Not Logged In",
+                status: 401,
+                detail: "You are not logged in."
+            });
+            return;
+        }
+    }
+
     try{
         const transaction: TransactionDAO | null = await TransactionModel.findOne({
             user: req.query.userId,
@@ -68,9 +205,46 @@ export async function getTransactionByUserAndProduct(req: Request, res: Response
 
 //TODO: make this more generic
 export async function confirmTransaction(req: Request, res: Response) {
+
+    const token = req.cookies?.token;
+    let tokenBody: UserToken;
+    try {
+        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
+    } catch (err) {
+        try {
+            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
+            res.cookie(
+                "token",
+                jwt.sign(
+                    {
+                        userId: tokenBody.id,
+                        isAdmin: tokenBody.isAdmin
+                    },
+                    TokenSecretManager.getCurrent(),
+                    {
+                        expiresIn: "7d"
+                    }
+                ),
+                {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 60 * 24 * 7
+                }
+            );
+        }
+        catch {
+            res.status(401).send({
+                type: "urn:100-project:error:not_logged_in",
+                title: "Not Logged In",
+                status: 401,
+                detail: "You are not logged in."
+            });
+            return;
+        }
+    }
+    
     try{
         const transaction = await TransactionModel.findOne({
-            _id: req.query.transactionId
+            _id: req.params.id
         });
         
         if(transaction == null) {
@@ -117,6 +291,42 @@ export async function confirmTransaction(req: Request, res: Response) {
 }
 
 export async function createTransaction(req: Request, res: Response) {
+
+    const token = req.cookies?.token;
+    let tokenBody: UserToken;
+    try {
+        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
+    } catch (err) {
+        try {
+            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
+            res.cookie(
+                "token",
+                jwt.sign(
+                    {
+                        userId: tokenBody.id,
+                        isAdmin: tokenBody.isAdmin
+                    },
+                    TokenSecretManager.getCurrent(),
+                    {
+                        expiresIn: "7d"
+                    }
+                ),
+                {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 60 * 24 * 7
+                }
+            );
+        }
+        catch {
+            res.status(401).send({
+                type: "urn:100-project:error:not_logged_in",
+                title: "Not Logged In",
+                status: 401,
+                detail: "You are not logged in."
+            });
+            return;
+        }
+    }
     
     try {
         const productId = req.query.productId;
