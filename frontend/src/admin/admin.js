@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import AdminUser from './adminUser';
 import AdminProduct from './adminProduct';
-import BrowseOrders from '../user/browseOrders';
+import AdminOrders from './adminOrders';  // Change this import to use AdminOrders
 
-const Admin = ({ users, products, setProducts, orders }) => {
+const Admin = ({ users, products, setProducts, orders, setOrders }) => {  // Assume setOrders is passed down for managing orders
   const [selectedAdminOption, setSelectedAdminOption] = useState(null);
 
   return (
@@ -12,11 +13,12 @@ const Admin = ({ users, products, setProducts, orders }) => {
       <div className="admin-options">
         <button onClick={() => setSelectedAdminOption('users')}>Manage Users</button>
         <button onClick={() => setSelectedAdminOption('products')}>Manage Products</button>
-        <button onClick={() => setSelectedAdminOption('orders')}>Browse Orders</button>
+        <button onClick={() => setSelectedAdminOption('orders')}>Manage Orders</button>
       </div>
       {selectedAdminOption === 'users' && <AdminUser users={users} />}
       {selectedAdminOption === 'products' && <AdminProduct products={products} setProducts={setProducts} />}
-      {selectedAdminOption === 'orders' && <BrowseOrders orders={orders} />}
+      {selectedAdminOption === 'orders' && <AdminOrders orders={orders} setOrders={setOrders} />}
+
     </div>
   );
 };
