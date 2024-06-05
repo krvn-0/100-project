@@ -47,7 +47,7 @@ function LoginPage() {
             const response = await fetch('http://localhost:3001/login', {
                 method: 'POST',
                 headers: {
-                    credentials: true,
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ 
                     firstname: firstname,
