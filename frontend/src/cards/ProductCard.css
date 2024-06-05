@@ -40,13 +40,13 @@
     align-items: flex-start;
 }
 
-.product-name {
+.product-card .product-name {
     margin-top: 10px;
     font-size: 1.4em;
     color: var(--main-white);
 }
 
-.product-price, .product-stock {
+.product-card .product-price, .prouct-card .product-stock {
     margin-top: 5px;
     font-size: 0.75em;
 }
