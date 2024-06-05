@@ -410,9 +410,9 @@ export async function createTransaction(req: Request, res: Response) {
     
     // add price
     try {
-        const productId = req.query.productId;
-        const quantity = req.query.quantity; 
-        const userId = req.query.userId;
+        const productId = req.body.productId;
+        const quantity = req.body.quantity; 
+        const userId = req.body.userId;
         const price = req.body.price;
 
         // check if productid, quantity, userId types are correct
@@ -424,6 +424,15 @@ export async function createTransaction(req: Request, res: Response) {
                 detail: "Product id and user id must be strings and quantity and price must be a number"
             });
             return;
+        }
+
+        if(!Types.ObjectId.isValid(productId) || !Types.ObjectId.isValid(userId)){
+            res.status(400).send({
+                type: "urn:100-project:error:malformed",
+                title: "Malformed Request",
+                status: 400,
+                detail: "Invalid ID format"
+            })
         }
 
         // fetch user
@@ -461,7 +470,7 @@ export async function createTransaction(req: Request, res: Response) {
         transaction.set('quantity', quantity);
         transaction.set('price', price);
         transaction.set("status", TransactionStatus.PENDING); // default when new transaction
-        transaction.set("timestamp", Date.now);
+        transaction.set("timestamp", new Date());
 
 
         await transaction.save();
