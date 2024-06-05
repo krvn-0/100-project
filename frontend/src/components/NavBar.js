@@ -6,8 +6,8 @@ function NavBar({links}) {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        sessionStorage.removeItem('token');
-        navigate('/login');
+        sessionStorage.setItem('last-path', window.location.pathname);
+        navigate('/logout');
     }
 
     const linkList = links.map((link, index) => 
@@ -25,7 +25,7 @@ function NavBar({links}) {
                     {linkList}
                 </ul>
             </div>
-            <div className='logout-holder' onClick={handleLogout}>
+            <div className='logout-holder' onClick={() => handleLogout()}>
                 <span className='logout-link'>Logout</span>
             </div>
         </div>
