@@ -298,7 +298,8 @@ export async function updateTransaction(req: Request, res: Response) {
                 title: "Bad Request",
                 status: 400,
                 detail: "Status must be of enum TransactionStatus."
-            })
+            });
+            return;
         }
 
         transaction.status = status;
@@ -455,9 +456,11 @@ export async function createTransaction(req: Request, res: Response) {
         const transaction = new TransactionModel();
         transaction.set('user', user);
         transaction.set("product", product);
-        transaction.set('quantity', quantity) ;
+        transaction.set('quantity', quantity);
         transaction.set("status", TransactionStatus.PENDING); // default when new transaction
-        transaction.set("timestamp", Date.now) 
+        transaction.set("timestamp", Date.now);
+
+        await transaction.save();
 
         res.status(200).send(transaction);
 
