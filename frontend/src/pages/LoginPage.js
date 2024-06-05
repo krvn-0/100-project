@@ -28,7 +28,7 @@ function LoginPage() {
             const response = await fetch('http://localhost:3001/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    credentials: true
                 },
                 body: JSON.stringify({ 
                     email: email,
@@ -49,15 +49,6 @@ function LoginPage() {
         } catch (error) {
             console.error('An error occurred:', error);
             alert('An error occurred. Please try again.');
-        }
-        
-        // Perform login logic here
-        if (email && password) {
-            // Valid email and password, proceed with login
-            console.log('Login successful');
-        } else {
-            // Invalid email or password, show error message
-            console.log('Invalid email or password');
         }
 
         clearForm();

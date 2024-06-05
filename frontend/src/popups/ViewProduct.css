@@ -1,8 +1,8 @@
-.crops {
+.popup .crops {
     background-color: var(--main-green);
 }
 
-.animals {
+.popup .animals {
     background-color: var(--main-orange);
 }
 

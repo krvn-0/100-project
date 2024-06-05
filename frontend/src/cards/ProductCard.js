@@ -4,7 +4,7 @@ import './ProductCard.css';
 
 const ProductCard = ({ product, handleAddClick, handleOnClick }) => {
     return (
-        <div className={`product-card ${product.type == 1 ? 'crops' : 'animals' }`} 
+        <div className={`product-card ${product.type === 1 ? 'crops' : 'animals' }`} 
             onClick={handleOnClick}
         >
             <div className="product-image">

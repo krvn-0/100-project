@@ -26,8 +26,8 @@ const AppContent = () => {
   const hideNavBarRoutes = ['/login', '/signup']
   const shouldHideNavBar = hideNavBarRoutes.includes(location.pathname);
 
-  const isAuthenticated = false;
-  const isAdmin = false;
+  const isAuthenticated = true;
+  const isAdmin = true;
 
   // visible attribute (1 - user, 2 - admin, 3 - both) 
   const NavBarLinks = [
@@ -55,19 +55,20 @@ const AppContent = () => {
   return (
     <div className="App">
       {!shouldHideNavBar && <NavBar links={filteredNavBar} />}
+      {!isAuthenticated && <Navigate to="/login" />}
       <div className={`app-content ${shouldHideNavBar ? 'full-height' : ''}`}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/user-home" element={isAdmin ? <UserHome /> : <AdminHome />} />
+          <Route path="/user-home" element={!isAdmin ? <UserHome /> : <AdminHome />} />
           <Route path='/logout' element={<ConfirmLogout />} />
-          {/* <Route path="/admin-home" element={<AdminHome />} /> */}
+          <Route path="/admin-home" element={isAdmin ? <AdminHome /> : <UserHome />} />
           <Route path="/products" element={<ProductPage />} />
           {/* <Route path="/cart" element={<Cart />} /> */}
           {/* <Route path="/orders" element={<Orders />} /> */}
           {/* <Route path="/users" element={<Users />} /> */}
           {/* <Route path="/sales" element={<Sales />} /> */}
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route path="*" element={isAuthenticated ? <Navigate to='/user-home' />: <Navigate to="/login" />} />
         </Routes> 
       </div>
     </div>

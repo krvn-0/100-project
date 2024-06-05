@@ -5,22 +5,26 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    transition: transform 0.2s;
 }
+
 
 .crops {
     background-color: var(--main-green);
 }
 
-.product-card .crops:hover {
+.crops:hover {
     background-color: var(--main-green-hover);
+    transform: scale(1.05);
 }
 
 .animals {
     background-color: var(--main-orange);
 }
 
-.product-card .animals:hover {
+.animals:hover {
     background-color: var(--main-orange-hover);
+    transform: scale(1.05);
 }
 
 .product-card img {
