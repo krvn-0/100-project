@@ -20,6 +20,7 @@ body, html {
   --main-red-hover: #8E0000;
   --main-yellow: yellow;
   --main-yellow-hover: #8E8E00;
+  --button-width: 5em;
 
   background-color: var(--main-white);
   color: var(--main-black);
@@ -60,17 +61,19 @@ html {
   overflow: hidden;
 }
 
+
 .app-content {
   flex-grow: 1;
   height: calc(100vh - 2vw - 30px);
-  max-height: calc(100vh - 2vw - 30px);
   margin-top: calc(2vw + 36px);
   padding: 0 1em;
   overflow-y: scroll;
 }
 
-.app-content .full-width {
-  margin-left: 0;
+.full-height {
+  height: 100vh;
+  padding: 0;
+  margin-top: 0;
 }
 
 ul {
@@ -91,4 +94,5 @@ h1 {
 button {
   font-family: monospace;
   background-color: var(--main-orange);
+  width: var(--button-width);
 }
