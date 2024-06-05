@@ -12,8 +12,12 @@ import {
 } from 'react';
 
 import NavBar from './components/NavBar';
+import Login from './pages/LoginPage';
+import Signup from './pages/SignupPage';
 import UserHome from './pages/UserHomePage';
+import AdminHome from './pages/AdminHomePage';
 import ProductPage from './pages/ProductPage';
+import ConfirmLogout from './popups/ConfirmLogout';
 
 const AppContent = () => {
   const location = useLocation();
@@ -53,16 +57,17 @@ const AppContent = () => {
       {!shouldHideNavBar && <NavBar links={filteredNavBar} />}
       <div className={`app-content ${shouldHideNavBar ? 'full-height' : ''}`}>
         <Routes>
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} /> */}
-          <Route path="/user-home" element={<UserHome />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/user-home" element={isAdmin ? <UserHome /> : <AdminHome />} />
+          <Route path='/logout' element={<ConfirmLogout />} />
           {/* <Route path="/admin-home" element={<AdminHome />} /> */}
           <Route path="/products" element={<ProductPage />} />
           {/* <Route path="/cart" element={<Cart />} /> */}
           {/* <Route path="/orders" element={<Orders />} /> */}
           {/* <Route path="/users" element={<Users />} /> */}
           {/* <Route path="/sales" element={<Sales />} /> */}
-          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes> 
       </div>
     </div>
