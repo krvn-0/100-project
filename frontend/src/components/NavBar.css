@@ -1,0 +1,81 @@
+.navbar {
+    width: 100%;
+    height: calc(3vw + 1em);
+    min-height: 50px;
+    position: fixed;
+    overflow: hidden;   
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    padding: 1em;
+    background-color: var(--main-green);
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.navbar li {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-right: 30px;
+}
+
+.navbar ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.navbar a {
+    margin-left: 0.2em;
+    transition-duration: 0.3s;
+}
+
+.navbar a:hover{
+    color: var(--main-black);
+}
+
+.navbar .active {
+    color: var(--main-yellow);
+    transform: scale(1.05);
+}
+
+.logout-holder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding-right: 1em;
+}
+
+.logout-link {
+    margin-left: 0.5em;
+    display: flex;
+    align-items: center;
+    color: var(--main-red)
+}
+
+.logout-holder:hover .logout-link{
+    color: var(--main-red-hover);
+}
+
+.app-name {
+    font-size: 1.2em;
+}
+
+/* .logo-in-app {
+    width: 45%;
+    margin: 0px;
+    margin-top: 20px;
+    padding: 0px;
+} */

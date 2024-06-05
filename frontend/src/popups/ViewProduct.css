@@ -1,0 +1,70 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+}
+
+.popup-inner {
+    position: relative;
+    padding: 20px;
+    border-radius: 10px;
+    width: 40ch;
+    height: fit-content;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: var(--main-black );
+}
+
+.crops {
+    background-color: var(--main-green);
+}
+
+.animals {
+    background-color: var(--main-orange);
+}
+
+.popup .product-name {
+    margin-bottom: 10px;
+}
+
+.product-description {
+    padding-left: 1em;
+    margin-bottom: 10px;
+}
+
+.popup .product-price {
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.popup .product-stock {
+    font-style: italic;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+}
+
+.popup .add-to-cart {
+    background-color: var(--main-green);
+    border: 0.2em solid var(--main-white);
+}
+
+.close {
+    margin-left: 10px;
+    background-color: var(--main-red);
+    border: 0.2em solid var(--main-white);
+}
+
+.close:hover {
+    background-color: var(--main-red-hover);
+}
