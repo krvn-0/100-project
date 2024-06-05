@@ -1,0 +1,29 @@
+.login-header {
+    padding: 1em;
+    color: var(--main-black);
+}
+
+.sign-up-elems {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    flex-wrap: wrap;
+}
+
+.sign-up, .sign-up-link {
+    color: var(--main-black);
+    font-size: 0.6em;
+    margin: 0.2em;
+}
+
+.sign-up-link {
+    text-decoration: underline;
+    color: var(--main-green);
+    cursor: pointer;
+}
+
+.sign-up-link:hover {
+    color: var(--main-green-hover);
+}

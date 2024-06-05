@@ -1,0 +1,69 @@
+.auth-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: center / contain no-repeat url('https://images5.alphacoders.com/422/thumb-1920-422284.jpg'), rgba(105, 225, 105, 0.5);
+}
+
+.auth-body {
+    background-color: var(--main-white);
+    border-radius: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 20em;
+    color: var(--main-white);
+    border: none;
+    overflow: hidden;
+    align-items: center;
+}
+
+form {
+    margin: 1em;
+    padding: 1em;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+}
+
+.auth-header {
+    padding: 1em;
+    color: var(--main-black);
+}
+
+input {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    color: var(--main-black);
+    border-radius: 1em;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.form button {
+    padding: 10px;
+    background-color: var(--main-green);
+    color: var(--main-white);
+    border: 0.1em solid var(--main-white);
+    border-radius: 1em;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    left: calc((100% - var(--button-width)) / 2);
+    text-align: center;
+}
+
+.form button:hover {
+    background-color: var(--main-white);
+    color: var(--main-black);
+    border-color: var(--main-green);
+}
