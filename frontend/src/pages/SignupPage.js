@@ -11,6 +11,7 @@ function LoginPage() {
     const [middlename, setMiddlename] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const handlefirstnameChange = (e) => {
         setFirstname(e.target.value);
@@ -32,6 +33,10 @@ function LoginPage() {
         setPassword(e.target.value);
     };
 
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     const clearForm = () => {
         setEmail('');
         setPassword('');
@@ -44,12 +49,12 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/login', {
-                method: 'POST',
+            const response = await fetch('http://localhost:3001/users', {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 
+                body: ({ 
                     firstname: firstname,
                     lastname: lastname,
                     middlename: middlename ? middlename : null,
@@ -122,14 +127,23 @@ function LoginPage() {
                         required 
                         className='email-input'
                     />
-                    <input 
-                        type="password" 
-                        value={password} 
-                        placeholder='Password' 
-                        onChange={handlePasswordChange} 
-                        required 
-                        className='password-input' 
-                    />
+                    <div className='password-input-container'>
+                        <input 
+                            type={showPassword ? "text" : "password"} 
+                            value={password} 
+                            placeholder='Password' 
+                            onChange={handlePasswordChange} 
+                            required 
+                            className='password-input' 
+                        />
+                        <button 
+                            type="button" 
+                            className='toggle-password' 
+                            onClick={handleTogglePassword}
+                        >
+                            {showPassword ? "Hide" : "Show"}
+                        </button>
+                    </div>
                     <div className='login-elems' >
                         <p className='login'>Already have an account? </p>
                         <p className='login-link' onClick={handleLogin}>login here</p>

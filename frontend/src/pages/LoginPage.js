@@ -30,7 +30,7 @@ function LoginPage() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 
+                body: ({ 
                     email: email,
                     password: password
                 }),
@@ -58,6 +58,12 @@ function LoginPage() {
         navigate('/signup');
     };
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div className='auth-form'>
             <div className='auth-body'>
@@ -73,14 +79,23 @@ function LoginPage() {
                         required 
                         className='email-input' 
                     />
-                    <input 
-                        type="password" 
-                        value={password} 
-                        placeholder='Password' 
-                        onChange={handlePasswordChange} 
-                        required 
-                        className='password-input' 
-                    />
+                    <div className='password-input-container'>
+                        <input 
+                            type={showPassword ? "text" : "password"} 
+                            value={password} 
+                            placeholder='Password' 
+                            onChange={handlePasswordChange} 
+                            required 
+                            className='password-input' 
+                        />
+                        <button 
+                            type="button" 
+                            className='toggle-password' 
+                            onClick={handleTogglePassword}
+                        >
+                            {showPassword ? "Hide" : "Show"}
+                        </button>
+                    </div>
                     <div className='sign-up-elems' >
                         <p className='sign-up'>Don't have an account yet? </p>
                         <p className='sign-up-link' onClick={handleSignUpClick}>sign up here</p>
