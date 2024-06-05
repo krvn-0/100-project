@@ -408,18 +408,20 @@ export async function createTransaction(req: Request, res: Response) {
         }
     }
     
+    // add price
     try {
         const productId = req.query.productId;
         const quantity = req.query.quantity; 
         const userId = req.query.userId;
+        const price = req.body.price;
 
         // check if productid, quantity, userId types are correct
-        if(typeof(productId) !== 'string' || typeof(quantity) !== 'number' || typeof(userId) !== 'string'){
+        if(typeof(productId) !== 'string' || typeof(quantity) !== 'number' || typeof(userId) !== 'string' || typeof(price) !== 'number'){
             res.status(400).send({
                 type: "urn:100-project:error:malformed",
                 title: "Malformed Request",
                 status: 400,
-                detail: "Product id and user id must be strings and quantity must be number"
+                detail: "Product id and user id must be strings and quantity and price must be a number"
             });
             return;
         }
@@ -454,11 +456,13 @@ export async function createTransaction(req: Request, res: Response) {
 
         // create transaction and set fields
         const transaction = new TransactionModel();
-        transaction.set('user', user);
-        transaction.set("product", product);
+        transaction.set('user', user._id);
+        transaction.set("product", product._id);
         transaction.set('quantity', quantity);
+        transaction.set('price', price);
         transaction.set("status", TransactionStatus.PENDING); // default when new transaction
         transaction.set("timestamp", Date.now);
+
 
         await transaction.save();
 
