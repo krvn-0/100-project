@@ -7,6 +7,7 @@ import { UserModel } from '../../models/user.js';
 import { UserToken } from '../../entities/user.js';
 import jwt from "jsonwebtoken";
 import { TokenSecretManager } from './secrets.js';
+import {Types} from 'mongoose';
 
 
 export async function getTransactions(req: Request, res: Response) {
@@ -98,7 +99,6 @@ export async function getTransactions(req: Request, res: Response) {
                 quantity: order.quantity,
                 status: order.status,
                 timestamp: Date.parse(order.timestamp.toISOString()),
-                // TODO: add price
                 price: product.unitPrice * order.quantity
             }
 
@@ -249,12 +249,26 @@ export async function updateTransaction(req: Request, res: Response) {
     }
     
     try{
+
+        const id = req.params.id;
+
+        // Validate if the ID is a valid ObjectId
+        if (!Types.ObjectId.isValid(id)) {
+            res.status(400).send({
+                type: "urn:100-project:error:malformed",
+                title: "Malformed Request",
+                status: 400,
+                detail: "Invalid ID format"
+            });
+            return;
+        }
+
         const transaction = await TransactionModel.findOne({
-            _id: req.params.id
+            _id: id
         });
         
         // check if transaction exists
-        if(transaction == null) {
+        if(transaction === null) {
             res.status(404).send({
                 type: "urn:100-project:error:transaction_not_found",
                 title: "Transaction Not Found",
@@ -276,14 +290,14 @@ export async function updateTransaction(req: Request, res: Response) {
             return;
         }
         
-        const status: TransactionStatus = req.body.status;
+        const status: TransactionStatus = req.body.status; // get status from reqeust body
 
-        if(status != TransactionStatus.PENDING && status != TransactionStatus.CONFIRMED && status != TransactionStatus.CANCELLED){
+        if(status !== TransactionStatus.PENDING && status !== TransactionStatus.CONFIRMED && status !== TransactionStatus.CANCELLED){
             res.status(400).send({
                 type: "urn:100-project:error:malformed",
                 title: "Bad Request",
                 status: 400,
-                detail: "status must be of enum TransactionStatus."
+                detail: "Status must be of enum TransactionStatus."
             })
         }
 
