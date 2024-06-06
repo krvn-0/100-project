@@ -76,7 +76,7 @@ function SignUpPage() {
             if(statuscode < 200 || statuscode >= 300) {
                 alert(`Error: ${data.detail}`);
             } else {
-                sessionStorage.setItem('userID', JSON.stringify(data.id));
+                sessionStorage.setItem('userID', data.id);
                 sessionStorage.setItem('isAdmin', JSON.stringify(data.isMerchant));
                 alert('Signup successful');
                 navigate('/user-home');

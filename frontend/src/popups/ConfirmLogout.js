@@ -27,8 +27,8 @@ const ConfirmLogout = () => {
 
     return (
         <div className='popup logout'>
-            <div className='popup-inner'>
-                <div className='popup-header'>
+            <div className='popup-inner logout-inner'>
+                <div className='logout-header'>
                     <h1>Confirm Logout</h1>
                 </div>
                 <div className='logout-body'>

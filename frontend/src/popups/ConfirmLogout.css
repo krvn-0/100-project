@@ -1,11 +1,11 @@
-.logout .popup-inner {
+.logout-inner {
     display: flex;
     flex-direction: column;
     background-color: var(--main-white);
     padding: 1em;
 }
 
-.logout p {
+.logout p, .logout h1 {
     color: var(--main-black);
 }
 
@@ -24,19 +24,24 @@
 
 .logout-btn {
     margin-left: 0.5em;
+    border: 0.2em solid var(--main-white);
     background-color: var(--main-red)
 }
 
 .logout-btn:hover {
-    background-color: var(--main-red-hover);
+    border:0.2em solid var(--main-red);
+    background-color: var(--main-white);
+    color: var(--main-red)
 }
 
-.cancel-btn {
+.logout-footer .cancel-btn {
     background-color: var(--main-orange);
 }
 
-.cancel-btn:hover {
-    background-color: var(--main-orange-hover);
+.logout-footer .cancel-btn:hover {
+    border: 0.2em solid var(--main-orange);
+    background-color: var(--main-white);
+    color: var(--main-orange);
 }
 
 /* .confirm-logout button:focus {
