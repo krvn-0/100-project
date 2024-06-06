@@ -1,37 +1,24 @@
 import React, { useState, useMemo } from 'react';
+import { sortData } from '../utils/SortingUtility';
 import ViewOrder from '../popups/ViewOrder';
 import './SalesPage.css';
 
 const SalesPage = () => {
-    // Example data
     const [orders, setOrders] = useState([
         { id: 1, itemName: 'Eggs', orderDate: '2023-06-01', quantity: 100, price: 10, status: 'Approved' },
         { id: 2, itemName: 'Milk', orderDate: '2023-06-02', quantity: 50, price: 20, status: 'Pending' },
         { id: 3, itemName: 'Bread', orderDate: '2023-06-03', quantity: 80, price: 5, status: 'Cancelled' },
         { id: 4, itemName: 'Eggs', orderDate: '2023-06-15', quantity: 150, price: 10, status: 'Approved' },
     ]);
-
+    const [displayOrders, setDisplayOrders] = useState(orders);
     const [currentOrder, setCurrentOrder] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
-    const [sortedProducts, setSortedProducts] = useState([]);
 
-    const getDateFilter = (period) => {
-        const now = new Date();
-        const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
-        const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
-        const oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
-
-        switch (period) {
-            case 'weekly':
-                return oneWeekAgo;
-            case 'monthly':
-                return oneMonthAgo;
-            case 'annually':
-                return oneYearAgo;
-            default:
-                return new Date();
-        }
+    const handleSort = (criterion) => {
+        const sortedOrders = sortData(orders, criterion);
+        setDisplayOrders(sortedOrders);
     };
+
     const openViewPopup = (order) => {
         setCurrentOrder(order);
         setIsViewing(true);
@@ -42,19 +29,8 @@ const SalesPage = () => {
         setIsViewing(false);
     };
 
-    const sortOrders = (timeframe) => {
-        const dateLimit = getDateFilter(timeframe);
-        const filteredOrders = orders.filter(order => new Date(order.orderDate) >= dateLimit);
-        setOrders([...filteredOrders]);
-    };
-
-    const sortProductsByProfit = () => {
-        const sorted = Object.values(productSummary).sort((a, b) => b.profit - a.profit);
-        setSortedProducts(sorted.slice(0, 3));
-    };
-
     const productSummary = useMemo(() => {
-        const summary = {};
+        let summary = {};
         orders.forEach(order => {
             if (order.status === 'Approved') {
                 if (!summary[order.itemName]) {
@@ -62,24 +38,20 @@ const SalesPage = () => {
                 }
                 summary[order.itemName].quantity += order.quantity;
                 summary[order.itemName].totalSales += order.quantity * order.price;
+                summary[order.itemName].profit = summary[order.itemName].totalSales * 0.2;
             }
         });
-        return Object.values(summary).map(item => ({
-            itemName: item.itemName,
-            quantity: item.quantity,
-            totalSales: item.totalSales,
-            profit: item.totalSales * 0.2 // Assuming 20% profit margin
-        }));
+        return Object.values(summary);
     }, [orders]);
 
     return (
         <div className="sales-dashboard">
             <h1>Sales Dashboard</h1>
-            <button onClick={() => sortOrders('weekly')}>Sort Weekly</button>
-            <button onClick={() => sortOrders('monthly')}>Sort Monthly</button>
-            <button onClick={() => sortOrders('annually')}>Sort Annually</button>
-            <button onClick={sortProductsByProfit}>Top 3 Highest Profits</button>
-    
+            <button onClick={() => handleSort('weekly')}>Sort Weekly</button>
+            <button onClick={() => handleSort('monthly')}>Sort Monthly</button>
+            <button onClick={() => handleSort('annually')}>Sort Annually</button>
+            <button onClick={() => handleSort('profit')}>Top 3 Highest Profits</button>
+
             <h2>Product Sales Summary</h2>
             <table className="sales-table">
                 <thead>
@@ -94,6 +66,8 @@ const SalesPage = () => {
                     {/* Conditionally render sortedProducts if it has items, otherwise render all products */}
                     {(sortedProducts.length > 0 ? sortedProducts : productSummary).map(product => (
                         <tr key={product.id}>
+                    {productSummary.map(product => (
+                        <tr key={product.itemName}>
                             <td>{product.itemName}</td>
                             <td>{product.quantity}</td>
                             <td>${product.totalSales.toFixed(2)}</td>
@@ -102,7 +76,7 @@ const SalesPage = () => {
                     ))}
                 </tbody>
             </table>
-    
+
             <h2>All Transactions</h2>
             <table className="sales-table">
                 <thead>
@@ -115,7 +89,7 @@ const SalesPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map(order => (
+                    {displayOrders.map(order => (
                         <tr key={order.id} onClick={() => openViewPopup(order)}>
                             <td>{order.itemName}</td>
                             <td>{order.orderDate}</td>
@@ -126,9 +100,10 @@ const SalesPage = () => {
                     ))}
                 </tbody>
             </table>
+
             {isViewing && <ViewOrder orderDetails={currentOrder} onClose={closeViewPopup} />}
         </div>
     );
-};    
+};
 
 export default SalesPage;
