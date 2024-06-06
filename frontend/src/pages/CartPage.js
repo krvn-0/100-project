@@ -26,9 +26,9 @@ const CartPage = () => {
     }
 
 
-    useEffect( async () => {
+    useEffect(() => {
         try {
-            const response = await fetch(`http://localhost:3001/users/${userID}`,
+            fetch(`http://localhost:3001/users/${userID}`,
             {
                 method: 'GET',
                 headers: {
@@ -36,10 +36,11 @@ const CartPage = () => {
                 },
                 credentials: 'include'
             })
-            
-            const data = await response.json();
-            setCartDetails(data);
-            
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setCartDetails(data.cart)
+            });
         } catch (error) {
             console.error(error);
         }

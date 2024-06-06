@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { approveOrder, cancelOrder, canUserModifyOrder } from '../utils/orderUtils';
+import { approveOrder, cancelOrder, canUserModifyOrder } from '../utils/OrderUtils';
 import './OrderPage.css';
 
 const OrderPage = ({ userType }) => {

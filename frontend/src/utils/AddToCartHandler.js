@@ -19,13 +19,12 @@ const handleAddToCart = async (product, quantity) => {
     }
 
     if(product.quantity >= quantity) {
-        let cart = [...userData.cart];
-        const existingItemIndex = cart.findIndex(item => item.product.id === product.id);
-        if (existingItemIndex !== -1) {
-            cart[existingItemIndex].quantity += quantity;
-        } else {
-            cart.push({ product, quantity });
+        
+        let cart = {
+            product: product,
+            quantity: quantity
         }
+
         try {
             const response = await fetch(`http://localhost:3001/users/${id}`, {
                 method: 'PATCH',
@@ -33,12 +32,11 @@ const handleAddToCart = async (product, quantity) => {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({
-                    cart: cart
-                })
+                body: JSON.stringify(cart)
             })
 
             const data = await response.json();
+            console.log(data);
             const statuscode = data.status;
 
             if(statuscode < 200 || statuscode >= 300) {
