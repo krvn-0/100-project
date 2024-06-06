@@ -11,9 +11,17 @@ const ConfirmLogout = () => {
         navigate(returnUrl);
     }
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        fetch('http://localhost:3001/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        });
         sessionStorage.removeItem('userID');
-        sessionStorage.removeItem('isMerchant');
+        sessionStorage.removeItem('isAdmin');
+        alert('Logout successful');
         navigate('/login');
     }
 

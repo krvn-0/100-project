@@ -45,6 +45,7 @@ function LoginPage() {
             } else {
                 sessionStorage.setItem('userID', JSON.stringify(data.id));
                 sessionStorage.setItem('isAdmin', JSON.stringify(data.isMerchant));
+                alert('Login successful');
                 navigate('/user-home');
             }
 

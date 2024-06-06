@@ -27,7 +27,7 @@ const AppContent = () => {
   const shouldHideNavBar = hideNavBarRoutes.includes(location.pathname);
 
   const isAuthenticated = !!sessionStorage.getItem('userID');
-  const isAdmin = JSON.parse(sessionStorage.getItem('isMerchant')) || false;
+  const isAdmin = JSON.parse(sessionStorage.getItem('isAdmin')) || false;
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -43,12 +43,12 @@ const AppContent = () => {
   const NavBarLinks = [
     { path: '/user-home', name: 'Home', visible: 1},
     { path: '/admin-home', name: 'Home', visible: 2},
+    { path: '/users', name: 'Users', visible: 2},
 
     { path: '/products', name: 'Products', visible: 3},
     { path: '/cart', name: 'Cart', visible: 1},
     { path: '/orders', name: 'Orders', visible: 3},
 
-    { path: '/users', name: 'Users', visible: 2},
     { path: '/sales', name: 'Sales', visible: 2},
   ].map((link) => {
     const isActive = location.pathname === link.path;
@@ -67,17 +67,17 @@ const AppContent = () => {
       {!shouldHideNavBar && <NavBar links={filteredNavBar} />}
         <div className={`app-content ${shouldHideNavBar ? 'full-height' : ''}`}>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/user-home" element={!isAdmin ? <UserHome /> : <AdminHome />} />
+            <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to='/user-home' />} />
+            <Route path="/signup" element={!isAuthenticated ? <SignUpPage /> : <Navigate to='/user-home' />} />
             <Route path='/logout' element={<ConfirmLogout />} />
-            <Route path="/admin-home" element={isAdmin ? <AdminHome /> : <UserHome />} />
-            <Route path="/products" element={<ProductPage />} />
-            {/* <Route path="/cart" element={<Cart />} /> */}
-            {/* <Route path="/orders" element={<Orders />} /> */}
-            {/* <Route path="/users" element={<Users />} /> */}
-            {/* <Route path="/sales" element={<Sales />} /> */}
-            <Route path="*" element={isAuthenticated ? <Navigate to='/user-home' />: <Navigate to="/login" /> || <Navigate to='/signup' />} />
+            <Route path="/user-home" element={isAuthenticated ? (!isAdmin ? <UserHome /> : <AdminHome />) : <Navigate to='/login' />} />
+            <Route path="/admin-home" element={isAuthenticated ? (isAdmin ? <AdminHome /> : <UserHome />) : <Navigate to='/login' />} />
+            <Route path="/products" element={isAuthenticated ? <ProductPage /> : <Navigate to='/login' />} />
+            {/* <Route path="/cart" element={isAuthenticated ? <CartPage /> : <Navigate to='/login' />} /> */}
+            {/* <Route path="/orders" element={isAuthenticated ? <OrderPage /> : <Navigate to='/login' />} /> */}
+            {/* <Route path="/users" element={isAuthenticated ? <Users /> : <Navigate to='/login' />} /> */}
+            {/* <Route path="/sales" element={isAuthenticated ? <Sales /> : <Navigate to='/login' />} /> */}
+            <Route path="*" element={isAuthenticated ? <Navigate to='/user-home'/> || <Navigate to='/admin-home'/> : <Navigate to="/login" /> || <Navigate to='/signup' />} />
           </Routes> 
         </div>
     </div>
