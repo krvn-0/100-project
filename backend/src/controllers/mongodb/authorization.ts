@@ -21,7 +21,10 @@ export async function login(req: Request, res: Response) {
         return;
     }
 
-    const user = await UserModel.findOne({email: email});
+    const user = await UserModel.findOne({
+        email: email,
+        deleted: false
+    });
     if (user === null) {
         res.status(401).send({
             type: "urn:100-project:error:wrong_login_credentials",
