@@ -1,0 +1,22 @@
+.sales-dashboard {
+    margin: 20px;
+}
+
+.sales-dashboard h1 {
+    color: #333;
+}
+
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sales-table th, .sales-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.sales-table th {
+    background-color: #f4f4f4;
+}
