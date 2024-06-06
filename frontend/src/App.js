@@ -18,6 +18,7 @@ import AdminHome from './pages/AdminHomePage';
 import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
 import SalesPage from './pages/SalesPage';
+import OrderPage from './pages/OrderPage';
 
 const AppContent = () => {
   const location = useLocation();
@@ -74,8 +75,8 @@ const AppContent = () => {
             <Route path="/admin-home" element={isAuthenticated ? (isAdmin ? <AdminHome /> : <UserHome />) : <Navigate to='/login' />} />
             <Route path="/products" element={isAuthenticated ? <ProductPage /> : <Navigate to='/login' />} />
             <Route path="/cart" element={isAuthenticated ? <CartPage /> : <Navigate to='/login' />} />
-            {/* <Route path="/orders" element={isAuthenticated ? <OrderPage /> : <Navigate to='/login' />} /> */}
-            {/* <Route path="/users" element={isAuthenticated ? <Users /> : <Navigate to='/login' />} /> */}
+            <Route path="/orders" element={isAuthenticated ? <OrderPage /> : <Navigate to='/login' />} /> 
+            {/* <Route path="/users" element={isAuthenticated ? <UserPage /> : <Navigate to='/login' />} /> */}
             <Route path="/sales" element={isAuthenticated ? <SalesPage /> : <Navigate to='/login' />} />
             <Route path="*" element={isAuthenticated ? <Navigate to='/user-home'/> || <Navigate to='/admin-home'/> : <Navigate to="/login" /> || <Navigate to='/signup' />} />
           </Routes> 
