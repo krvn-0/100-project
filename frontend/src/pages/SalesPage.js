@@ -13,6 +13,7 @@ const SalesPage = () => {
     const [displayOrders, setDisplayOrders] = useState(orders);
     const [currentOrder, setCurrentOrder] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
+    const [sortedProducts, setSortedProducts] = useState([]);
 
     const handleSort = (criterion) => {
         const sortedOrders = sortData(orders, criterion);
@@ -66,8 +67,6 @@ const SalesPage = () => {
                     {/* Conditionally render sortedProducts if it has items, otherwise render all products */}
                     {(sortedProducts.length > 0 ? sortedProducts : productSummary).map(product => (
                         <tr key={product.id}>
-                    {productSummary.map(product => (
-                        <tr key={product.itemName}>
                             <td>{product.itemName}</td>
                             <td>{product.quantity}</td>
                             <td>${product.totalSales.toFixed(2)}</td>
