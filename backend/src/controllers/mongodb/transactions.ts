@@ -6,47 +6,42 @@ import { ProductDAO } from '../../entities/product.js';
 import { UserModel } from '../../models/user.js';
 import { UserToken } from '../../entities/user.js';
 import jwt from "jsonwebtoken";
-import { TokenSecretManager } from './secrets.js';
+import { TokenManager } from './secrets.js';
 import {Types} from 'mongoose';
 
 
 export async function getTransactions(req: Request, res: Response) {
-
-    const token = req.cookies?.token;
-    let tokenBody: UserToken;
-    try {
-        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
-    } catch (err) {
-        try {
-            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
-            res.cookie(
-                "token",
-                jwt.sign(
-                    {
-                        userId: tokenBody.id,
-                        isAdmin: tokenBody.isAdmin
-                    },
-                    TokenSecretManager.getCurrent(),
-                    {
-                        expiresIn: "7d"
-                    }
-                ),
-                {
-                    httpOnly: true,
-                    maxAge: 1000 * 60 * 60 * 24 * 7
-                }
-            );
-        }
-        catch {
-            res.status(401).send({
-                type: "urn:100-project:error:not_logged_in",
-                title: "Not Logged In",
-                status: 401,
-                detail: "You are not logged in."
-            });
-            return;
-        }
+    let token = req.cookies?.token;
+    if (token === undefined) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
     }
+
+    let tokenPayload = TokenManager.verify(token);
+    if (tokenPayload === null) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
+    }
+
+    // Reset token age
+    res.cookie(
+        "token",
+        TokenManager.sign(tokenPayload),
+        {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }
+    );
 
     // data set
     // no debate while presenting
@@ -54,7 +49,6 @@ export async function getTransactions(req: Request, res: Response) {
     // june 7 10:30 - 11:00
 
     try{
-
         const buyerId = req.query.buyerId;
         const productId = req.query.productId;
         const sellerId = req.query.sellerId;
@@ -87,13 +81,16 @@ export async function getTransactions(req: Request, res: Response) {
                     description: product.description,
                     type: product.type,
                     unitPrice: product.unitPrice,
+                    unit: product.unit,
+                    imageUrl: product.imageUrl,
                     owner: {
                         id: seller._id.toHexString(),
                         firstName: seller.firstName,
                         middleName: seller.middleName,
                         lastName: seller.lastName,
                         email: seller.email,
-                        isMerchant: seller.isMerchant
+                        isMerchant: seller.isMerchant,
+
                     }
                 },
                 quantity: order.quantity,
@@ -147,42 +144,37 @@ export async function getActiveTransactions(req: Request, res: Response){
 }
 
 export async function getTransactionByUserAndProduct(req: Request, res: Response) {
-
-    const token = req.cookies?.token;
-    let tokenBody: UserToken;
-    try {
-        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
-    } catch (err) {
-        try {
-            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
-            res.cookie(
-                "token",
-                jwt.sign(
-                    {
-                        userId: tokenBody.id,
-                        isAdmin: tokenBody.isAdmin
-                    },
-                    TokenSecretManager.getCurrent(),
-                    {
-                        expiresIn: "7d"
-                    }
-                ),
-                {
-                    httpOnly: true,
-                    maxAge: 1000 * 60 * 60 * 24 * 7
-                }
-            );
-        }
-        catch {
-            res.status(401).send({
-                type: "urn:100-project:error:not_logged_in",
-                title: "Not Logged In",
-                status: 401,
-                detail: "You are not logged in."
-            });
-            return;
-        }
+    let token = req.cookies?.token;
+    if (token === undefined) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
     }
+
+    let tokenPayload = TokenManager.verify(token);
+    if (tokenPayload === null) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
+    }
+
+    // Reset token age
+    res.cookie(
+        "token",
+        TokenManager.sign(tokenPayload),
+        {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }
+    );
 
     try{
         const transaction: TransactionDAO | null = await TransactionModel.findOne({
@@ -210,43 +202,37 @@ export async function getTransactionByUserAndProduct(req: Request, res: Response
 }
 
 //TODO: make this more generic
-export async function updateTransaction(req: Request, res: Response) {
-
-    const token = req.cookies?.token;
-    let tokenBody: UserToken;
-    try {
-        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
-    } catch (err) {
-        try {
-            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
-            res.cookie(
-                "token",
-                jwt.sign(
-                    {
-                        userId: tokenBody.id,
-                        isAdmin: tokenBody.isAdmin
-                    },
-                    TokenSecretManager.getCurrent(),
-                    {
-                        expiresIn: "7d"
-                    }
-                ),
-                {
-                    httpOnly: true,
-                    maxAge: 1000 * 60 * 60 * 24 * 7
-                }
-            );
-        }
-        catch {
-            res.status(401).send({
-                type: "urn:100-project:error:not_logged_in",
-                title: "Not Logged In",
-                status: 401,
-                detail: "You are not logged in."
-            });
-            return;
-        }
+export async function updateTransaction(req: Request, res: Response) {    let token = req.cookies?.token;
+    if (token === undefined) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
     }
+
+    let tokenPayload = TokenManager.verify(token);
+    if (tokenPayload === null) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
+    }
+
+    // Reset token age
+    res.cookie(
+        "token",
+        TokenManager.sign(tokenPayload),
+        {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }
+    );
     
     try{
 
@@ -343,6 +329,8 @@ export async function updateTransaction(req: Request, res: Response) {
                 type: product.type,
                 quantity: product.quantity,
                 unitPrice: product.unitPrice,
+                unit: product.unit,
+                imageUrl: product.imageUrl,
                 owner: {
                     id: productOwner._id.toHexString(),
                     lastName: productOwner.lastName,
@@ -371,42 +359,37 @@ export async function updateTransaction(req: Request, res: Response) {
 }
 
 export async function createTransaction(req: Request, res: Response) {
-
-    const token = req.cookies?.token;
-    let tokenBody: UserToken;
-    try {
-        tokenBody = jwt.verify(token!, TokenSecretManager.getCurrent()) as UserToken;
-    } catch (err) {
-        try {
-            tokenBody = jwt.verify(token!, TokenSecretManager.getOld()) as UserToken;
-            res.cookie(
-                "token",
-                jwt.sign(
-                    {
-                        userId: tokenBody.id,
-                        isAdmin: tokenBody.isAdmin
-                    },
-                    TokenSecretManager.getCurrent(),
-                    {
-                        expiresIn: "7d"
-                    }
-                ),
-                {
-                    httpOnly: true,
-                    maxAge: 1000 * 60 * 60 * 24 * 7
-                }
-            );
-        }
-        catch {
-            res.status(401).send({
-                type: "urn:100-project:error:not_logged_in",
-                title: "Not Logged In",
-                status: 401,
-                detail: "You are not logged in."
-            });
-            return;
-        }
+    let token = req.cookies?.token;
+    if (token === undefined) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
     }
+
+    let tokenPayload = TokenManager.verify(token);
+    if (tokenPayload === null) {
+        res.status(401).send({
+            type: "urn:100-project:error:not_logged_in",
+            title: "Not Logged In",
+            status: 401,
+            detail: "You are not logged in."
+        });
+        return;
+    }
+
+    // Reset token age
+    res.cookie(
+        "token",
+        TokenManager.sign(tokenPayload),
+        {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }
+    );
     
     // add price
     try {
