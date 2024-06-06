@@ -2,7 +2,6 @@ import React from "react";
 import './SortBar.css';
 
 const SortBar = ({ value, handleSearchClick, handleOnChange, handleClearClick, children}) => {
-    console.log('value', value)
     return (
         <div className="sort-bar">
         <div className="sort-bar-search">

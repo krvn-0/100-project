@@ -19,19 +19,33 @@
     max-width: 30em; 
     /* padding: 0.5em 0.5em 0 0.5em; */
     margin-bottom: 1em;
-    font-size: 1em;
+    font-size: 0.8em;
+    color: var(--main-white);
 }
 
 .dropdown-filters > * {
     margin-right: 10px;
     justify-content: start;
-    height: 2em;
+    height: 1.6em;
 }
 
 .sub-filter {
     background-color: var(--main-green);
-    border-radius: 0.8em;
-    color: var(--main-white);
+    /* border: 0.1em solid var(--main-green); */
+    border-radius: 1.2em;
     padding: 0.6em;
     height: fit-content;
+}
+
+.sub-filter select {
+    border: none;
+    background-color: var(--main-white);
+    color: var(--main-black);
+    font-size: 0.75em;
+    padding: 0.5em;
+    border-radius: 1em;
+}
+
+.sub-filter select:hover {
+    border: 0.1em solid var(--main-green-hover);
 }
