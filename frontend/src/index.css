@@ -1,0 +1,99 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body, html {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  margin: 0;
+
+  --main-white: #FCFBFC;
+  --main-black: #181C1F;
+  --main-green: #69e169;
+  --main-green-hover: #006400;
+  --main-orange: #ff8c00;
+  --main-orange-hover: #8e5f07;
+  --main-red: #ff0000;
+  --main-red-hover: #8E0000;
+  --main-yellow: yellow;
+  --main-yellow-hover: #8E8E00;
+  --button-width: 5em;
+
+  background-color: var(--main-white);
+  color: var(--main-black);
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-size: calc(12px + 0.6vw);
+
+  /* makes the font appearance smoother */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently */
+}
+
+code {
+  font-family: 'Courier New', monospace;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently */
+}
+
+html {
+  background-color: #E3DFFF;
+}
+
+.App {
+  display: flex;
+  height: 100vh; 
+  overflow: hidden;
+}
+
+
+.app-content {
+  flex-grow: 1;
+  height: calc(100vh - 2vw - 30px);
+  margin-top: calc(2vw + 36px);
+  padding: 1em 1.5em;
+  overflow-y: scroll;
+}
+
+.full-height {
+  height: 100vh;
+  padding: 0;
+  margin-top: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a, p {
+  text-decoration: none;
+  color: var(--main-white);
+}
+
+h1 {
+  font-size: calc(1.4vw + 16px)
+}
+
+button {
+  font-family: monospace;
+  background-color: var(--main-orange);
+  width: var(--button-width);
+  cursor: pointer;
+}

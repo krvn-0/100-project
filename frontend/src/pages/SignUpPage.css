@@ -1,0 +1,24 @@
+.login-elems {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    flex-wrap: wrap;
+}
+
+.login, .login-link {
+    color: var(--main-black);
+    font-size: 0.6em;
+    margin: 0.2em;
+}
+
+.login-link {
+    text-decoration: underline;
+    color: var(--main-green);
+    cursor: pointer;
+}
+
+.login-link:hover {
+    color: var(--main-green-hover);
+}

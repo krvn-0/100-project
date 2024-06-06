@@ -1,0 +1,39 @@
+.product-page {
+    text-align: left;
+    height: calc(100% + 12em);
+}
+
+.product-page h1 {
+    margin-bottom: 20px;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 50px;
+}
+
+button {
+    font-family: monospace;
+    padding: 0.3em;
+    width: 4em;
+    border: 0.15em solid var(--main-black);
+    border-radius: 0.5em;
+    color: var(--main-white);
+}
+
+.add-to-cart {
+    background-color: var(--main-green);
+}
+
+.add-to-cart:hover {
+    background-color: var(--main-green-hover);
+}
+
+.view {
+    background-color: var(--main-orange);
+}
+
+.view:hover {
+    background-color: var(--main-orange-hover);
+}
