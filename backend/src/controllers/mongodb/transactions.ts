@@ -435,7 +435,7 @@ export async function createTransaction(req: Request, res: Response) {
         // fetch product
         const product = await ProductModel.findOne({
             _id: productId,
-            deleted: false
+            deleted: { "$ne": true }
         });
 
         // check if product exists

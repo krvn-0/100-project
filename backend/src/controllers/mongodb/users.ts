@@ -44,12 +44,12 @@ export async function getUsers(req: Request, res: Response) {
     let userDaos;
     if (tokenBody.isAdmin) {
         userDaos = await UserModel.find({
-            deleted: false
+            deleted: { "$ne": true }
         });
     } else {
         userDaos = await UserModel.find({
             _id: tokenBody.id,
-            deleted: false
+            deleted: { "$ne": true }
         });
     }
     const users: User[] = [];
@@ -70,7 +70,7 @@ export async function getUsers(req: Request, res: Response) {
                 "_id": {
                     $in: productIds
                 },
-                deleted: false
+                deleted: { "$ne": true }
             });
 
             user.products = results.map((dao) => {
@@ -209,7 +209,7 @@ export async function getUser(req: Request, res: Response) {
     const id = req.params.id;
     const targetUser = await UserModel.findOne({
         _id: id,
-        deleted: false
+        deleted: { "$ne": true }
     });
 
     if (targetUser === null) {
@@ -246,7 +246,7 @@ export async function getUser(req: Request, res: Response) {
             "_id": {
                 $in: productIds
             },
-            deleted: false
+            deleted: { "$ne": true }
         });
 
         ret.products = results.map((dao) => {
@@ -342,7 +342,7 @@ export async function updateUser(req: Request, res: Response) {
 
     const targetUser = await UserModel.findOne({
         _id: id,
-        deleted: false
+        deleted: { "$ne": true }
     })
     if (targetUser === null) {
         res.status(404).send({
@@ -582,7 +582,7 @@ export async function deleteUser(req: Request, res: Response) {
     try {
         let user = await UserModel.findOne({
             _id: new Types.ObjectId(id),
-            deleted: false
+            deleted: { "$ne": true }
         });
 
         if (user === null) {

@@ -23,7 +23,9 @@ export async function login(req: Request, res: Response) {
 
     const user = await UserModel.findOne({
         email: email,
-        deleted: false
+        deleted: {
+            "$ne": true
+        }
     });
     if (user === null) {
         res.status(401).send({
@@ -57,7 +59,7 @@ export async function login(req: Request, res: Response) {
     if (user.isMerchant) {
         const products = await ProductModel.find({
             ownerId: user._id,
-            deleted: false
+            deleted: { "$ne": true }
         });
 
         ret.products = products.map((product) => {

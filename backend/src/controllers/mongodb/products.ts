@@ -40,7 +40,7 @@ export async function getProducts(req: Request, res: Response) {
     );
 
     let productDaos = await ProductModel.find({
-        deleted: false
+        deleted: { "$ne": true }
     });
     let products: Product[] = [];
 
@@ -488,7 +488,7 @@ export async function deleteProduct(req: Request, res: Response) {
     const id = req.params.id;
     const product = await ProductModel.findOne({
         _id: id,
-        deleted: false
+        deleted: { "$ne": true }
     });
     if (product === null) {
         res.status(404).send({
