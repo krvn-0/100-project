@@ -1,3 +1,7 @@
+.popup-inner {
+    transition: transform 0.6s;
+}
+
 .popup .crops {
     background-color: var(--main-green);
 }

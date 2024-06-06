@@ -8,17 +8,17 @@ const ProductCard = ({ product, handleAddClick, handleOnClick }) => {
             onClick={handleOnClick}
         >
             <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                <img src={product.imageUrl} alt={product.name} />
             </div>
             <div className="product-info">
                 <h2 className="product-name">
                     {product.name}
                 </h2>
                 <p className="product-price">
-                    P{product.price} per {product.qty_type}
+                    P{product.unitPrice} per {product.unit}
                 </p>
                 <p className="product-stock">
-                    {product.quantity} {product.quantity > 1 ? `${product.qty_type}s` : `${product.qty_type}`}
+                    {product.quantity} {product.quantity > 1 ? `${product.unit}s` : `${product.unit}`}
                 </p>
                 <div className="button-placeholder" />
             </div>
