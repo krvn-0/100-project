@@ -27,6 +27,10 @@ const TransactionSchema = new Schema<TransactionDAO>({
         type: Date,
         default: Date.now,
         required: true
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 

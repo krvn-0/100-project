@@ -23,5 +23,6 @@ export type TransactionDAO = {
     quantity: number,
     price: number,
     status: TransactionStatus,
-    timestamp: Date
+    timestamp: Date,
+    deleted?: boolean,
 }
