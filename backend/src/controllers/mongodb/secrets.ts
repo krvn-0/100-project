@@ -37,6 +37,9 @@ export class TokenManager {
      * @returns The signed token.
      **/
     static sign(payload: string | JwtPayload): string {
+        // Remove exp from payload as we will be resetting it.
+        delete (payload as JwtPayload).exp;
+
         return jwt.sign(
             payload,
             TokenManager.getCurrent(),

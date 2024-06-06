@@ -101,7 +101,8 @@ export async function getUsers(req: Request, res: Response) {
                         type: product.type,
                         quantity: product.quantity,
                         unitPrice: product.unitPrice,
-                        unit: product.unit
+                        unit: product.unit,
+                        imageUrl: product.imageUrl
                     },
                     quantity: cartQuantities[product._id!.toHexString()]
                 }
@@ -272,7 +273,8 @@ export async function getUser(req: Request, res: Response) {
                     type: product.type,
                     quantity: product.quantity,
                     unitPrice: product.unitPrice,
-                    unit: product.unit
+                    unit: product.unit,
+                    imageUrl: product.imageUrl
                 },
                 quantity: cartQuantities[product._id!.toHexString()]
             }
@@ -507,7 +509,8 @@ export async function updateUser(req: Request, res: Response) {
                     type: product.type,
                     quantity: product.quantity,
                     unitPrice: product.unitPrice,
-                    unit: product.unit
+                    unit: product.unit,
+                    imageUrl: product.imageUrl
                 },
                 quantity: cartQuantities[product._id!.toHexString()]
             }
