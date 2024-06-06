@@ -16,6 +16,7 @@ export type ProductDAO = {
     unitPrice: number;
     imageUrl: string;
     unit: string;
+    deleted?: boolean;
 }
 
 export type ProductDOT = {

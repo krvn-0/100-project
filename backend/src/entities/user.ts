@@ -12,6 +12,7 @@ export type UserDAO = {
     isMerchant: boolean;
     productIds: Types.ObjectId[];
     cart: CartItemDao[];
+    deleted?: boolean;
 };
 
 export type UserDOT = {

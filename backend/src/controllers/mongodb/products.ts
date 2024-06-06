@@ -39,7 +39,9 @@ export async function getProducts(req: Request, res: Response) {
         }
     );
 
-    let productDaos = await ProductModel.find();
+    let productDaos = await ProductModel.find({
+        deleted: { "$ne": true }
+    });
     let products: Product[] = [];
 
     for (let dao of productDaos) {
@@ -264,18 +266,11 @@ export async function getProduct(req: Request, res: Response) {
 
     const tokenBody = tokenPayload as UserToken;
 
-    if (!tokenBody.isMerchant) {
-        res.status(403).send({
-            type: "urn:100-project:error:forbidden",
-            title: "Forbidden",
-            status: 403,
-            detail: "Your account is not registered as a merchant account."
-        });
-        return;
-    }
-
     const id = req.params.id;
-    const product = await ProductModel.findById(id);
+    const product = await ProductModel.findOne({
+        _id: id,
+        ownerId: tokenBody.id
+    });
     if (product === null) {
         res.status(404).send({
             type: "urn:100-project:error:not_found",
@@ -491,7 +486,10 @@ export async function deleteProduct(req: Request, res: Response) {
     }
 
     const id = req.params.id;
-    const product = await ProductModel.findById(id);
+    const product = await ProductModel.findOne({
+        _id: id,
+        deleted: { "$ne": true }
+    });
     if (product === null) {
         res.status(404).send({
             type: "urn:100-project:error:not_found",

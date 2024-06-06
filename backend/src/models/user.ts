@@ -37,6 +37,25 @@ const UserSchema = new Schema<UserDAO>({
         type: [Types.ObjectId],
         default: []
     },
+    cart: {
+        type: [
+            {
+                productId: {
+                    type: "ObjectId",
+                    required: true
+                },
+                quantity: {
+                    type: Number,
+                    required: true
+                }
+            }
+        ],
+        default: []
+    },
+    deleted: {
+        type: Boolean,
+        default: false
+    }
 });
 
 // Salt and hash the user's password before saving it to the database.
