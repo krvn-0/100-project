@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { Product } from "./product.js";
+import { CartItem, CartItemDao } from "./cart.js";
 
 export type UserDAO = {
     firstName: string;
@@ -10,6 +11,7 @@ export type UserDAO = {
     isAdmin: boolean;
     isMerchant: boolean;
     productIds: Types.ObjectId[];
+    cart: CartItemDao[];
 };
 
 export type UserDOT = {
@@ -32,6 +34,7 @@ export type User = {
     email: string;
     isMerchant?: boolean;
     products?: Product[];
+    cart?: CartItem[];
 };
 
 export type UserToken = {
@@ -39,3 +42,4 @@ export type UserToken = {
     isAdmin: boolean;
     isMerchant: boolean;
 };
+

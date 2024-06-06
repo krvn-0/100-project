@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import jwt, { Jwt, JwtPayload, VerifyErrors } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 import { UserModel } from "../../models/user.js";
-import { User } from "../../entities/user.js";
+import { User, UserToken } from "../../entities/user.js";
 import { ProductModel } from "../../models/product.js";
-import { TokenSecretManager } from "./secrets.js";
+import { TokenManager } from "./secrets.js";
 
 
 export async function login(req: Request, res: Response) {
@@ -65,21 +64,47 @@ export async function login(req: Request, res: Response) {
                 description: product.description,
                 type: product.type,
                 quantity: product.quantity,
-                unitPrice: product.unitPrice
+                unitPrice: product.unitPrice,
+                unit: product.unit,
+                imageUrl: product.imageUrl
             });
         }
     }
 
-    const token = jwt.sign(
-        {
-            id: user._id.toHexString(),
-            isAdmin: user.isAdmin
-        },
-        TokenSecretManager.getCurrent(),
-        {
-            expiresIn: "7d",
-        }
-    );
+    let cart = user.get("cart");
+    if (cart === undefined) {
+        ret.cart = [];
+    } else {
+        let cartQuantities = Object.fromEntries(cart.map((cartItem) => [cartItem.productId, cartItem.quantity]));
+        let cartProducts = await ProductModel.find({
+            _id: {
+                $in: cart.map((cartItem) => cartItem.productId)
+            }
+        });
+
+        ret.cart = cartProducts.map((product) => {
+            return {
+                product: {
+                    id: product._id!.toHexString(),
+                    name: product.name,
+                    description: product.description,
+                    type: product.type,
+                    quantity: product.quantity,
+                    unitPrice: product.unitPrice,
+                    unit: product.unit
+                },
+                quantity: cartQuantities[product._id!.toHexString()]
+            }
+        });
+    }
+
+    const tokenBody: UserToken = {
+        id: user._id.toHexString(),
+        isAdmin: user.isAdmin,
+        isMerchant: user.isMerchant
+    }
+
+    const token = TokenManager.sign(tokenBody);
     res.cookie("token", token, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -88,7 +113,7 @@ export async function login(req: Request, res: Response) {
     res.status(200).send(ret);
 }
 
-export async function logout(req: Request, res: Response) {
+export async function logout(_: Request, res: Response) {
     res.cookie("token", "", {
         expires: new Date(0),
         httpOnly: true,

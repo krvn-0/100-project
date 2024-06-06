@@ -34,7 +34,7 @@ const UserSchema = new Schema<UserDAO>({
         default: false,
     },
     productIds: {
-        type: [Types.UUID],
+        type: [Types.ObjectId],
         default: []
     },
 });

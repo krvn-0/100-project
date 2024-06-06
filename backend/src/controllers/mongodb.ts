@@ -2,6 +2,7 @@ import { Express } from "express";
 import mongoose from "mongoose";
 import { login, logout } from "./mongodb/authorization.js";
 import { createUser, deleteUser, getUser, getUsers, updateUser } from "./mongodb/users.js";
+import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from "./mongodb/products.js";
 
 export default async function RouteWithMongoDB(app: Express) {
     await mongoose.connect(
@@ -25,4 +26,10 @@ export default async function RouteWithMongoDB(app: Express) {
     app.get("/users/:id", getUser);
     app.patch("/users/:id", updateUser);
     app.delete("/users/:id", deleteUser);
+
+    app.get("/products", getProducts);
+    app.put("/products", createProduct);
+    app.get("/products/:id", getProduct);
+    app.patch("/products/:id", updateProduct);
+    app.delete("/products/:id", deleteProduct);
 }
