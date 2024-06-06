@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { ProductDAO } from "../entities/product.js";
 
 const ProductSchema = new Schema<ProductDAO>({
@@ -29,7 +29,11 @@ const ProductSchema = new Schema<ProductDAO>({
     unit: {
         type: String,
         required: true,
-    }
+    },
+    imageUrl: {
+        type: String,
+        default: "",
+    },
 });
 
 export const ProductModel = mongoose.model("Product", ProductSchema, "products");

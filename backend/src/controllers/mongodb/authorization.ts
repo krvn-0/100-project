@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 import { UserModel } from "../../models/user.js";
 import { User, UserToken } from "../../entities/user.js";
 import { ProductModel } from "../../models/product.js";
-import { TokenSecretManager } from "./secrets.js";
+import { TokenManager } from "./secrets.js";
 
 
 export async function login(req: Request, res: Response) {
@@ -66,7 +65,8 @@ export async function login(req: Request, res: Response) {
                 type: product.type,
                 quantity: product.quantity,
                 unitPrice: product.unitPrice,
-                unit: product.unit
+                unit: product.unit,
+                imageUrl: product.imageUrl
             });
         }
     }
@@ -104,13 +104,7 @@ export async function login(req: Request, res: Response) {
         isMerchant: user.isMerchant
     }
 
-    const token = jwt.sign(
-        tokenBody,
-        TokenSecretManager.getCurrent(),
-        {
-            expiresIn: "7d",
-        }
-    );
+    const token = TokenManager.sign(tokenBody);
     res.cookie("token", token, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
