@@ -6,6 +6,10 @@ const EditProductPopup = ({ product, closePopup, editSubmit }) => {
     const [price, setPrice] = useState(product.unitPrice);
     const [quantity, setQuantity] = useState(product.quantity);
 
+    const handleDescChange = (event) => {
+        setDescription(event.target.value);
+    };
+
     const handlePriceChange = (event) => {
         const value = event.target.value;
         const regex = /^[0-9]+(\.[0-9]{0,2})?$/;
@@ -41,7 +45,7 @@ const EditProductPopup = ({ product, closePopup, editSubmit }) => {
                         <input 
                             type="text" 
                             defaultValue={product.description}
-                            onChange={setDescription} 
+                            onChange={handleDescChange} 
                             className="input-field"
                             required    
                         />

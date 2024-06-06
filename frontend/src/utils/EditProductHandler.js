@@ -1,9 +1,9 @@
-const handleSubmitEditProduct = async (ID, description, price, quantity) => {
+const handleSubmitEditProduct = async (ID, desc, price, qty) => {
     
     let body = {
-        description: description,
+        description: desc,
         unitPrice: price,
-        quantity: quantity,
+        quantity: qty,
     }
 
     const response = await fetch(`http://localhost:3001/products/${ID}`, {
