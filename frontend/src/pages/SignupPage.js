@@ -78,6 +78,7 @@ function SignUpPage() {
             } else {
                 sessionStorage.setItem('userID', JSON.stringify(data.id));
                 sessionStorage.setItem('isAdmin', JSON.stringify(data.isMerchant));
+                alert('Signup successful');
                 navigate('/user-home');
             }
         } catch (error) {
@@ -85,14 +86,7 @@ function SignUpPage() {
             alert('An error occurred. Please try again.');
         }
         
-        // Perform login logic here
-        if (email && password) {
-            // Valid email and password, proceed with login
-            console.log('Login successful');
-        } else {
-            // Invalid email or password, show error message
-            console.log('Invalid email or password');
-        }
+
         clearForm();
     };
 
