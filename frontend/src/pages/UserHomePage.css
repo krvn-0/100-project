@@ -1,3 +1,7 @@
-.user-home > * {
+.home-body {
+    padding: 1em;
+}
+
+.home-body > * {
     color: var(--main-black);
 }
