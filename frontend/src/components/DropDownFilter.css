@@ -1,0 +1,37 @@
+.filter {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 0px;
+}
+
+.filter > * {
+    margin-right: 10px;
+    justify-content: start;
+}
+
+.dropdown-filters {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: flex-start;
+    width: fit-content;
+    max-width: 30em; 
+    /* padding: 0.5em 0.5em 0 0.5em; */
+    margin-bottom: 1em;
+    font-size: 1em;
+}
+
+.dropdown-filters > * {
+    margin-right: 10px;
+    justify-content: start;
+    height: 2em;
+}
+
+.sub-filter {
+    background-color: var(--main-green);
+    border-radius: 0.8em;
+    color: var(--main-white);
+    padding: 0.6em;
+    height: fit-content;
+}

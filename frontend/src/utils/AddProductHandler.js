@@ -30,7 +30,7 @@ const handleSubmitAddProduct = async (name, description, price, quantity, type, 
         alert('Product added successfully');
         return data;
     } catch (error) {
-        console.log('Error: ', error)
+        alert(`Error: ${error}`)
     }
 }
 

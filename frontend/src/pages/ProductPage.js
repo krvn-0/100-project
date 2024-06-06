@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import handleAddToCart from "../utils/AddToCartHandler";
 import './ProductPage.css';
 
 import ProductCard from "../cards/ProductCard";
@@ -12,6 +11,8 @@ import handleSubmitAddProduct from "../utils/AddProductHandler";
 import handleSubmitDeleteProduct from "../utils/DeleteProductHandler";
 import handleSubmitAddToCart from "../utils/AddToCartHandler";
 import DeleteProductPopup from "../popups/DeleteProduct";
+import SortBar from "../components/SortBar";
+import DropDownFilter from "../components/DropDownFilter";
 
 const ProductPage = () => {
     const [productList, setProductList] = useState([]);
@@ -22,22 +23,40 @@ const ProductPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
+    const [searchValue, setSearchValue] = useState('');
+    const [currentFilterOption, setCurrentFilterOption] = useState('')
+    const filterOptions = [
+        {value: '', label: 'None'},
+        {value: 'name', label: 'Name'},
+        {value: 'type', label: 'Type'},
+        {value: 'unitPrice', label: 'Price'},
+        {value: 'quantity', label: 'Quantity'}
+    ];
+    const [sortOrder, setSortOrder] = useState('asc');
+    
+    const [currentList, setCurrentList] = useState([...productList]);
+
     const isAdmin = JSON.parse(sessionStorage.getItem('isAdmin')) || false;
 
     useEffect(() => {
         try { 
             fetch('http://localhost:3001/products', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        })
-        .then((response) => response.json())
-        .then((data) => setProductList(data));
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setProductList(data);
+                setCurrentList(data);
+            });
         } catch (error) {
             alert(error);
             setProductList([]);
+            setCurrentList([]);
+            searchHandler();
         }
     }, []);
 
@@ -121,7 +140,65 @@ const ProductPage = () => {
         await handleSubmitAddToCart(product, quantity);
     }
 
-    const renderItems = productList.map((product) => {
+    const searchHandler = () => {
+        if(searchValue === '') {
+            setCurrentList([...productList]);
+            return;
+        }
+        const filteredList = productList.filter((product) => {
+            return product.name.toLowerCase().includes(searchValue.toLowerCase());
+        });
+        setCurrentList([...filteredList]);
+    }
+
+    useEffect(() => {
+        handleSort(currentFilterOption);
+    }, [currentFilterOption, sortOrder]);
+
+    const handleSort = (filterVal) => {
+        setCurrentFilterOption(filterVal);
+
+        if (filterVal === '') {
+            setCurrentList([...productList]);
+            return;
+        }
+
+        if(sortOrder === 'desc') {
+            setCurrentList([...currentList.reverse()]);
+            return;
+        }
+
+        let sortedList = [];
+        switch (filterVal) {
+            case 'name':
+                sortedList = [...currentList.sort((a, b) => a.name.localeCompare(b.name))];
+                break;
+            case 'type':
+                sortedList = [...currentList.sort((a, b) => a.type - b.type)];
+                break;
+            case 'unitPrice':
+                sortedList = [...currentList.sort((a, b) => a.unitPrice - b.unitPrice)];
+                break;
+            case 'quantity':
+                sortedList = [...currentList.sort((a, b) => a.quantity - b.quantity)];
+                break;
+            case 'unit':
+                sortedList = [...currentList.sort((a, b) => a.unit.localeCompare(b.unit))];
+                break;
+            default:
+                break;
+        }
+
+        setCurrentList(sortedList);
+    };
+
+    const clearHandler = () => {
+        setSearchValue('');
+        setCurrentFilterOption('');
+        setCurrentList([...productList]);
+    }
+
+    const renderItems = currentList.map((product) => {
         return  <ProductCard 
                     key={product.id}
                     product={product}
@@ -135,6 +212,23 @@ const ProductPage = () => {
     return (
         <div className="product-page">
             <h1>Product List</h1>
+            <SortBar
+                value={searchValue}
+                handleSearchClick={searchHandler}
+                handleOnChange={(e) => setSearchValue(e.target.value)}
+                handleClearClick={clearHandler}
+                children={
+                    <div className="filter">
+                        <DropDownFilter
+                            name="food-filters"
+                            options={filterOptions}
+                            handleOnChange={handleSort}
+                            value={currentFilterOption}
+                            setSortOrder={setSortOrder}
+                        />
+                    </div>
+                }
+            />
             {isAdmin && (
                 <div className="product-page-header">
                     <button className="add-product" onClick={openAddPopup}>Add</button>

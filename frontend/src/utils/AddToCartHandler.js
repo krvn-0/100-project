@@ -1,12 +1,46 @@
 import React from 'react';
 
-const handleAddToCart = (product, quantity) => {
-    // get current user
+const handleAddToCart = async (product, quantity) => {
+    const id = JSON.parse(sessionStorage.getItem('userID'));
+
+    const userResponse = await fetch(`http://localhost:3001/users/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+    });
+    const userData = await userResponse.json();
+
+    if(!userData) {
+        alert('Failed to retrieve user data');
+        return;
+    }
+
     if(product.quantity >= quantity) {
-        // insert line to append product to user's cart
-        alert(`${product.name} added to cart!`)
-    } else {
-        alert(`Failed to add ${product.name} to cart. Not enough stock.`)
+        try {
+            const response = await fetch(`http://localhost:3001/users/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    cart: [...userData.cart, {product, quantity}]
+                })
+            })
+
+            const data = await response.json();
+            const statuscode = data.status;
+
+            if(statuscode < 200 || statuscode >= 300) {
+                alert(`Error: ${data.detail}`);
+            } else {
+                alert(`${product.name} added to cart`);
+            }
+        } catch (error) {
+            alert(`Failed to add ${product.name} to cart. Not enough stock.`)
+        }
     }
 }
 
