@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import './CartPage.css';
 
 import CartCard from '../cards/CartCard';
-import handleRemoveFromCart from "../utils/CancelOrderHandler";
+import handleRemoveFromCart from "../utils/RemoveFromCart";
 import handleSubmitOrder from "../utils/CheckoutHandler";
 
 const CartPage = () => {
-    const [cartDetails, setCartDetails] = useState([]);
     const [cartItems, setCartItems] = useState([]);
 
     const userID = sessionStorage.getItem('userID');
@@ -28,7 +27,6 @@ const CartPage = () => {
                 return;
             }
 
-            setCartDetails(userData.cart);
             setCartItems(userData.cart.map((item) => {
                 const { product, quantity } = item;
                 return {

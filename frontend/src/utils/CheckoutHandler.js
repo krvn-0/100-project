@@ -6,9 +6,9 @@ const handleSubmitOrder  = async (product) => {
     const userID = userData.id;
 
     const body = {
-        productID: product.id,
+        productId: product.id,
         quantity: product.quantity,
-        userID: userID,
+        userId: userID,
         price: product.unitPrice
     }
 
@@ -55,9 +55,11 @@ const handleSubmitOrder  = async (product) => {
 
         if(statuscode < 200 || statuscode >= 300) {
             alert(`Error: ${data.detail}`);
-        } 
+        } else {
+            alert(`Cart updated`);
+        }
     } catch (error) {
-        alert(`Failed to order item`)
+        alert(`Failed to update cart`)
     }
 }
 

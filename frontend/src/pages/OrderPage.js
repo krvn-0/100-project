@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { approveOrder, cancelOrder, canUserModifyOrder } from '../utils/OrderUtils';
 import './OrderPage.css';
 
 const OrderPage = () => {
-
-    const userType = JSON.parse(sessionStorage.getItem('isAdmin')) ? 'admin' : 'user';
+    const [orders, setOrders] = useState([]);
+    const isAdmin = JSON.parse(sessionStorage.getItem('isAdmin')) || false;
+    const userType = isAdmin ? 'admin' : 'buyer';
+    const userID = sessionStorage.getItem('userID');
     
-    const [orders, setOrders] = useState([
-        { id: 1, itemName: 'Eggs', orderDate: new Date('2023-06-01'), quantity: 100, price: 10, status: 'Pending' },
-        { id: 2, itemName: 'Milk', orderDate: new Date('2023-06-02'), quantity: 50, price: 20, status: 'Pending' },
-        { id: 3, itemName: 'Bread', orderDate: new Date('2023-06-03'), quantity: 80, price: 5, status: 'Cancelled' },
-    ]);
+    const fetchUrl = isAdmin  ? `http://localhost:3001/transactions` : `http://localhost:3001/transactions/buyerID?${userID}`;
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            const response = await fetch(fetchUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            const orders = await response.json();
+            setOrders(orders);
+        };
+
+        fetchOrders();
+    }, []);
 
     const handleApprove = (id) => {
         if (approveOrder(id, userType)) {
@@ -41,8 +56,8 @@ const OrderPage = () => {
             <button onClick={sortOrdersByDate} className='sort-btn'>Sort by Date</button>
             {orders.map((order) => (
                 <div key={order.id} className="order-item">
-                    <p>{order.itemName} - {order.quantity} units at P{order.price} each. Total: P{order.quantity * order.price}</p>
-                    <p>Order Date: {formatDate(order.orderDate)}</p>
+                    <p>{order.product.name} - {order.quantity} units at P{order.price} each. Total: P{order.quantity * order.price}</p>
+                    <p>Order Date: {formatDate(new Date((order.timestamp)))}</p>
                     <p>Status: {order.status}</p>
                     {canUserModifyOrder(userType) && (
                         <>
