@@ -58,7 +58,7 @@ const ProductPage = () => {
             setCurrentList([]);
             searchHandler();
         }
-    }, []);
+    }, [isAdding, isEditing, isDeleting, isViewing]);
 
     const openViewPopup = (product) => {
         setCurrentProduct(product);

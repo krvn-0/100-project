@@ -20,7 +20,7 @@ const ProductCard = ({ product, handleAddClick, handleOnClick, handleEditClick, 
                     P{product.unitPrice} per {product.unit}
                 </p>
                 <p className="product-stock">
-                    {product.quantity} {product.quantity > 1 ? `${product.unit}s` : `${product.unit}`}
+                    {product.quantity} {product.quantity > 1 && product.unit !== 'lbs' ? `${product.unit}s` : `${product.unit}`}
                 </p>
                 <div className="button-placeholder" />
             </div>

@@ -17,7 +17,8 @@ import UserHome from './pages/UserHomePage';
 import AdminHome from './pages/AdminHomePage';
 import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
-// import SalesPage from './pages/SalesPage';
+import UserPage from './pages/UserPage';
+import SalesPage from './pages/SalesPage';
 import OrderPage from './pages/OrderPage';
 
 const AppContent = () => {

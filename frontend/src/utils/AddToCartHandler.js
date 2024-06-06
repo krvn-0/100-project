@@ -1,22 +1,8 @@
-import React from 'react';
+import getUser from './GetUserDetails';
 
 const handleAddToCart = async (product, quantity) => {
-    const id = sessionStorage.getItem('userID');
-
-    const userResponse = await fetch(`http://localhost:3001/users/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-    });
-
-    const userData = await userResponse.json();
-    
-    if(!userData) {
-        alert('Failed to retrieve user data');
-        return;
-    }
+    const userData = await getUser();
+    const id = userData.id;
 
     if(product.quantity >= quantity) {
 
@@ -30,7 +16,6 @@ const handleAddToCart = async (product, quantity) => {
                 "quantity": quantity
             });
         }
-
     
         try {
             const response = await fetch(`http://localhost:3001/users/${id}`, {
@@ -40,9 +25,7 @@ const handleAddToCart = async (product, quantity) => {
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    cart: [{
-                        cart
-                    }]
+                    cart: cart
                 })
             })
 
