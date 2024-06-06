@@ -1,7 +1,7 @@
 import React from 'react';
 
 const handleAddToCart = async (product, quantity) => {
-    const id = JSON.parse(sessionStorage.getItem('userID'));
+    const id = sessionStorage.getItem('userID');
 
     const userResponse = await fetch(`http://localhost:3001/users/${id}`, {
         method: 'GET',
@@ -10,14 +10,22 @@ const handleAddToCart = async (product, quantity) => {
         },
         credentials: 'include',
     });
-    const userData = await userResponse.json();
 
+    const userData = await userResponse.json();
+    
     if(!userData) {
         alert('Failed to retrieve user data');
         return;
     }
 
     if(product.quantity >= quantity) {
+        let cart = [...userData.cart];
+        const existingItemIndex = cart.findIndex(item => item.product.id === product.id);
+        if (existingItemIndex !== -1) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push({ product, quantity });
+        }
         try {
             const response = await fetch(`http://localhost:3001/users/${id}`, {
                 method: 'PATCH',
@@ -26,7 +34,7 @@ const handleAddToCart = async (product, quantity) => {
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    cart: [...userData.cart, {product, quantity}]
+                    cart: cart
                 })
             })
 

@@ -188,7 +188,6 @@ const ProductPage = () => {
             default:
                 break;
         }
-
         setCurrentList(sortedList);
     };
 
