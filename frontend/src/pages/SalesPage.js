@@ -13,6 +13,7 @@ const SalesPage = () => {
 
     const [currentOrder, setCurrentOrder] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
+    const [sortedProducts, setSortedProducts] = useState([]);
 
     const getDateFilter = (period) => {
         const now = new Date();
@@ -31,6 +32,15 @@ const SalesPage = () => {
                 return new Date();
         }
     };
+    const openViewPopup = (order) => {
+        setCurrentOrder(order);
+        setIsViewing(true);
+    };
+
+    const closeViewPopup = () => {
+        setCurrentOrder(null);
+        setIsViewing(false);
+    };
 
     const sortOrders = (timeframe) => {
         const dateLimit = getDateFilter(timeframe);
@@ -39,13 +49,8 @@ const SalesPage = () => {
     };
 
     const sortProductsByProfit = () => {
-        const productsWithProfit = productSummary.map(product => ({
-            ...product,
-            profit: product.quantity * product.price * 0.2 // Assuming 20% is the profit margin
-        }));
-
-        productsWithProfit.sort((a, b) => b.profit - a.profit);
-        setProductSummary(productsWithProfit.slice(0, 3)); // Get top 3 highest profits
+        const sorted = Object.values(productSummary).sort((a, b) => b.profit - a.profit);
+        setSortedProducts(sorted.slice(0, 3));
     };
 
     const productSummary = useMemo(() => {
@@ -74,7 +79,7 @@ const SalesPage = () => {
             <button onClick={() => sortOrders('monthly')}>Sort Monthly</button>
             <button onClick={() => sortOrders('annually')}>Sort Annually</button>
             <button onClick={sortProductsByProfit}>Top 3 Highest Profits</button>
-
+    
             <h2>Product Sales Summary</h2>
             <table className="sales-table">
                 <thead>
@@ -86,7 +91,8 @@ const SalesPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {productSummary.map(product => (
+                    {/* Conditionally render sortedProducts if it has items, otherwise render all products */}
+                    {(sortedProducts.length > 0 ? sortedProducts : productSummary).map(product => (
                         <tr key={product.itemName}>
                             <td>{product.itemName}</td>
                             <td>{product.quantity}</td>
@@ -96,7 +102,7 @@ const SalesPage = () => {
                     ))}
                 </tbody>
             </table>
-
+    
             <h2>All Transactions</h2>
             <table className="sales-table">
                 <thead>
@@ -123,6 +129,6 @@ const SalesPage = () => {
             {isViewing && <ViewOrder orderDetails={currentOrder} onClose={closeViewPopup} />}
         </div>
     );
-};
+};    
 
 export default SalesPage;
