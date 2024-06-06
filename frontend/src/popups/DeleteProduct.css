@@ -1,45 +1,48 @@
-.logout-inner {
+.delete-product .popup-inner {
     display: flex;
     flex-direction: column;
-    background-color: var(--main-white);
+    background-color: hsla(0, 100%, 50%, 0.750);
     padding: 1em;
 }
 
-.logout p, .logout h1 {
-    color: var(--main-black);
+.delete-product button {
+    border: 0.2em solid var(--main-white);
 }
 
-.logout-body {
+.delete-product p, .delete-product h1{
+    color: var(--main-white);
+}
+
+.delete-body {
     margin-top: 0.4em;
     padding-left: 0.25em;
     margin-bottom: 0.5em;
 }
 
-.logout-footer {
+.delete-footer {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
 }
 
-.logout-btn {
+.delete-btn {
     margin-left: 0.5em;
-    border: 0.2em solid var(--main-white);
     background-color: var(--main-red)
 }
 
-.logout-btn:hover {
-    border:0.2em solid var(--main-red);
+.delete-btn:hover {
+    border: 0.2em solid var(--main-white);
     background-color: var(--main-white);
-    color: var(--main-red)
+    color: var(--main-red);
 }
 
-.logout-footer .cancel-btn {
+.cancel-btn {
     background-color: var(--main-orange);
 }
 
-.logout-footer .cancel-btn:hover {
-    border: 0.2em solid var(--main-orange);
+.cancel-btn:hover {
+    border: 0.2em solid var(--main-white);
     background-color: var(--main-white);
     color: var(--main-orange);
 }

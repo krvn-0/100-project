@@ -30,7 +30,7 @@ form {
     width: 80%;
 }
 
-input {
+.auth-form input {
     display: inline-block;
     width: 100%;
     padding: 10px;

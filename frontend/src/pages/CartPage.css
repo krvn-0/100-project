@@ -1,6 +1,5 @@
 .cart-page {
     text-align: left;
-    padding: 20px;
     height: calc(100% + 12em);
 }
 
@@ -8,10 +7,27 @@
     margin-bottom: 20px;
 }
 
+.cart-subheader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.cart-subheader p {
+    font-size: 1.2em;
+    color: var(--main-black);
+}
+
 .cart-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
 }
 
 button {
@@ -21,20 +37,4 @@ button {
     border: 0.15em solid var(--main-black);
     border-radius: 0.5em;
     color: var(--main-white);
-}
-
-.add-to-cart {
-    background-color: var(--main-green);
-}
-
-.add-to-cart:hover {
-    background-color: var(--main-green-hover);
-}
-
-.view {
-    background-color: var(--main-orange);
-}
-
-.view:hover {
-    background-color: var(--main-orange-hover);
 }

@@ -1,0 +1,45 @@
+.sort-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.sort-bar-search {
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchbox {
+    width: 100%;
+    padding: 0.5em;
+    border: 0.15em solid var(--main-green);
+    border-radius: 1em;
+    color: var(--main-black);
+
+}
+
+.search-btn, .clear-btn {
+    padding: 0.2em 0.2em;
+    border: none;
+    border-radius: 1em;
+    margin-left: 0.3em;
+    color: var(--main-white);
+    height: 3em;
+}
+
+.search-btn {
+    background-color: var(--main-green);
+}
+
+.search-btn:hover {
+    background-color: var(--main-green-hover);
+}
+
+.clear-btn {
+    background-color: var(--main-red);
+}
+
+.clear-btn:hover {
+    background-color: var(--main-red-hover);
+}

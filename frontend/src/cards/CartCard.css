@@ -1,0 +1,89 @@
+.cart-card {
+    width: 100%;
+    padding: 1em;
+    border-radius: 1em;
+    margin-bottom: 1em;
+}
+
+.crops {
+    border: 0.1em solid var(--main-green);
+    background-color: var(--main-green);
+}
+
+.crops:hover {
+    border: 0.1em solid var(--main-green-hover);
+    transform: scale(1.05);
+}
+
+.poultry {
+    border: 0.1em solid var(--main-orange);
+    background-color: var(--main-orange);
+}
+
+.poultry:hover {
+    border: 0.1em solid var(--main-orange-hover);
+    transform: scale(1.05);
+}
+
+.cart-card-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.cart-card .product-name {
+    flex: 0.3;
+    font-size: 1.4em;
+    color: var(--main-white);
+}
+
+.cart-card .product-price{
+    flex: 0.15;
+    font-size: 1em;
+    color: var(--main-white);
+}
+
+.cart-card .product-amount {
+    flex: 0.15;
+}
+
+.cart-card  .product-total {
+    flex: 0.2;
+}
+
+.button-holder {
+    flex: 0.2;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: space-evenly;
+}
+
+.cart-card button {
+    border: none;
+    border-radius: 1em;
+    height: 2em;
+    border: 0.2em solid var(--main-white);
+}
+
+.cart-card .order-btn {
+    background-color: var(--main-green);
+    color: var(--main-white);
+}
+
+.cart-card .order-btn:hover {
+    background-color: var(--main-white);
+    color: var(--main-green);
+}
+
+.cart-card .remove-btn {
+    background-color: var(--main-red);
+    color: var(--main-white);
+}
+
+.cart-card .remove-btn:hover {
+    background-color: var(--main-white);
+    color: var(--main-red);
+}
+

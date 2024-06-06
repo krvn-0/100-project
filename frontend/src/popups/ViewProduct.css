@@ -1,35 +1,33 @@
-.popup-inner {
-    transition: transform 0.6s;
+.view-product .popup-inner {
+    display: grid;
+    grid-template-columns: 3fr 2fr; /* 3/5 for info, 2/5 for image */
+    gap: 1em;
+    align-items: start;
+    padding: 0;
 }
 
-.popup .crops {
-    background-color: var(--main-green);
-}
-
-.popup .animals {
-    background-color: var(--main-orange);
-}
-
-.popup .product-name {
+.view-product .product-name {
     color: var(--main-white)
 }
 
-.popup .product-type {
+.view-product .product-type {
     margin-bottom: 0.5em;
 }
 
-.popup .product-info {
-    padding: 1em;
+.view-product .product-info {
+    padding: 1.5em;
 }
 
-.popup img {
-    max-height: 3em;
+.view-product img {
+    height: 100%;
+    width: 100%;
     object-fit: contain;
     border-bottom-left-radius: 0.4em;
     border-top-right-radius: 0.4em;
-    position: absolute;
-    top: 0;
-    right: 0;
+}
+    
+.view-product .product-type, .view-product .product-description {
+    margin-left: 0.5em;
 }
 
 .product-description {
@@ -37,35 +35,47 @@
     margin-bottom: 10px;
 }
 
-.popup .product-price {
+.view-product .product-price {
     margin-bottom: 0.05em;
     font-style: italic;
+    font-size: 0.6em;
 }
 
-.popup .product-stock {
+.view-product .product-stock {
     font-style: italic;
+    font-size: 0.6em;
 }
 
-.popup-buttons {
+.view-product .product-buttons {
     display: flex;
-    justify-content: flex-end;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 1em;
+    justify-content: space-evenly;
+    padding-right: 0.5em;
+    padding-top: 1em;
 }
 
-.popup .add-to-cart {
+.view-product .add-to-cart {
     background-color: var(--main-green);
     border: 0.2em solid var(--main-white);
 }
 
+
 .close {
     margin-left: 10px;
-    background-color: var(--main-red);
+    background-color: var(--main-orange);
     border: 0.2em solid var(--main-white);
 }
 
 .close:hover {
-    background-color: var(--main-red-hover);
+    background-color: var(--main-white);
+    color: var(--main-orange);
+}
+
+.delete {
+    background-color: var(--main-red);
+    border: 0.2em solid var(--main-white);
+}
+
+.delete:hover {
+    background-color: var(--main-white);
+    color: var(--main-red);
 }

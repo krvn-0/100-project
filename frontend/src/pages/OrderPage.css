@@ -1,0 +1,69 @@
+.order-management {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-management h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.order-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.order-item p {
+    margin: 5px 0;
+    color: var(--main-black);
+}
+
+.sort-btn {
+    margin-bottom: 1em;
+    color: var(--main-white);
+    background-color: var(--main-orange);
+    border: none;
+    border-radius: 0.5em;
+}
+
+.sort-btn:hover {
+    background-color: var(--main-orange-hover);
+    border: 0.2em solid var(--main-orange-hover);
+    color: var(--main-white);
+}
+
+.order-item button {
+    margin-right: 10px;
+    border: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+    text-align: center;
+}
+
+.order-item button.approve {
+    background-color: var(--main-green);
+    color: white;
+}
+
+.order-item button.approve:hover {
+    background-color: var(--main-white);
+    border: 0.2em solid var(--main-green);
+    color: var(--main-green);
+}
+
+.order-item button.cancel {
+    background-color: var(--main-red);
+    color: white;
+}
+
+.order-item button.cancel:hover {
+    background-color: var(--main-white);
+    border: 0.2em solid var(--main-red);
+    color: var(--main-red);
+}
