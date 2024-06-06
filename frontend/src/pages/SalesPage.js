@@ -93,7 +93,7 @@ const SalesPage = () => {
                 <tbody>
                     {/* Conditionally render sortedProducts if it has items, otherwise render all products */}
                     {(sortedProducts.length > 0 ? sortedProducts : productSummary).map(product => (
-                        <tr key={product.itemName}>
+                        <tr key={product.id}>
                             <td>{product.itemName}</td>
                             <td>{product.quantity}</td>
                             <td>${product.totalSales.toFixed(2)}</td>
@@ -120,7 +120,7 @@ const SalesPage = () => {
                             <td>{order.itemName}</td>
                             <td>{order.orderDate}</td>
                             <td>{order.quantity}</td>
-                            <td>${order.price}</td>
+                            <td>P{order.price}</td>
                             <td>{order.status}</td>
                         </tr>
                     ))}
