@@ -1,3 +1,4 @@
+
 import { Types } from "mongoose";
 import { User } from "./user.js";
 
@@ -31,9 +32,8 @@ export type Product = {
     id: string;
     name: string;
     description: string;
-    ownerId?: string;
     type: ProductType;
-    quantity: number;
+    quantity?: number;
     unitPrice: number;
     unit: string;
     imageUrl: string;

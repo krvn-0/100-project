@@ -42,3 +42,4 @@ export type UserToken = {
     isAdmin: boolean;
     isMerchant: boolean;
 };
+
