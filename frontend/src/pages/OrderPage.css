@@ -1,0 +1,42 @@
+.order-management {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-management h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.order-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.order-item p {
+    margin: 5px 0;
+}
+
+.order-item button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.order-item button.approve {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.order-item button.cancel {
+    background-color: #f44336;
+    color: white;
+}
