@@ -81,6 +81,33 @@ export async function getUsers(req: Request, res: Response) {
             })
         }
 
+        let cart = dao.get("cart");
+        if (cart === undefined) {
+            user.cart = [];
+        } else {
+            let cartQuantities = Object.fromEntries(cart.map((cartItem) => [cartItem.productId, cartItem.quantity]));
+            let cartProducts = await ProductModel.find({
+                _id: {
+                    $in: cart.map((cartItem) => cartItem.productId)
+                }
+            });
+
+            user.cart = cartProducts.map((product) => {
+                return {
+                    product: {
+                        id: product._id!.toHexString(),
+                        name: product.name,
+                        description: product.description,
+                        type: product.type,
+                        quantity: product.quantity,
+                        unitPrice: product.unitPrice,
+                        unit: product.unit
+                    },
+                    quantity: cartQuantities[product._id!.toHexString()]
+                }
+            });
+        }
+
         users.push(user);
     }
 
@@ -224,6 +251,33 @@ export async function getUser(req: Request, res: Response) {
                 unit: dao.unit
             }
         })
+    }
+
+    let cart = targetUser.get("cart");
+    if (cart === undefined) {
+        ret.cart = [];
+    } else {
+        let cartQuantities = Object.fromEntries(cart.map((cartItem) => [cartItem.productId, cartItem.quantity]));
+        let cartProducts = await ProductModel.find({
+            _id: {
+                $in: cart.map((cartItem) => cartItem.productId)
+            }
+        });
+
+        ret.cart = cartProducts.map((product) => {
+            return {
+                product: {
+                    id: product._id!.toHexString(),
+                    name: product.name,
+                    description: product.description,
+                    type: product.type,
+                    quantity: product.quantity,
+                    unitPrice: product.unitPrice,
+                    unit: product.unit
+                },
+                quantity: cartQuantities[product._id!.toHexString()]
+            }
+        });
     }
 
     res.status(200).send(ret);
