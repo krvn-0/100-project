@@ -71,6 +71,33 @@ export async function login(req: Request, res: Response) {
         }
     }
 
+    let cart = user.get("cart");
+    if (cart === undefined) {
+        ret.cart = [];
+    } else {
+        let cartQuantities = Object.fromEntries(cart.map((cartItem) => [cartItem.productId, cartItem.quantity]));
+        let cartProducts = await ProductModel.find({
+            _id: {
+                $in: cart.map((cartItem) => cartItem.productId)
+            }
+        });
+
+        ret.cart = cartProducts.map((product) => {
+            return {
+                product: {
+                    id: product._id!.toHexString(),
+                    name: product.name,
+                    description: product.description,
+                    type: product.type,
+                    quantity: product.quantity,
+                    unitPrice: product.unitPrice,
+                    unit: product.unit
+                },
+                quantity: cartQuantities[product._id!.toHexString()]
+            }
+        });
+    }
+
     const tokenBody: UserToken = {
         id: user._id.toHexString(),
         isAdmin: user.isAdmin,
