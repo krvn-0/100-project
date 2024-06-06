@@ -22,7 +22,7 @@ button {
     color: var(--main-white);
 }
 
-.add-to-cart {
+/* .add-to-cart {
     background-color: var(--main-green);
 }
 
@@ -36,4 +36,4 @@ button {
 
 .view:hover {
     background-color: var(--main-orange-hover);
-}
+} */

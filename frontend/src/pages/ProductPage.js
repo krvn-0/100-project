@@ -5,11 +5,14 @@ import ProductCard from "../cards/ProductCard";
 import ViewProductPopup from "../popups/ViewProduct";
 
 import './ProductPage.css';
+import EditProductPopup from "../popups/EditProduct";
+import handleSubmitEditProduct from "../utils/EditProductHandler";
 
 const ProductPage = () => {
     const [productList, setProductList] = useState([]);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         try { 
@@ -43,12 +46,34 @@ const ProductPage = () => {
         setIsViewing(false);
     }
 
+    const openEditPopup = (product) => {
+        setCurrentProduct(product);
+        setIsEditing(true);
+    }
+
+    const closeEditPopup = (product) => {
+        setCurrentProduct(null);
+        setIsEditing(false);
+    }
+
+    const handleEditSubmit = async (ID, description, price, quantity) => {
+        const success = await handleSubmitEditProduct(ID, description, price, quantity);
+        if(success) {
+            setProductList((prevList) => 
+                prevList.map((product) => 
+                    product.id === currentProduct.id ? {...product, description: description, unitPrice: price, quantity: quantity} : product
+                )
+            )
+        }
+    }
+    
     const renderItems = productList.map((product) => {
         return  <ProductCard 
                     key={product.id}
                     product={product}
                     handleAddClick={() => addToCart(product, 1)}
                     handleOnClick={() => openViewPopup(product)}
+                    handleEditClick={() => openEditPopup(product)}
                 />
     })
 
@@ -63,6 +88,13 @@ const ProductPage = () => {
                     product={currentProduct}
                     handleAddClick={() => addToCart(currentProduct, 1)}
                     handleClose={closeViewPopup}
+                />
+            )}
+            {isEditing && (
+                <EditProductPopup
+                    product={currentProduct}
+                    closePopup={closeEditPopup}
+                    editSubmit={handleEditSubmit}
                 />
             )}
         </div>

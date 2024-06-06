@@ -2,7 +2,9 @@ import React from "react";
 
 import './ProductCard.css';
 
-const ProductCard = ({ product, handleAddClick, handleOnClick }) => {
+const ProductCard = ({ product, handleAddClick, handleOnClick, handleEditClick }) => {
+    const isAdmin = JSON.parse(sessionStorage.getItem('isAdmin')) || false;
+
     return (
         <div className={`product-card ${product.type === 1 ? 'crops' : 'animals' }`} 
             onClick={handleOnClick}
@@ -22,12 +24,19 @@ const ProductCard = ({ product, handleAddClick, handleOnClick }) => {
                 </p>
                 <div className="button-placeholder" />
             </div>
-            <div className="button-holder">
-                <button className='add-to-cart' onClick={(e) => {e.stopPropagation();handleAddClick(product, 1)}}>
-                    Add
-                </button>
-                <button className='view' onClick={(e) => {e.stopPropagation(); handleOnClick(product)}}>View</button>
-            </div>
+            {isAdmin ? 
+                <div className="button-holder">
+                    <button className='view' onClick={(e) => {e.stopPropagation(); handleOnClick(product)}}>View</button>
+                    <button className='edit' onClick={(e) => {e.stopPropagation(); handleEditClick(product)}}>Edit</button>
+                </div>
+                :
+                <div className="button-holder">
+                    <button className='add-to-cart' onClick={(e) => {e.stopPropagation();handleAddClick(product, 1)}}>
+                        Add
+                    </button>
+                    <button className='view' onClick={(e) => {e.stopPropagation(); handleOnClick(product)}}>View</button>
+                </div>
+            } 
         </div>
     )
 }

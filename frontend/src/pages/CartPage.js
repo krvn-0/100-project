@@ -38,8 +38,8 @@ const CartPage = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                setCartDetails(data.products)
-                console.log(data.products);
+                // setCartDetails(data.products)
+                // console.log(data.products);
             });
         } catch (error) {
             console.error(error);

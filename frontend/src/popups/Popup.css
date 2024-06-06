@@ -13,10 +13,71 @@
 }
 
 .popup-inner {
+    transition: transform 0.6s;
+}
+
+.popup .crops {
+    background-color: var(--main-green);
+}
+
+.popup .animals {
+    background-color: var(--main-orange);
+}
+
+.popup-inner {
     position: relative;
     border-radius: 1em;
+    padding: 1em;
     width: 40ch;
     height: fit-content;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    color: var(--main-black );
+    color: var(--main-white);
 }
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.edit-form label {
+    margin: 0.5em;
+    width: 100%;
+}
+
+.edit-form input {
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 0.15em solid var(--main-white);
+} 
+
+.popup-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.confirm-btn, .cancel-btn {
+    border: 0.2em solid var(--main-white);
+}
+
+.confirm-btn {
+    background-color: var(--main-green);
+}
+
+.confirm-btn:hover {
+    background-color: var(--main-green-hover);
+}
+
+.cancel-btn {
+    background-color: var(--main-red);
+    margin-left: 0.5em;
+}
+
+.cancel-btn:hover {
+    background-color: var(--main-red-hover);
+}
+
