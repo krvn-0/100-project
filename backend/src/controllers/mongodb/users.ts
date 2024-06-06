@@ -43,9 +43,14 @@ export async function getUsers(req: Request, res: Response) {
 
     let userDaos;
     if (tokenBody.isAdmin) {
-        userDaos = await UserModel.find();
+        userDaos = await UserModel.find({
+            deleted: { "$ne": true }
+        });
     } else {
-        userDaos = await UserModel.find({ _id: tokenBody.id });
+        userDaos = await UserModel.find({
+            _id: tokenBody.id,
+            deleted: { "$ne": true }
+        });
     }
     const users: User[] = [];
 
@@ -64,7 +69,8 @@ export async function getUsers(req: Request, res: Response) {
             let results = await ProductModel.find({
                 "_id": {
                     $in: productIds
-                }
+                },
+                deleted: { "$ne": true }
             });
 
             user.products = results.map((dao) => {
@@ -201,7 +207,10 @@ export async function getUser(req: Request, res: Response) {
     const tokenBody = tokenPayload as UserToken;
 
     const id = req.params.id;
-    const targetUser = await UserModel.findById(id);
+    const targetUser = await UserModel.findOne({
+        _id: id,
+        deleted: { "$ne": true }
+    });
 
     if (targetUser === null) {
         res.status(404).send({
@@ -236,7 +245,8 @@ export async function getUser(req: Request, res: Response) {
         let results = await ProductModel.find({
             "_id": {
                 $in: productIds
-            }
+            },
+            deleted: { "$ne": true }
         });
 
         ret.products = results.map((dao) => {
@@ -330,7 +340,10 @@ export async function updateUser(req: Request, res: Response) {
         return;
     }
 
-    const targetUser = await UserModel.findById(id);
+    const targetUser = await UserModel.findOne({
+        _id: id,
+        deleted: { "$ne": true }
+    })
     if (targetUser === null) {
         res.status(404).send({
             type: "urn:100-project:error:user_not_found",
@@ -566,17 +579,35 @@ export async function deleteUser(req: Request, res: Response) {
         return;
     }
 
-    if (await UserModel.findByIdAndDelete(id)) {
-        if (id === tokenBody.id) {
-            res.cookie("token", "", { expires: new Date(0) });
-        }
-        res.status(204).send();
-    } else {
-        res.status(404).send({
-            type: "urn:100-project:error:user_not_found",
-            title: "User Not Found",
-            status: 404,
-            detail: "The user does not exist."
+    try {
+        let user = await UserModel.findOne({
+            _id: new Types.ObjectId(id),
+            deleted: { "$ne": true }
         });
+
+        if (user === null) {
+            res.status(404).send({
+                type: "urn:100-project:error:not_found",
+                title: "Not Found",
+                status: 404,
+                detail: "User not found."
+            });
+            return;
+        }
+
+        user.set("deleted", true);
+        // Free the email address used by the account
+        user.set("email", `${user.get("email")}-deleted-${Date.now()}`);
+        await user.save();
+
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).send({
+            type: "urn:100-project:error:internal",
+            title: "Internal Server Error",
+            status: 500,
+            detail: "An error occured while deleting the user."
+        });
+        return;
     }
 }

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { login, logout } from "./mongodb/authorization.js";
 import { createUser, deleteUser, getUser, getUsers, updateUser } from "./mongodb/users.js";
 import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from "./mongodb/products.js";
+import { createTransaction, getTransactions, updateTransaction } from "./mongodb/transactions.js";
 
 export default async function RouteWithMongoDB(app: Express) {
     await mongoose.connect(
@@ -32,4 +33,8 @@ export default async function RouteWithMongoDB(app: Express) {
     app.get("/products/:id", getProduct);
     app.patch("/products/:id", updateProduct);
     app.delete("/products/:id", deleteProduct);
+
+    app.get("/transactions", getTransactions);
+    app.put("/transactions", createTransaction);
+    app.patch("/transactions/:id", updateTransaction);
 }
