@@ -4,6 +4,8 @@ import { User, UserDAO, UserToken } from "../../entities/user.js";
 import { TokenSecretManager } from "./secrets.js";
 import { UserModel } from "../../models/user.js";
 import { ProductModel } from "../../models/product.js";
+import { CartItemDao } from "../../entities/cart.js";
+import { Types } from "mongoose";
 
 export async function getUsers(req: Request, res: Response) {
     const token = req.cookies?.token;
@@ -124,7 +126,7 @@ export async function createUser(req: Request, res: Response) {
     if (typeof (firstName) !== 'string' || (middleName !== undefined && typeof (middleName) !== 'string') || typeof (lastName) !== 'string' || typeof (email) !== 'string' || typeof (password) !== 'string') {
         res.status(400).send({
             type: "urn:100-project:error:malformed",
-            title: "Bad Request",
+            title: "Malformed",
             status: 400,
             detail: "First name, middle name (optional), last name, email, and password must be strings."
         });
@@ -342,10 +344,121 @@ export async function updateUser(req: Request, res: Response) {
         return;
     }
 
+    if (req.body.firstName !== undefined && typeof (req.body.firstName) !== 'string') {
+        res.status(400).send({
+            type: "urn:100-project:error:malformed",
+            title: "Malformed",
+            status: 400,
+            detail: "firstName must be a string."
+        });
+        return;
+    }
+
+    if (req.body.middleName !== undefined && typeof (req.body.middleName) !== 'string') {
+        res.status(400).send({
+            type: "urn:100-project:error:malformed",
+            title: "Malformed",
+            status: 400,
+            detail: "middleName must be a string."
+        });
+        return;
+    }
+
+    if (req.body.lastName !== undefined && typeof (req.body.lastName) !== 'string') {
+        res.status(400).send({
+            type: "urn:100-project:error:malformed",
+            title: "Malformed",
+            status: 400,
+            detail: "lastName must be a string."
+        });
+        return;
+    }
+
+    if (req.body.email !== undefined && typeof (req.body.email) !== 'string') {
+        res.status(400).send({
+            type: "urn:100-project:error:malformed",
+            title: "Malformed",
+            status: 400,
+            detail: "email must be a string."
+        });
+        return;
+    }
+
+    if (req.body.cart !== undefined) {
+        if (!Array.isArray(req.body.cart)) {
+            res.status(400).send({
+                type: "urn:100-project:error:malformed",
+                title: "Malformed",
+                status: 400,
+                detail: "cart must be an array."
+            });
+            return;
+        }
+
+        for (let cartItem of req.body.cart) {
+            if (typeof (cartItem) !== 'object') {
+                res.status(400).send({
+                    type: "urn:100-project:error:malformed",
+                    title: "Malformed",
+                    status: 400,
+                    detail: "cart must be an array of objects."
+                });
+                return;
+            }
+
+            if (!("product" in cartItem) || !(typeof(cartItem.product) === 'string' || (typeof(cartItem.product) === 'object' && typeof(cartItem.product.id) === 'string'))) {
+                res.status(400).send({
+                    type: "urn:100-project:error:malformed",
+                    title: "Malformed",
+                    status: 400,
+                    detail: "cart item must refer to a product."
+                })
+            }
+
+            if (!("quantity" in cartItem) || typeof(cartItem.quantity) !== 'number') {
+                res.status(400).send({
+                    type: "urn:100-project:error:malformed",
+                    title: "Malformed",
+                    status: 400,
+                    detail: "cart item must have a quantity."
+                })
+            }
+        }
+    }
+
     targetUser.set("firstName", req.body.firstName ?? targetUser.get("firstName"));
     targetUser.set("middleName", req.body.middleName ?? targetUser.get("middleName"));
     targetUser.set("lastName", req.body.lastName ?? targetUser.get("lastName"));
     targetUser.set("email", req.body.email ?? targetUser.get("email"));
+    if (req.body.cart !== undefined) {
+        let cart = req.body.cart;
+        let newCart: CartItemDao[] = [];
+        for (let cartItem of cart) {
+            let productId: string;
+            if (typeof(cartItem.product) === 'string') {
+                productId = cartItem.product;
+            } else {
+                productId = cartItem.product.id;
+            }
+
+            if (!await ProductModel.exists({ _id: productId })) {
+                res.status(400).send({
+                    type: "urn:100-project:error:malformed",
+                    title: "Malformed",
+                    status: 400,
+                    detail: "cart item refers to a non-existent product."
+                });
+                return;
+            }
+
+            newCart.push({
+                productId: new Types.ObjectId(productId),
+                quantity: cartItem.quantity
+            });
+        }
+
+        targetUser.set("cart", newCart);
+    }
     await targetUser.save();
 
     const ret: User = {
@@ -376,6 +489,33 @@ export async function updateUser(req: Request, res: Response) {
                 unit: dao.unit
             }
         })
+    }
+
+    let cart = targetUser.get("cart");
+    if (cart === undefined) {
+        ret.cart = [];
+    } else {
+        let cartQuantities = Object.fromEntries(cart.map((cartItem) => [cartItem.productId, cartItem.quantity]));
+        let cartProducts = await ProductModel.find({
+            _id: {
+                $in: cart.map((cartItem) => cartItem.productId)
+            }
+        });
+
+        ret.cart = cartProducts.map((product) => {
+            return {
+                product: {
+                    id: product._id!.toHexString(),
+                    name: product.name,
+                    description: product.description,
+                    type: product.type,
+                    quantity: product.quantity,
+                    unitPrice: product.unitPrice,
+                    unit: product.unit
+                },
+                quantity: cartQuantities[product._id!.toHexString()]
+            }
+        });
     }
 
     res.status(200).send(ret);
