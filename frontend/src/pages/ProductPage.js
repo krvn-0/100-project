@@ -136,8 +136,8 @@ const ProductPage = () => {
         }
     }
 
-    const handleAddToCart = async (product, quantity) => {
-        await handleSubmitAddToCart(product, quantity);
+    const handleAddToCart = async (product) => {
+        await handleSubmitAddToCart(product);
     }
 
     const searchHandler = () => {
@@ -201,7 +201,7 @@ const ProductPage = () => {
         return  <ProductCard 
                     key={product.id}
                     product={product}
-                    handleAddClick={() => handleAddToCart(product, 1)}
+                    handleAddClick={() => handleAddToCart(product)}
                     handleOnClick={() => openViewPopup(product)}
                     handleEditClick={() => openEditPopup(product)}
                     handleDeleteClick={() => openDeletePopup(product)}
@@ -239,7 +239,7 @@ const ProductPage = () => {
             {isViewing && (
                 <ViewProductPopup
                     product={currentProduct}
-                    handleAddClick={() => handleAddToCart(currentProduct, 1)}
+                    handleAddClick={() => handleAddToCart(currentProduct)}
                     handleClose={closeViewPopup}
                     handleDelete={() => openDeletePopup(currentProduct)}
                 />

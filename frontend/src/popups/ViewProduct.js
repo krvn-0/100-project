@@ -8,14 +8,12 @@ const ViewProductPopup = ({ product, handleAddClick, handleClose, handleDelete }
     return (
         <div className='popup view-product'>
             <div className={`popup-inner ${product.type === 1 ? 'crops' : 'poultry'} `}>
-                <div className="product-image"><img src={product.imageUrl} alt={product.name} /></div>
                 <div className='product-info'>
                     <h2 className="product-name">{product.name}</h2>
                     <p className='product-type'>{product.type === 1 ? 'Crop' : 'Animal'}</p>
                     <p className="product-description">{product.description}</p>
                     <p className="product-price">Price: P{product.unitPrice} per {product.unit}</p>
                     <p className="product-stock">Stock: {product.quantity} {product.unit}</p>
-                </div>
                 {isAdmin ? (
                     <div className="product-buttons">
                         <button className='delete' onClick={() => handleDelete(product)}>Delete</button>
@@ -28,6 +26,8 @@ const ViewProductPopup = ({ product, handleAddClick, handleClose, handleDelete }
                         <button className='close' onClick={handleClose}>Close</button>
                     </div>
                 )}
+                </div>
+                <div className="product-image"><img src={product.imageUrl} alt={product.name} /></div>
             </div>
         </div>
     )

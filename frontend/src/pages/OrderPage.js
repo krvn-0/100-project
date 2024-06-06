@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { approveOrder, cancelOrder, canUserModifyOrder } from '../utils/OrderUtils';
 import './OrderPage.css';
 
-const OrderPage = ({ userType }) => {
+const OrderPage = () => {
+
+    const userType = JSON.parse(sessionStorage.getItem('isAdmin')) ? 'admin' : 'user';
+    
     const [orders, setOrders] = useState([
         { id: 1, itemName: 'Eggs', orderDate: new Date('2023-06-01'), quantity: 100, price: 10, status: 'Pending' },
         { id: 2, itemName: 'Milk', orderDate: new Date('2023-06-02'), quantity: 50, price: 20, status: 'Pending' },
@@ -35,10 +38,10 @@ const OrderPage = ({ userType }) => {
     return (
         <div className="order-management">
             <h1>Order Management</h1>
-            <button onClick={sortOrdersByDate}>Sort by Date</button>
+            <button onClick={sortOrdersByDate} className='sort-btn'>Sort by Date</button>
             {orders.map((order) => (
                 <div key={order.id} className="order-item">
-                    <p>{order.itemName} - {order.quantity} units at ${order.price} each. Total: ${order.quantity * order.price}</p>
+                    <p>{order.itemName} - {order.quantity} units at P{order.price} each. Total: P{order.quantity * order.price}</p>
                     <p>Order Date: {formatDate(order.orderDate)}</p>
                     <p>Status: {order.status}</p>
                     {canUserModifyOrder(userType) && (

@@ -32,7 +32,7 @@ const ProductCard = ({ product, handleAddClick, handleOnClick, handleEditClick, 
                 </div>
                 :
                 <div className="button-holder">
-                    <button className='add-to-cart' onClick={(e) => {e.stopPropagation();handleAddClick(product, 1)}}>
+                    <button className='add-to-cart' onClick={(e) => {e.stopPropagation();handleAddClick(product)}}>
                         Add
                     </button>
                     <button className='view' onClick={(e) => {e.stopPropagation(); handleOnClick(product)}}>View</button>

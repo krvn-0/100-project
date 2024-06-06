@@ -1,19 +1,19 @@
 import getUser from './GetUserDetails';
 
-const handleAddToCart = async (product, quantity) => {
+const handleAddToCart = async (product) => {
     const userData = await getUser();
     const id = userData.id;
 
-    if(product.quantity >= quantity) {
+    if(product.quantity >= 1) {
 
         let cart = [...userData.cart];
         const existingProductIndex = cart.findIndex(item => item.product.id === product.id);
         if (existingProductIndex !== -1) {
-            cart[existingProductIndex].quantity += quantity;
+            cart[existingProductIndex].quantity += 1;
         } else {
             cart.push({
                 "product": product,
-                "quantity": quantity
+                "quantity": 1
             });
         }
     

@@ -29,18 +29,24 @@ const CartPage = () => {
             }
 
             setCartDetails(userData.cart);
-            setCartItems(userData.cart.map((item) => item.product));
+            setCartItems(userData.cart.map((item) => {
+                const { product, quantity } = item;
+                return {
+                    ...product,
+                    quantity: quantity
+                };
+            }));
         }
 
         getUserData();
     }, [userID]);
 
 
-    const handleRemoveClick = async (product) => {
+    const handleRemoveClick = async (product, e) => {
         await handleRemoveFromCart(product.id);
     }
 
-    const handleOrderClick = async (product) => {
+    const handleOrderClick = async (product, e) => {
         await handleSubmitOrder(product);
     }
 

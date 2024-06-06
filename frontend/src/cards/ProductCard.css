@@ -82,5 +82,6 @@
 
 .product-card .delete:hover {
     background-color: var(--main-red-hover);
+    color: var(--main-white);
 }
 

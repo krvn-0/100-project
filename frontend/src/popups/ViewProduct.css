@@ -1,3 +1,11 @@
+.view-product .popup-inner {
+    display: grid;
+    grid-template-columns: 3fr 2fr; /* 3/5 for info, 2/5 for image */
+    gap: 1em;
+    align-items: start;
+    padding: 0;
+}
+
 .view-product .product-name {
     color: var(--main-white)
 }
@@ -7,17 +15,15 @@
 }
 
 .view-product .product-info {
-    padding: 1em;
+    padding: 1.5em;
 }
 
 .view-product img {
-    max-height: 3em;
+    height: 100%;
+    width: 100%;
     object-fit: contain;
     border-bottom-left-radius: 0.4em;
     border-top-right-radius: 0.4em;
-    position: absolute;
-    top: 0;
-    right: 0;
 }
     
 .view-product .product-type, .view-product .product-description {
@@ -40,11 +46,11 @@
     font-size: 0.6em;
 }
 
-.view-product-buttons {
+.view-product .product-buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-evenly;
     padding-right: 0.5em;
-    padding-bottom: 0.5em;
+    padding-top: 1em;
 }
 
 .view-product .add-to-cart {
