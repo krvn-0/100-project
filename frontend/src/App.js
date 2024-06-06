@@ -19,6 +19,7 @@ import UserHome from './pages/UserHomePage';
 import AdminHome from './pages/AdminHomePage';
 import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
+import SalesPage from './pages/SalesPage';
 
 const AppContent = () => {
   const location = useLocation();
@@ -77,7 +78,7 @@ const AppContent = () => {
             <Route path="/cart" element={isAuthenticated ? <CartPage /> : <Navigate to='/login' />} />
             {/* <Route path="/orders" element={isAuthenticated ? <OrderPage /> : <Navigate to='/login' />} /> */}
             {/* <Route path="/users" element={isAuthenticated ? <Users /> : <Navigate to='/login' />} /> */}
-            {/* <Route path="/sales" element={isAuthenticated ? <Sales /> : <Navigate to='/login' />} /> */}
+            <Route path="/sales" element={isAuthenticated ? <SalesPage /> : <Navigate to='/login' />} />
             <Route path="*" element={isAuthenticated ? <Navigate to='/user-home'/> || <Navigate to='/admin-home'/> : <Navigate to="/login" /> || <Navigate to='/signup' />} />
           </Routes> 
         </div>
