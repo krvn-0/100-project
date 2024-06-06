@@ -12,7 +12,8 @@ const ProductPage = () => {
     const [isViewing, setIsViewing] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:3001/products', {
+        try { 
+            fetch('http://localhost:3001/products', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,6 +22,10 @@ const ProductPage = () => {
         })
         .then((response) => response.json())
         .then((data) => setProductList(data));
+        } catch (error) {
+            alert(error);
+            setProductList([]);
+        }
     }, []);
 
     const addToCart = async (product, quantity) => {

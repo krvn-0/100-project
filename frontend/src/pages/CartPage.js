@@ -1,37 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import './CartPage.css';
+import CartCard from '../cards/CartCard';
 
 const CartPage = () => {
     const [cartDetails, setCartDetails] = useState([]);
     const [cartItems, setCartItems] = useState([]);
 
-    // const extractProductinCart = async (cartDetails) => {
+    const userID = sessionStorage.getItem('userID');
+
+    // const extractProductinCart = async (cartDetails) => {    
+    //     if(cartDetails.length === 0) return;
     //     const products = await Promise.all(cartDetails.map(async (item) => {
-    //         const response = await fetch(`http://localhost:3001/products/${item.productID}`);
+    //         const response = await fetch(`http://localhost:3001/products/${item.ID}`,
+    //             {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 credentials: 'include'
+    //             });
     //         const data = await response.json();
-    //         return {
-    //             id: data.productID,
-    //             name: data.name,
-    //             type: product.type,
-    //             price: data.price,
-    //             qty_type: data.qty_type,
-    //             quantity: item.quantity
-    //         }
+    //         console.log(data)
     //     }));
     //     setCartItems(products);
     // }
 
 
-    // useEffect(() => {
-    //     try {
-    //         fetch(`http://localhost:3001/user/${userID}`)
-    //         .then((response) => response.json())
-    //         .then((data) => setCartDetails(data.cart));
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    //     extractProductinCart(cartDetails);
-    // }, [cartDetails])
+    useEffect(() => {
+        try {
+            fetch(`http://localhost:3001/users/${userID}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setCartDetails(data.products)
+                console.log(data.products);
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        // extractProductinCart(cartDetails);
+    }, [])
 
     // const updateUser = async (userID, updatedCart) => {
     //     try {
@@ -43,32 +57,32 @@ const CartPage = () => {
     //             body: JSON.stringify({products: updatedCart})
     //         });
     //         const data = await response.json();
-    //         serCartDetails(data.cart);
+    //         setCartDetails(data.cart);
     //     } catch (error) {
     //         console.error(error);
     //     }
     // }
 
-    const updateUserCart = (product) => {
-        // const updatedCart = cartDetails.filter((item) => item.id !== product.id);
-        // // updateUser(userID, updatedCart);
-        // setCartDetails(updatedCart);
-    }
+    // const updateUserCart = (product) => {
+    //     const updatedCart = cartDetails.filter((item) => item.id !== product.id);
+    //     updateUser(userID, updatedCart);
+    //     setCartDetails(updatedCart);
+    // }
 
-    const handleRemoveClick = (product) => {
-        updateUserCart(product);
-    }
+    // const handleRemoveClick = (product) => {
+    //     updateUserCart(product);
+    // }
 
-    const handleOrderClick = (product) => {
-        updateUserCart(product);
-    }
+    // const handleOrderClick = (product) => {
+    //     updateUserCart(product);
+    // }
 
     const renderItems = cartItems.map((product) => {
         return (
             <CartCard
                 key={product.id}
                 product={product}
-                handleRemoveClick={() => handleRemoveClick(product)}
+                // handleRemoveClick={() => handleRemoveClick(product)}
             />
         )
     })

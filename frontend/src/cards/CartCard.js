@@ -16,3 +16,5 @@ const CartCard = ({ product, handleRemoveClick }) => {
         </div>
     )
 }
+
+export default CartCard;

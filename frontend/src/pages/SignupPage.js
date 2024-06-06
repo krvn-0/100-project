@@ -85,8 +85,6 @@ function SignUpPage() {
             console.error('An error occurred:', error);
             alert('An error occurred. Please try again.');
         }
-        
-
         clearForm();
     };
 
