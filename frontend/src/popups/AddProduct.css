@@ -1,0 +1,26 @@
+.add-product-inner {
+    background-color: var(--main-green);
+    padding-bottom: 0;
+}
+
+.add-product-inner .edit-form {
+    padding: 1em;
+}
+
+.add-product-inner .add-input {
+    display: inline-flex;
+    justify-content: baseline;
+}
+
+.add-input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-input input, .add-input select {
+    width: 15em;
+    align-self: flex-end;
+}
+.edit-form .button-container {
+    margin-top: 1em;
+}

@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import handleAddToCart from "../utils/AddToCartHandler";
+import './ProductPage.css';
 
 import ProductCard from "../cards/ProductCard";
 import ViewProductPopup from "../popups/ViewProduct";
-
-import './ProductPage.css';
+import AddProductPopup from "../popups/AddProduct";
 import EditProductPopup from "../popups/EditProduct";
+
 import handleSubmitEditProduct from "../utils/EditProductHandler";
+import handleSubmitAddProduct from "../utils/AddProductHandler";
 
 const ProductPage = () => {
     const [productList, setProductList] = useState([]);
     const [currentProduct, setCurrentProduct] = useState(null);
+    
     const [isViewing, setIsViewing] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
@@ -56,17 +60,43 @@ const ProductPage = () => {
         setIsEditing(false);
     }
 
-    const handleEditSubmit = async (ID, description, price, quantity) => {
-        const success = await handleSubmitEditProduct(ID, description, price, quantity);
+    const handleEditSubmit = async (ID, desc, price, qty) => {
+        const success = await handleSubmitEditProduct(ID, desc, price, qty);
         if(success) {
             setProductList((prevList) => 
                 prevList.map((product) => 
-                    product.id === currentProduct.id ? {...product, description: description, unitPrice: price, quantity: quantity} : product
+                    product.id === currentProduct.id ? {...product, description: desc, unitPrice: price, quantity: qty} : product
                 )
             )
         }
     }
-    
+
+    const openAddPopup = () => {
+        setIsAdding(true);
+    }
+
+    const closeAddPopup = () => {
+        setIsAdding(false);
+    }
+
+    const handleAddSubmit = async (name, description, price, quantity, type, unit, imageUrl) => {
+        const data = await handleSubmitAddProduct(name, description, price, quantity, type, unit, imageUrl);
+        if(data) {
+            setProductList((prevList) =>
+                [...prevList, {
+                    id: data.id,
+                    name: data.name,
+                    description: data.description,
+                    unitPrice: data.unitPrice,
+                    quantity: data.quantity,
+                    type: data.type,
+                    unit: data.unit,
+                    imageUrl: data.imageUrl
+                }]
+            )
+        }
+    }
+
     const renderItems = productList.map((product) => {
         return  <ProductCard 
                     key={product.id}
@@ -80,6 +110,9 @@ const ProductPage = () => {
     return (
         <div className="product-page">
             <h1>Product List</h1>
+            <div className="product-page-header">
+                <button className="add-product" onClick={openAddPopup}>Add</button>
+            </div>
             <div className="product-list">
                 {renderItems}
             </div>
@@ -97,6 +130,13 @@ const ProductPage = () => {
                     editSubmit={handleEditSubmit}
                 />
             )}
+            {isAdding && (
+                <AddProductPopup
+                    closePopup={closeAddPopup}
+                    addSubmit={handleAddSubmit}
+                />
+            )}
+
         </div>
     )
 }

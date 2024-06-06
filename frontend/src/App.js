@@ -7,9 +7,7 @@ import {
   Navigate
 } from 'react-router-dom';
 
-import {
-  useEffect, useState
-} from 'react';
+import { useEffect } from 'react';
 
 import NavBar from './components/NavBar';
 import LoginPage from './pages/LoginPage';
