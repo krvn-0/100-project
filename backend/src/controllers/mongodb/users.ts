@@ -69,7 +69,8 @@ export async function getUsers(req: Request, res: Response) {
             let results = await ProductModel.find({
                 "_id": {
                     $in: productIds
-                }
+                },
+                deleted: false
             });
 
             user.products = results.map((dao) => {
@@ -244,7 +245,8 @@ export async function getUser(req: Request, res: Response) {
         let results = await ProductModel.find({
             "_id": {
                 $in: productIds
-            }
+            },
+            deleted: false
         });
 
         ret.products = results.map((dao) => {

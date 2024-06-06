@@ -55,13 +55,13 @@ export async function login(req: Request, res: Response) {
     };
 
     if (user.isMerchant) {
-        ret.products = [];
-        for (let productId of user.productIds ?? []) {
-            const product = await ProductModel.findById(productId);
-            if (product === null) {
-                continue;
-            }
-            ret.products.push({
+        const products = await ProductModel.find({
+            ownerId: user._id,
+            deleted: false
+        });
+
+        ret.products = products.map((product) => {
+            return {
                 id: product._id!.toHexString(),
                 name: product.name,
                 description: product.description,
@@ -70,8 +70,8 @@ export async function login(req: Request, res: Response) {
                 unitPrice: product.unitPrice,
                 unit: product.unit,
                 imageUrl: product.imageUrl
-            });
-        }
+            }
+        });
     }
 
     let cart = user.get("cart");

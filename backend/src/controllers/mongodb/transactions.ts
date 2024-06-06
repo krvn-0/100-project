@@ -433,7 +433,10 @@ export async function createTransaction(req: Request, res: Response) {
         }
 
         // fetch product
-        const product = await ProductModel.findById(productId);
+        const product = await ProductModel.findOne({
+            _id: productId,
+            deleted: false
+        });
 
         // check if product exists
         if(product === null) {
