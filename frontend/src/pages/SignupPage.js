@@ -3,7 +3,7 @@ import './LogSign.css';
 import './SignUpPage.css';
 import { useNavigate } from 'react-router-dom';
 
-function LoginPage() {
+function SignUpPage() {
     const navigate = useNavigate();
 
     const [firstname, setFirstname] = useState('');
@@ -48,30 +48,37 @@ function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        let body = {
+            firstName: firstname,
+            lastName: lastname,
+            email: email,
+            password: password
+        };
+
+        if (middlename) {
+            body.middleName = middlename;
+        }
+
         try {
             const response = await fetch('http://localhost:3001/users', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: ({ 
-                    firstname: firstname,
-                    lastname: lastname,
-                    middlename: middlename ? middlename : null,
-                    email: email,
-                    password: password
-                }),
+                body: JSON.stringify(body),
                 credentials: 'include'
             })
 
             const data = await response.json();
-            console.log(data);
+            const statuscode = data.status;
 
-            if(data.error) {
-                alert(data.error);
-            } 
-            else {
-                console.log(data.error);
+            if(statuscode < 200 || statuscode >= 300) {
+                alert(`Error: ${data.detail}`);
+            } else {
+                sessionStorage.setItem('userID', JSON.stringify(data.id));
+                sessionStorage.setItem('isAdmin', JSON.stringify(data.isMerchant));
+                navigate('/user-home');
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -148,11 +155,11 @@ function LoginPage() {
                         <p className='login'>Already have an account? </p>
                         <p className='login-link' onClick={handleLogin}>login here</p>
                     </div>
-                    <button className='submit' type="submit">Login</button>
+                    <button className='submit' type="submit">Signup</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default LoginPage;
+export default SignUpPage;

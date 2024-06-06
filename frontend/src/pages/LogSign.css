@@ -45,15 +45,14 @@ input {
     margin-bottom: 10px;
 }
 
-/* .password-input-container {
-    display: flex;
-    flex-direction: row;
-} */
+.password-input-container {
+    height: 2em;
+}
 
 .form .toggle-password {
     position: relative;
     font-size: 0.5em;
-    bottom: 5.8vh;
+    bottom: 5.8vh; /* needs to be more responsive */
     transform: translateX(350%);
     background-color: transparent;
     color: var(--main-black);
@@ -81,4 +80,8 @@ input {
     background-color: var(--main-white);
     color: var(--main-black);
     border-color: var(--main-green);
+}
+
+.submit {
+    margin-bottom: 1em;
 }

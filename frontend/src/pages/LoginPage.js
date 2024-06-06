@@ -30,7 +30,7 @@ function LoginPage() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: ({ 
+                body:  JSON.stringify({ 
                     email: email,
                     password: password
                 }),
@@ -38,19 +38,19 @@ function LoginPage() {
             })
 
             const data = await response.json();
-            console.log(data);
+            const statuscode = data.status;
 
-            if(data.error) {
-                alert(data.error);
-            } 
-            else {
-                console.log(data.error);
+            if(statuscode < 200 || statuscode >= 300) {
+                alert(`Error: ${data.detail}`);
+            } else {
+                sessionStorage.setItem('userID', JSON.stringify(data.id));
+                sessionStorage.setItem('isAdmin', JSON.stringify(data.isMerchant));
+                navigate('/user-home');
             }
+
         } catch (error) {
             console.error('An error occurred:', error);
-            alert('An error occurred. Please try again.');
         }
-
         clearForm();
     };
 

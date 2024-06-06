@@ -12,12 +12,12 @@ import {
 } from 'react';
 
 import NavBar from './components/NavBar';
-import Login from './pages/LoginPage';
-import Signup from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignupPage';
+import ConfirmLogout from './popups/ConfirmLogout';
 import UserHome from './pages/UserHomePage';
 import AdminHome from './pages/AdminHomePage';
 import ProductPage from './pages/ProductPage';
-import ConfirmLogout from './popups/ConfirmLogout';
 
 const AppContent = () => {
   const location = useLocation();
@@ -26,8 +26,18 @@ const AppContent = () => {
   const hideNavBarRoutes = ['/login', '/signup']
   const shouldHideNavBar = hideNavBarRoutes.includes(location.pathname);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const isAuthenticated = !!sessionStorage.getItem('userID');
+  const isAdmin = JSON.parse(sessionStorage.getItem('isMerchant')) || false;
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="*" element={isAuthenticated ? <Navigate to='/user-home' />: <Navigate to="/login" /> || <Navigate to='/signup' />} />
+      </Routes>
+    }
+  }, [isAuthenticated, navigate]);
 
   // visible attribute (1 - user, 2 - admin, 3 - both) 
   const NavBarLinks = [
@@ -55,16 +65,10 @@ const AppContent = () => {
   return (
     <div className="App">
       {!shouldHideNavBar && <NavBar links={filteredNavBar} />}
-      {!isAuthenticated ? (
         <div className={`app-content ${shouldHideNavBar ? 'full-height' : ''}`}>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </div>
-      ) : ( 
-        <div className={`app-content ${shouldHideNavBar ? 'full-height' : ''}`}>
-          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
             <Route path="/user-home" element={!isAdmin ? <UserHome /> : <AdminHome />} />
             <Route path='/logout' element={<ConfirmLogout />} />
             <Route path="/admin-home" element={isAdmin ? <AdminHome /> : <UserHome />} />
@@ -73,10 +77,9 @@ const AppContent = () => {
             {/* <Route path="/orders" element={<Orders />} /> */}
             {/* <Route path="/users" element={<Users />} /> */}
             {/* <Route path="/sales" element={<Sales />} /> */}
-            {/* <Route path="*" element={isAuthenticated ? <Navigate to='/user-home' />: <Navigate to="/login" /> || <Navigate to='/signup' />} /> */}
+            <Route path="*" element={isAuthenticated ? <Navigate to='/user-home' />: <Navigate to="/login" /> || <Navigate to='/signup' />} />
           </Routes> 
         </div>
-      )}
     </div>
   );
 }

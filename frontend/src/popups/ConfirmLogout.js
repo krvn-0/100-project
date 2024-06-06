@@ -12,8 +12,8 @@ const ConfirmLogout = () => {
     }
 
     const handleLogout = () => {
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('userID');
+        sessionStorage.removeItem('isMerchant');
         navigate('/login');
     }
 
