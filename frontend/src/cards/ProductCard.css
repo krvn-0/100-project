@@ -6,7 +6,8 @@
     flex-direction: column;
     position: relative;
     transition: transform 0.6s;
-    max-width: 250px;
+    max-width: 225px;
+    margin-bottom: 2em;
 }
 
 .crops {
@@ -18,17 +19,19 @@
     transform: scale(1.05);
 }
 
-.animals {
+.poultry {
     border: 0.1em solid var(--main-orange);
 }
 
-.animals:hover {
+.poultry:hover {
     border: 0.1em solid var(--main-orange-hover);
     transform: scale(1.05);
 }
 
 .product-card img {
-    width: 100%;
+    max-width: 225px;
+    width: 12em;
+    min-width: 100px;
     height: 160px;
     object-fit: cover;
     border-top-left-radius: 0.4em;
@@ -55,10 +58,6 @@
     color: var(--main-black);
 }
 
-/* .button-placeholder {
-    height: 20px;
-} */
-
 .button-holder {
     padding: 0.5em;
     display: flex;
@@ -73,5 +72,14 @@
 .product-card button {
     border: none;
     margin-bottom: 0.5em;
+}
+
+.product-card .delete {
+    background-color: var(--main-red);
+    color: var(--main-white);
+}
+
+.product-card .delete:hover {
+    background-color: var(--main-red-hover);
 }
 

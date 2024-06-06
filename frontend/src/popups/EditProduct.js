@@ -37,7 +37,7 @@ const EditProductPopup = ({ product, closePopup, editSubmit }) => {
 
     return (
         <div className="popup">
-            <div className={`popup-inner ${product.type === 1 ? 'crops' : 'coultry' }`}>
+            <div className={`popup-inner ${product.type === 1 ? 'crops' : 'poultry' }`}>
                 <h2>Edit Product</h2>
                 <form className='edit-form' onSubmit={handleSubmit}>
                     <label>

@@ -53,6 +53,7 @@ function AddProductPopup({closePopup, addSubmit}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        closePopup()
         addSubmit(name, description, price, quantity, type, unit, imageUrl);
     }
 

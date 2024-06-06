@@ -20,7 +20,7 @@
     background-color: var(--main-green);
 }
 
-.popup .animals {
+.popup .poultry {
     background-color: var(--main-orange);
 }
 
@@ -60,6 +60,10 @@
     cursor: pointer;
 }
 
+.product-buttons {
+    padding-left: 0.5em;
+}
+
 .confirm-btn, .cancel-btn {
     border: 0.2em solid var(--main-white);
 }
@@ -69,7 +73,8 @@
 }
 
 .confirm-btn:hover {
-    background-color: var(--main-green-hover);
+    background-color: var(--main-white);
+    color: var(--main-green);
 }
 
 .cancel-btn {

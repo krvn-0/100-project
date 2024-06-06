@@ -19,6 +19,10 @@
     top: 0;
     right: 0;
 }
+    
+.view-product .product-type, .view-product .product-description {
+    margin-left: 0.5em;
+}
 
 .product-description {
     padding-left: 1em;
@@ -28,10 +32,12 @@
 .view-product .product-price {
     margin-bottom: 0.05em;
     font-style: italic;
+    font-size: 0.6em;
 }
 
 .view-product .product-stock {
     font-style: italic;
+    font-size: 0.6em;
 }
 
 .view-product-buttons {
@@ -46,12 +52,24 @@
     border: 0.2em solid var(--main-white);
 }
 
+
 .close {
     margin-left: 10px;
-    background-color: var(--main-red);
+    background-color: var(--main-orange);
     border: 0.2em solid var(--main-white);
 }
 
 .close:hover {
-    background-color: var(--main-red-hover);
+    background-color: var(--main-white);
+    color: var(--main-orange);
+}
+
+.delete {
+    background-color: var(--main-red);
+    border: 0.2em solid var(--main-white);
+}
+
+.delete:hover {
+    background-color: var(--main-white);
+    color: var(--main-red);
 }

@@ -9,6 +9,9 @@ import EditProductPopup from "../popups/EditProduct";
 
 import handleSubmitEditProduct from "../utils/EditProductHandler";
 import handleSubmitAddProduct from "../utils/AddProductHandler";
+import handleSubmitDeleteProduct from "../utils/DeleteProductHandler";
+import handleSubmitAddToCart from "../utils/AddToCartHandler";
+import DeleteProductPopup from "../popups/DeleteProduct";
 
 const ProductPage = () => {
     const [productList, setProductList] = useState([]);
@@ -17,6 +20,9 @@ const ProductPage = () => {
     const [isViewing, setIsViewing] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const isAdmin = JSON.parse(sessionStorage.getItem('isAdmin')) || false;
 
     useEffect(() => {
         try { 
@@ -34,11 +40,6 @@ const ProductPage = () => {
             setProductList([]);
         }
     }, []);
-
-    const addToCart = async (product, quantity) => {
-        console.log(product, quantity);
-        await handleAddToCart(product, quantity);
-    }
 
     const openViewPopup = (product) => {
         setCurrentProduct(product);
@@ -97,30 +98,57 @@ const ProductPage = () => {
         }
     }
 
+    const openDeletePopup = (product) => {
+        setCurrentProduct(product);
+        setIsDeleting(true);
+    }
+
+    const closeDeletePopup = (product) => {
+        setCurrentProduct(null);
+        setIsDeleting(false);
+    }
+
+    const handleDeleteSubmit = async (ID, name) => {
+        const success = await handleSubmitDeleteProduct(ID, name);
+        if(success) {
+            setProductList((prevList) => 
+                prevList.filter((product) => product.id !== ID)
+            )
+        }
+    }
+
+    const handleAddToCart = async (product, quantity) => {
+        await handleSubmitAddToCart(product, quantity);
+    }
+
     const renderItems = productList.map((product) => {
         return  <ProductCard 
                     key={product.id}
                     product={product}
-                    handleAddClick={() => addToCart(product, 1)}
+                    handleAddClick={() => handleAddToCart(product, 1)}
                     handleOnClick={() => openViewPopup(product)}
                     handleEditClick={() => openEditPopup(product)}
+                    handleDeleteClick={() => openDeletePopup(product)}
                 />
     })
 
     return (
         <div className="product-page">
             <h1>Product List</h1>
-            <div className="product-page-header">
-                <button className="add-product" onClick={openAddPopup}>Add</button>
-            </div>
+            {isAdmin && (
+                <div className="product-page-header">
+                    <button className="add-product" onClick={openAddPopup}>Add</button>
+                </div>
+            )}
             <div className="product-list">
-                {renderItems}
+                {productList.length !== 0 ? renderItems : <h2>No products available</h2>}
             </div>
             {isViewing && (
                 <ViewProductPopup
                     product={currentProduct}
-                    handleAddClick={() => addToCart(currentProduct, 1)}
+                    handleAddClick={() => handleAddToCart(currentProduct, 1)}
                     handleClose={closeViewPopup}
+                    handleDelete={() => openDeletePopup(currentProduct)}
                 />
             )}
             {isEditing && (
@@ -134,6 +162,13 @@ const ProductPage = () => {
                 <AddProductPopup
                     closePopup={closeAddPopup}
                     addSubmit={handleAddSubmit}
+                />
+            )}
+            {isDeleting && (
+                <DeleteProductPopup
+                    closePopup={closeDeletePopup}
+                    deleteSubmit={handleDeleteSubmit}
+                    product={currentProduct}
                 />
             )}
 

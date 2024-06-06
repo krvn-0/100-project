@@ -1,0 +1,52 @@
+.delete-product .popup-inner {
+    display: flex;
+    flex-direction: column;
+    background-color: hsla(0, 100%, 50%, 0.750);
+    padding: 1em;
+}
+
+.delete-product button {
+    border: 0.2em solid var(--main-white);
+}
+
+.delete-product p, .delete-product h1{
+    color: var(--main-white);
+}
+
+.delete-body {
+    margin-top: 0.4em;
+    padding-left: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+.delete-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.delete-btn {
+    margin-left: 0.5em;
+    background-color: var(--main-red)
+}
+
+.delete-btn:hover {
+    border: 0.2em solid var(--main-white);
+    background-color: var(--main-white);
+    color: var(--main-red);
+}
+
+.cancel-btn {
+    background-color: var(--main-orange);
+}
+
+.cancel-btn:hover {
+    border: 0.2em solid var(--main-white);
+    background-color: var(--main-white);
+    color: var(--main-orange);
+}
+
+/* .confirm-logout button:focus {
+    outline: none;
+} */
