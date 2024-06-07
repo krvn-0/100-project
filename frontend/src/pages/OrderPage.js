@@ -58,7 +58,7 @@ const OrderPage = () => {
                     <p>{order.product.name} - {order.quantity} units at P{order.price} each. Total: P{order.quantity * order.price}</p>
                     <p>Order Date: {formatDate(new Date((order.timestamp)))}</p>
                     <p>Status: {order.status}</p>
-                    {canUserModifyOrder(userType) && (
+                    {canUserModifyOrder(userType) && order.status === 0 && (
                         <>
                             <button className="approve" onClick={() => handleApprove(order)}>Approve</button>
                             <button className="cancel" onClick={() => handleCancel(order)}>Cancel</button>

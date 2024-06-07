@@ -31,11 +31,11 @@
     background-color: #fff;
 }
 
-.button-group {
+.sales-table .button-group {
     margin-bottom: 20px;
 }
 
-button {
+.sales-table button {
     font-family: monospace;
     padding: 0.5em 1em;
     margin-right: 10px;

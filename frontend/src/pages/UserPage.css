@@ -40,9 +40,7 @@
     border-radius: 4px;
 }
 
-button {
-    padding: 10px 15px;
-    margin-right: 5px;
+.user-item button {
     background-color: #007BFF;
     color: white;
     border: none;

@@ -3,7 +3,6 @@ import './UserPage.css';  // Make sure the CSS file path is correct
 
 const UserPage = () => {
     const [users, setUsers] = useState([]);
-    const isAdmin = JSON.parse(sessionStorage.getItem('isAdmin')) || false;
     
     useEffect(() => {
         const fetchUsers = async () => {
@@ -24,7 +23,6 @@ const UserPage = () => {
         <div className="user-management">
             <h1>User Management</h1>
             <p>Number of users: {users.length}</p>
-
             {users.map((user) => (
                 <div key={user.id} className={`user-item ${user.isMerchant ? 'admin' : ''}`}>
                     <p>{user.email}</p>

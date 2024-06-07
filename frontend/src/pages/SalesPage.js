@@ -42,15 +42,19 @@ const SalesPage = () => {
     };
 
     const productSummary = useMemo(() => {
-        let summary = {};
+        const summary = {};
+    
         orders.forEach(order => {
             if (order.status === 1) {
-                if (!summary[order.product.name]) {
-                    summary[order.product.name] = { quantity: 0, totalSales: 0, profit: 0 };
+                const productName = order.product.name;
+    
+                if (!summary[productName]) {
+                    summary[productName] = { quantity: 0, totalSales: 0, profit: 0 };
                 }
-                summary[order.product.name].quantity += order.quantity;
-                summary[order.product.name].totalSales += order.quantity * order.price;
-                summary[order.product.name].profit = summary[order.product.name].totalSales * 0.2;
+    
+                summary[productName].quantity += order.quantity;
+                summary[productName].totalSales += order.quantity * order.price;
+                summary[productName].profit = summary[productName].totalSales * 0.2; // Assuming profit is 20% of total sales
             }
         });
         return Object.values(summary);
