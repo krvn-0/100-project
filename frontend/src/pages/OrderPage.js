@@ -19,11 +19,10 @@ const OrderPage = () => {
                 },
                 credentials: 'include',
             });
-
             const orders = await response.json();
             setOrders(orders);
+            console.log(orders);
         };
-
         fetchOrders();
     }, []);
 
