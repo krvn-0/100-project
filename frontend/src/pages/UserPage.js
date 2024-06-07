@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers, updateUser } from '../utils/UserUtils'; // Updated path to UserUtils
+import { getUsers, updateUser } from '../utils/UserUtils'; // Ensure the path to UserUtils is correct
 import './UserPage.css';  // Make sure the CSS file path is correct
 
 const UserPage = () => {
@@ -34,28 +34,19 @@ const UserPage = () => {
                                 type="text"
                                 defaultValue={user.name}
                                 onBlur={(e) => handleUpdateUser(user.id, 'name', e.target.value)}
+                                className="user-update-input"
                             />
                             <input 
                                 type="email"
                                 defaultValue={user.email}
                                 onBlur={(e) => handleUpdateUser(user.id, 'email', e.target.value)}
+                                className="user-update-input"
                             />
                         </>
                     ) : (
                         <>
                             <p>{user.name} - {user.role}</p>
                             <p>Email: {user.email}</p>
-                        </>
-                    )}
-                    <p>Status: {user.isActive ? 'Active' : 'Inactive'}</p>
-                    {isAdmin && (
-                        <>
-                            <button className="activate" onClick={() => {/* handle activation logic here */}}>
-                                Activate
-                            </button>
-                            <button className="deactivate" onClick={() => {/* handle deactivation logic here */}}>
-                                Deactivate
-                            </button>
                         </>
                     )}
                 </div>
