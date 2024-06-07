@@ -30,7 +30,6 @@ const handleSubmitOrder  = async (product) => {
         const data = response.json();
 
         alert('Item ordered successfully');
-        return data;
 
     } catch (error) {
         alert(`Error: ${error}`)
@@ -56,10 +55,10 @@ const handleSubmitOrder  = async (product) => {
         if(statuscode < 200 || statuscode >= 300) {
             alert(`Error: ${data.detail}`);
         } else {
-            alert(`Cart updated`);
+            console.log(`Cart updated`);
         }
     } catch (error) {
-        alert(`Failed to update cart`)
+        console.log(`Failed to update cart`)
     }
 }
 
