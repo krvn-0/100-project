@@ -67,6 +67,7 @@ export async function getTransactions(req: Request, res: Response) {
             const seller = (await UserModel.findById(product.ownerId))!;
 
             const transaction: Transaction = {
+                id: order._id.toHexString(),
                 user: {
                     id: buyer!._id.toHexString(),
                     firstName: buyer!.firstName,
@@ -315,6 +316,7 @@ export async function updateTransaction(req: Request, res: Response) {    let to
         const productOwner = (await UserModel.findById(product.ownerId))!;
 
         const ret: Transaction = {
+            id: transaction._id.toHexString(),
             user: {
                 id: userdao._id.toHexString(),
                 firstName: userdao.firstName,
