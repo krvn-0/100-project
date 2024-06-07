@@ -5,26 +5,37 @@ import './SalesPage.css';
 
 const SalesPage = () => {
     const [orders, setOrders] = useState([]);
-    const [displayOrders, setDisplayOrders] = useState(orders);
+    const [displayOrders, setDisplayOrders] = useState([]);
     const [currentOrder, setCurrentOrder] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
-    const [sortedProducts, setSortedProducts] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const response = await fetch('http://localhost:3001/transactions', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-            });
-            const orders = await response.json();
-            setOrders(orders);
+            try {
+                const response = await fetch('http://localhost:3001/transactions', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const fetchedOrders = await response.json();
+                setOrders(fetchedOrders);
+                setDisplayOrders(fetchedOrders); // Set initial display orders
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+                setError(error.message);
+            }
         };
+
         fetchOrders();
     }, []);
-
 
     const handleSort = (criterion) => {
         const sortedOrders = sortData(orders, criterion);
@@ -43,26 +54,31 @@ const SalesPage = () => {
 
     const productSummary = useMemo(() => {
         const summary = {};
-    
+
         orders.forEach(order => {
-            if (order.status === 1) {
+            if (order.status === 1) { // Assuming status 1 means 'Approved'
                 const productName = order.product.name;
-    
+
                 if (!summary[productName]) {
                     summary[productName] = { quantity: 0, totalSales: 0, profit: 0 };
                 }
-    
+
                 summary[productName].quantity += order.quantity;
                 summary[productName].totalSales += order.quantity * order.price;
                 summary[productName].profit = summary[productName].totalSales * 0.2; // Assuming profit is 20% of total sales
             }
         });
-        return Object.values(summary);
+
+        return Object.keys(summary).map(productName => ({
+            productName,
+            ...summary[productName]
+        }));
     }, [orders]);
 
     return (
         <div className="sales-dashboard">
             <h1>Sales Dashboard</h1>
+            {error && <p className="error-message">Error: {error}</p>}
             <button onClick={() => handleSort('weekly')}>Sort Weekly</button>
             <button onClick={() => handleSort('monthly')}>Sort Monthly</button>
             <button onClick={() => handleSort('annually')}>Sort Annually</button>
@@ -79,10 +95,9 @@ const SalesPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Conditionally render sortedProducts if it has items, otherwise render all products */}
-                    {(sortedProducts.length > 0 ? sortedProducts : productSummary).map(product => (
-                        <tr key={product.id}>
-                            <td>{product.product.name}</td>
+                    {productSummary.map(product => (
+                        <tr key={product.productName}>
+                            <td>{product.productName}</td>
                             <td>{product.quantity}</td>
                             <td>P{product.totalSales.toFixed(2)}</td>
                             <td>P{product.profit.toFixed(2)}</td>
