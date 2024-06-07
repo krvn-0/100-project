@@ -96,6 +96,7 @@ button {
   background-color: var(--main-orange);
   width: var(--button-width);
   cursor: pointer;
+  text-align: center;
 }
 
 .empty-list {

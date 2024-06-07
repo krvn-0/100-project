@@ -8,7 +8,7 @@ const OrderPage = () => {
     const userType = isAdmin ? 'admin' : 'buyer';
     const userID = sessionStorage.getItem('userID');
     
-    const fetchUrl = isAdmin  ? `http://localhost:3001/transactions` : `http://localhost:3001/transactions/buyerID?${userID}`;
+    const fetchUrl = isAdmin  ? `http://localhost:3001/transactions` : `http://localhost:3001/transactions?buyerID=${userID}`;
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -19,23 +19,22 @@ const OrderPage = () => {
                 },
                 credentials: 'include',
             });
-
             const orders = await response.json();
             setOrders(orders);
         };
-
         fetchOrders();
     }, []);
 
-    const handleApprove = (id) => {
-        if (approveOrder(id, userType)) {
-            setOrders(orders.map(order => order.id === id ? { ...order, status: 'Approved' } : order));
+    const handleApprove = (currentItem) => {
+        console.log(currentItem)
+        if (approveOrder(currentItem, userType)) {
+            setOrders(orders.map(order => order.id === currentItem.id ? { ...order, status: 1 } : order));
         }
     };
 
-    const handleCancel = (id) => {
-        if (cancelOrder(id, userType)) {
-            setOrders(orders.map(order => order.id === id ? { ...order, status: 'Cancelled' } : order));
+    const handleCancel = (currentItem) => {
+        if (cancelOrder(currentItem, userType)) {
+            setOrders(orders.map(order => order.id === currentItem.id  ? { ...order, status: -1 } : order));
         }
     };
 
@@ -59,10 +58,10 @@ const OrderPage = () => {
                     <p>{order.product.name} - {order.quantity} units at P{order.price} each. Total: P{order.quantity * order.price}</p>
                     <p>Order Date: {formatDate(new Date((order.timestamp)))}</p>
                     <p>Status: {order.status}</p>
-                    {canUserModifyOrder(userType) && (
+                    {canUserModifyOrder(userType) && order.status === 0 && (
                         <>
-                            <button className="approve" onClick={() => handleApprove(order.id)}>Approve</button>
-                            <button className="cancel" onClick={() => handleCancel(order.id)}>Cancel</button>
+                            <button className="approve" onClick={() => handleApprove(order)}>Approve</button>
+                            <button className="cancel" onClick={() => handleCancel(order)}>Cancel</button>
                         </>
                     )}
                 </div>

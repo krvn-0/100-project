@@ -37,14 +37,16 @@ const CartPage = () => {
         }
 
         getUserData();
-    }, [userID]);
+    }, [userID, cartItems]);
 
 
     const handleRemoveClick = async (product, e) => {
+        setCartItems(cartItems.filter((item) => item.id !== product.id));
         await handleRemoveFromCart(product.id);
     }
 
     const handleOrderClick = async (product, e) => {
+        setCartItems(cartItems.filter((item) => item.id !== product.id));
         await handleSubmitOrder(product);
     }
 

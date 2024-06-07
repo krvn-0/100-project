@@ -1,58 +1,67 @@
 .sales-dashboard {
-    margin: 20px;
-    font-family: Arial, sans-serif; 
-}
-
-.sales-dashboard h1, .sales-dashboard h2 {
-    color: #333;
-    margin-bottom: 16px; 
+    text-align: left;
+    padding: 20px;
+    background-color: var(--main-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 20px auto;
 }
 
 .sales-table {
     width: 100%;
-    border-collapse: collapse; 
-    margin-bottom: 20px; 
+    margin-top: 20px;
+    border-collapse: collapse;
 }
 
-.sales-table th, .sales-table td {
-    border: 1px solid #ddd; 
-    padding: 8px; 
-    text-align: left; 
+.sales-table th,
+.sales-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
 }
 
 .sales-table th {
     background-color: #f4f4f4;
-    font-weight: bold; 
+    color: var(--main-black);
 }
 
+.sales-table td {
+    background-color: #fff;
+}
+
+.sales-table .button-group {
+    margin-bottom: 20px;
+}
 
 .sales-table button {
-    padding: 6px 12px;
+    font-family: monospace;
+    padding: 0.5em 1em;
+    margin-right: 10px;
     background-color: #007BFF;
-    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.5em;
+    color: var(--main-white);
     cursor: pointer;
-    margin-left: 10px;
+    outline: none;
 }
 
-.sales-table button:hover {
-    background-color: #0056b3; 
+button:hover {
+    background-color: #0056b3;
 }
 
-
-.view-details {
-    cursor: pointer;
-    color: #007BFF;
-    text-decoration: underline;
+.sales-dashboard h1,
+.sales-dashboard h2 {
+    color: var(--main-black);
 }
 
-.view-details:hover {
-    color: #0056b3; 
+/* Specific button styles for sorting to differentiate from other buttons */
+.sort-btn {
+    background-color: #ffc107;
+    color: var(--main-black);
 }
 
-
-.section-header {
-    padding-top: 20px;
-    border-top: 2px solid #ccc;
+.sort-btn:hover {
+    background-color: #e0a800;
 }

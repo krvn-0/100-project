@@ -1,68 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { getUsers, updateUser } from '../utils/UserUtils';
+import React, { useEffect, useState } from 'react';
+import './UserPage.css';  // Make sure the CSS file path is correct
 
 const UserPage = () => {
     const [users, setUsers] = useState([]);
-
+    
     useEffect(() => {
+        const fetchUsers = async () => {
+            const response = await fetch('http://localhost:3001/users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            const users = await response.json();
+            setUsers(users);
+        }
         fetchUsers();
     }, []);
 
-    const fetchUsers = async () => {
-        const fetchedUsers = await getUsers(    );
-        setUsers(fetchedUsers);
-    };
-
-    const handleUpdate = (id, updatedUser) => {
-        updateUser(id, updatedUser).then(() => {
-            fetchUsers();  // Refresh the list after the update
-        }).catch(error => console.error('Failed to update user:', error));
-    };
-
-    const handleChange = (event, id) => {
-        const { name, value } = event.target;
-        setUsers(users.map(user => user.id === id ? { ...user, [name]: value } : user));
-    };
-
     return (
-        <div>
+        <div className="user-management">
             <h1>User Management</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map(user => (
-                        <tr key={user.id}>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={user.name}
-                                    onChange={e => handleChange(e, user.id)}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={user.email}
-                                    onChange={e => handleChange(e, user.id)}
-                                />
-                            </td>
-                            <td>
-                                <button onClick={() => handleUpdate(user.id, { name: user.name, email: user.email })}>
-                                    Update
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <p>Number of users: {users.length}</p>
+            {users.map((user) => (
+                <div key={user.id} className={`user-item ${user.isMerchant ? 'admin' : ''}`}>
+                    <p>{user.email}</p>
+                    <p>Name: {user.firstName} {user.middleName ? user.middleName : ''} {user.lastName}</p>
+                    <p>User Type: {user.isMerchant ? 'Admin' : 'User'}</p>
+                </div>
+            ))}
         </div>
     );
 };
