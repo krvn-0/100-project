@@ -28,9 +28,7 @@ const handleAddToCart = async (product) => {
                     cart: cart
                 })
             })
-
             const data = await response.json();
-            console.log(data);
             const statuscode = data.status;
 
             if(statuscode < 200 || statuscode >= 300) {
