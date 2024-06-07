@@ -47,6 +47,17 @@
     outline: none;
 }
 
+.order-metrics {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.order-metrics p{
+    color: var(--main-black);
+}
+
 button:hover {
     background-color: #0056b3;
 }
