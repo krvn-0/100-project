@@ -8,12 +8,22 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.user-management p {
+    color: var(--main-black);
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
 .user-item {
     margin-bottom: 20px;
     padding: 15px;
-    background-color: white;
+    background-color: rgba(255, 166, 0, 0.5);
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.admin {
+    background-color: rgba(255, 0, 0, 0.5);
 }
 
 .user-item p {
