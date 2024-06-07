@@ -21,20 +21,20 @@ const OrderPage = () => {
             });
             const orders = await response.json();
             setOrders(orders);
-            console.log(orders);
         };
         fetchOrders();
     }, []);
 
     const handleApprove = (currentItem) => {
+        console.log(currentItem)
         if (approveOrder(currentItem, userType)) {
-            setOrders(orders.map(order => (order.user.id === currentItem.user.id && order.product.id === currentItem.product.id) ? { ...order, status: 'Approved' } : order));
+            setOrders(orders.map(order => order.id === currentItem.id ? { ...order, status: 1 } : order));
         }
     };
 
     const handleCancel = (currentItem) => {
         if (cancelOrder(currentItem, userType)) {
-            setOrders(orders.map(order => (order.user.id === currentItem.user.id && order.product.id === currentItem.product.id) ? { ...order, status: 'Cancelled' } : order));
+            setOrders(orders.map(order => order.id === currentItem.id  ? { ...order, status: -1 } : order));
         }
     };
 
@@ -54,7 +54,7 @@ const OrderPage = () => {
             <h1>Order Management</h1>
             <button onClick={sortOrdersByDate} className='sort-btn'>Sort by Date</button>
             {orders.map((order) => (
-                <div key={`${order.user.id} - ${order.product.id}`} className="order-item">
+                <div key={order.id} className="order-item">
                     <p>{order.product.name} - {order.quantity} units at P{order.price} each. Total: P{order.quantity * order.price}</p>
                     <p>Order Date: {formatDate(new Date((order.timestamp)))}</p>
                     <p>Status: {order.status}</p>
