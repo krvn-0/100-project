@@ -9,6 +9,7 @@ export enum TransactionStatus {
 }
 
 export type Transaction = {
+    id: string,
     user: User,
     product: Product,
     quantity: number,
