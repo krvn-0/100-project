@@ -8,7 +8,7 @@ const OrderPage = () => {
     const userType = isAdmin ? 'admin' : 'buyer';
     const userID = sessionStorage.getItem('userID');
     
-    const fetchUrl = isAdmin  ? `http://localhost:3001/transactions` : `http://localhost:3001/transactions/buyerID?${userID}`;
+    const fetchUrl = isAdmin  ? `http://localhost:3001/transactions` : `http://localhost:3001/transactions?buyerID=${userID}`;
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -27,15 +27,15 @@ const OrderPage = () => {
         fetchOrders();
     }, []);
 
-    const handleApprove = (id) => {
-        if (approveOrder(id, userType)) {
-            setOrders(orders.map(order => order.id === id ? { ...order, status: 'Approved' } : order));
+    const handleApprove = (currentItem) => {
+        if (approveOrder(currentItem, userType)) {
+            setOrders(orders.map(order => (order.user.id === currentItem.user.id && order.product.id === currentItem.product.id) ? { ...order, status: 'Approved' } : order));
         }
     };
 
-    const handleCancel = (id) => {
-        if (cancelOrder(id, userType)) {
-            setOrders(orders.map(order => order.id === id ? { ...order, status: 'Cancelled' } : order));
+    const handleCancel = (currentItem) => {
+        if (cancelOrder(currentItem, userType)) {
+            setOrders(orders.map(order => (order.user.id === currentItem.user.id && order.product.id === currentItem.product.id) ? { ...order, status: 'Cancelled' } : order));
         }
     };
 
@@ -55,14 +55,14 @@ const OrderPage = () => {
             <h1>Order Management</h1>
             <button onClick={sortOrdersByDate} className='sort-btn'>Sort by Date</button>
             {orders.map((order) => (
-                <div key={order.id} className="order-item">
+                <div key={`${order.user.id} - ${order.product.id}`} className="order-item">
                     <p>{order.product.name} - {order.quantity} units at P{order.price} each. Total: P{order.quantity * order.price}</p>
                     <p>Order Date: {formatDate(new Date((order.timestamp)))}</p>
                     <p>Status: {order.status}</p>
                     {canUserModifyOrder(userType) && (
                         <>
-                            <button className="approve" onClick={() => handleApprove(order.id)}>Approve</button>
-                            <button className="cancel" onClick={() => handleCancel(order.id)}>Cancel</button>
+                            <button className="approve" onClick={() => handleApprove(order)}>Approve</button>
+                            <button className="cancel" onClick={() => handleCancel(order)}>Cancel</button>
                         </>
                     )}
                 </div>
