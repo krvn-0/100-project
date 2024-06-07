@@ -75,6 +75,10 @@ const SalesPage = () => {
         }));
     }, [orders]);
 
+    const countOrders = (status) => {
+        return orders.filter(order => order.status === status).length;
+    }
+
     return (
         <div className="sales-dashboard">
             <h1>Sales Dashboard</h1>
@@ -107,6 +111,13 @@ const SalesPage = () => {
             </table>
 
             <h2>All Transactions</h2>
+            <div className='order-metrics'>
+                <p>Total Orders: {orders.length}</p>
+                <p>Total Cancelled Order: {countOrders(-1)}</p>
+                <p>Total Approved Orders: {countOrders(1)}</p>
+                <p>Total Pending Orders: {countOrders(0)}</p>
+                <p>Total Sales: P{orders.reduce((total, order) => total + order.price, 0).toFixed(2)}</p>
+            </div>
             <table className="sales-table">
                 <thead>
                     <tr>
